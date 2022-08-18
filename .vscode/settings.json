@@ -4,5 +4,4 @@
 		"**/*.d": true,
 		"**/*.o": true,
 	},
-	"C_Cpp.default.includePath": ["src"],
 }
