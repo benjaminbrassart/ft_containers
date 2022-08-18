@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 01:49:14 by bbrassar          #+#    #+#              #
-#    Updated: 2022/08/18 02:17:06 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/08/18 02:20:34 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CXXFLAGS += -Wextra
 CXXFLAGS += -c
 CXXFLAGS += -MMD -MP
 CXXFLAGS += -g3
+CXXFLAGS += -I$(DIR_SRC)
 CXXFLAGS += -I$(DIR_CONTAINERS)
 
 NAME = ft_containers
