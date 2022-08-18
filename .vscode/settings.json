@@ -1,0 +1,7 @@
+{
+	"files.exclude": {
+		"ft_containers": true,
+		"**/*.d": true,
+		"**/*.o": true,
+	},
+}
