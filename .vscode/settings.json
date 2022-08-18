@@ -4,4 +4,9 @@
 		"**/*.d": true,
 		"**/*.o": true,
 	},
+	"[cpp]": {
+		"editor.wordBasedSuggestions": false,
+		"editor.semanticHighlighting.enabled": true,
+		"editor.rulers": [],
+	},
 }
