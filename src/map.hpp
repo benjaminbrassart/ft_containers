@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 23:07:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:27:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ namespace ft
 			{
 			}
 
-			bool operator ()(value_type const& x, value_type const& y) const
+			bool operator()(value_type const& x, value_type const& y) const
 			{
 				return this->comp(x, y);
 			}

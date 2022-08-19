@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:45:34 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:27:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ namespace ft
 		reverse_iterator& operator++();
 		reverse_iterator operator++(int);
 
-		reverse_iterator& operator +=(difference_type n);
+		reverse_iterator& operator+=(difference_type n);
 
 		reverse_iterator operator-(difference_type n) const;
 
 		reverse_iterator& operator--();
 		reverse_iterator operator--(int);
 
-		reverse_iterator& operator -=(difference_type n);
+		reverse_iterator& operator-=(difference_type n);
 
 		pointer operator->() const;
 		reference operator[](difference_type n) const;
