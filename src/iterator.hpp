@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/18 05:33:28 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:36:23 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ namespace ft
 		class Category,
 		class T,
 		class Distance = std::ptrdiff_t,
-		class Pointer = T *,
-		class Reference = T &
+		class Pointer = T*,
+		class Reference = T&
 	>
 	struct iterator
 	{
@@ -49,22 +49,22 @@ namespace ft
 	};
 
 	template< class T >
-	struct iterator_traits< T * >
+	struct iterator_traits< T* >
 	{
 		typedef std::ptrdiff_t difference_type;
 		typedef T value_type;
-		typedef T * pointer;
-		typedef T & reference;
+		typedef T* pointer;
+		typedef T& reference;
 		typedef random_access_iterator_tag iterator_category;
 	};
 
 	template< class T >
-	struct iterator_traits< T const * >
+	struct iterator_traits< T const* >
 	{
 		typedef std::ptrdiff_t difference_type;
 		typedef T value_type;
-		typedef T const * pointer;
-		typedef T const & reference;
+		typedef T const* pointer;
+		typedef T const& reference;
 		typedef random_access_iterator_tag iterator_category;
 	};
 
@@ -83,7 +83,7 @@ namespace ft
 		explicit reverse_iterator(iterator_type it);
 
 		template< class Iter >
-		reverse_iterator(reverse_iterator< Iter > const &rev_it);
+		reverse_iterator(reverse_iterator< Iter > const& rev_it);
 
 		iterator_type base() const;
 
@@ -91,43 +91,43 @@ namespace ft
 
 		reverse_iterator operator+(difference_type n) const;
 
-		reverse_iterator & operator++();
+		reverse_iterator& operator++();
 		reverse_iterator operator++(int);
 
-		reverse_iterator & oerator +=(difference_type n);
+		reverse_iterator& oerator +=(difference_type n);
 
 		reverse_iterator operator-(difference_type n) const;
 
-		reverse_iterator & operator--();
+		reverse_iterator& operator--();
 		reverse_iterator operator--(int);
 
-		reverse_iterator & oerator -=(difference_type n);
+		reverse_iterator& oerator -=(difference_type n);
 
 		pointer operator->() const;
 		reference operator[](difference_type n) const;
 	};
 
 	template< class Iterator >
-	bool operator==(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator==(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	bool operator!=(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator!=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	bool operator<(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator<(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	bool operator<=(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator<=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	bool operator>(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator>(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	bool operator>=(reverse_iterator< Iterator > &lhs, reverse_iterator< Iterator > &rhs);
+	bool operator>=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
 	template< class Iterator >
-	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const &rev_it);
+	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it);
 
 	template< class Iterator >
-	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const &lhs, reverse_iterator< Iterator > const &rhs);
+	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
 } // namespace ft
