@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/18 04:08:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:23:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ namespace ft
 
 		void erase(iterator position);
 
-		size_type eraase(key_type const &k);
+		size_type erase(key_type const &k);
 
 		void erase(iterator first, iterator last);
 
