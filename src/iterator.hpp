@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 23:27:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:07:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ namespace ft
 	template< class Iterator >
 	struct reverse_iterator
 	{
+		public:
 		typedef Iterator iterator_type;
 		typedef typename iterator_traits< Iterator >::iterator_category iterator_category;
 		typedef typename iterator_traits< Iterator >::value_type value_type;
@@ -78,56 +79,91 @@ namespace ft
 		typedef typename iterator_traits< Iterator >::pointer pointer;
 		typedef typename iterator_traits< Iterator >::reference reference;
 
-		reverse_iterator();
+		private:
+		iterator_type base_iterator;
 
-		explicit reverse_iterator(iterator_type it);
+		public:
+		reverse_iterator() :
+			base_iterator()
+		{
+		}
+
+		explicit reverse_iterator(iterator_type it) :
+			base_iterator(it)
+		{
+		}
 
 		template< class Iter >
-		reverse_iterator(reverse_iterator< Iter > const& rev_it);
+		reverse_iterator(reverse_iterator< Iter > const& rev_it) :
+			base_iterator(rev_it.base_iterator)
+		{
+		}
 
-		iterator_type base() const;
+		iterator_type base() const
+		{
+			return this->base_iterator;
+		}
 
+		// TODO provide implementation
 		reference operator*() const;
 
+		// TODO provide implementation
 		reverse_iterator operator+(difference_type n) const;
 
+		// TODO provide implementation
 		reverse_iterator& operator++();
+		// TODO provide implementation
 		reverse_iterator operator++(int);
 
+		// TODO provide implementation
 		reverse_iterator& operator+=(difference_type n);
 
+		// TODO provide implementation
 		reverse_iterator operator-(difference_type n) const;
 
+		// TODO provide implementation
 		reverse_iterator& operator--();
+		// TODO provide implementation
 		reverse_iterator operator--(int);
 
+		// TODO provide implementation
 		reverse_iterator& operator-=(difference_type n);
 
+		// TODO provide implementation
 		pointer operator->() const;
+		// TODO provide implementation
 		reference operator[](difference_type n) const;
 	}; // struct reverse_iterator
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator==(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator!=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator<(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator<=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator>(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	bool operator>=(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
 
+	// TODO provide implementation
 	template< class Iterator >
 	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it);
 
+	// TODO provide implementation
 	template< class Iterator >
 	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
 } // namespace ft
