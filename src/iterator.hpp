@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 01:16:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 01:56:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,27 +203,45 @@ namespace ft
 		return !(lhs == rhs);
 	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	bool operator<(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
+	bool operator<(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	{
+		return lhs.base() > rhs.base();
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	bool operator<=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
+	bool operator<=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	{
+		return lhs.base() <= rhs.base();
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	bool operator>(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
+	bool operator>(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	{
+		return lhs.base() < rhs.base();
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	bool operator>=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
+	bool operator>=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	{
+		return lhs.base() <= rhs.base();
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it);
+	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it)
+	{
+		return rev_it + n;
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class Iterator >
-	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs);
+	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	{
+		return rhs.base() - lhs.base();
+	}
 } // namespace ft
