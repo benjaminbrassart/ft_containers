@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 01:49:14 by bbrassar          #+#    #+#              #
-#    Updated: 2022/08/18 02:20:34 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/08/20 01:23:23 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,15 @@ CXXFLAGS += -Werror
 CXXFLAGS += -Wextra
 CXXFLAGS += -c
 CXXFLAGS += -MMD -MP
-CXXFLAGS += -g3
+CXXFLAGS += -std=c++98
 CXXFLAGS += -I$(DIR_SRC)
 CXXFLAGS += -I$(DIR_CONTAINERS)
+
+ifeq ($(DEBUG), true)
+
+CXXFLAGS += -g3
+
+endif
 
 NAME = ft_containers
 
