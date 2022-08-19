@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:39:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:40:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft
 	struct enable_if< true, T >
 	{
 		typedef T type;
-	};
+	}; // struct enable_if
 
 	template< class T, T v >
 	struct integral_constant
@@ -32,7 +32,7 @@ namespace ft
 		typedef T value_type;
 		typedef integral_constant< T, v > type;
 		operator T() { return v; }
-	};
+	}; // struct integral_constant
 
 	typedef integral_constant< bool, true > true_type;
 	typedef integral_constant< bool, false > false_type;
@@ -117,7 +117,7 @@ namespace ft
 			this->first = a;
 			this->second = b;
 		}
-	};
+	}; // struct pair
 
 	template< class T1, class T2>
 	bool operator==(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:38:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:40:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ namespace ft
 			node* left;
 			node* right;
 			value_type value;
-		};
+		}; // struct node
 
 		private:
 		node* root;
@@ -129,5 +129,5 @@ namespace ft
 
 		public:
 		allocator_type get_allocator() const;
-	};
+	}; // class map
 } // namespace ft

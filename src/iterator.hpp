@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:36:23 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:40:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 		typedef Distance difference_type;
 		typedef Pointer pointer;
 		typedef Reference reference;
-	};
+	}; // struct iterator
 
 	template< class Iterator >
 	struct iterator_traits
@@ -46,7 +46,7 @@ namespace ft
 		typedef Iterator::pointer pointer;
 		typedef Iterator::reference reference;
 		typedef Iterator::iterator_category iterator_category;
-	};
+	}; // struct iterator_traits
 
 	template< class T >
 	struct iterator_traits< T* >
@@ -56,7 +56,7 @@ namespace ft
 		typedef T* pointer;
 		typedef T& reference;
 		typedef random_access_iterator_tag iterator_category;
-	};
+	}; // struct iterator_traits
 
 	template< class T >
 	struct iterator_traits< T const* >
@@ -66,7 +66,7 @@ namespace ft
 		typedef T const* pointer;
 		typedef T const& reference;
 		typedef random_access_iterator_tag iterator_category;
-	};
+	}; // struct iterator_traits
 
 	template< class Iterator >
 	struct reverse_iterator
@@ -105,7 +105,7 @@ namespace ft
 
 		pointer operator->() const;
 		reference operator[](difference_type n) const;
-	};
+	}; // struct reverse_iterator
 
 	template< class Iterator >
 	bool operator==(reverse_iterator< Iterator >& lhs, reverse_iterator< Iterator >& rhs);
