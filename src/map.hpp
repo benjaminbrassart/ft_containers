@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 22:47:43 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:49:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft
 		typedef void* const_iterator; // TODO
 		typedef ft::reverse_iterator< iterator > reverse_iterator;
 		typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
-		typedef ptrdiff_t difference_type; // TODO
+		typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 		typedef size_t size_type; // TODO
 
 		private:
