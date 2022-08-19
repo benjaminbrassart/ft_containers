@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 23:27:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:59:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ namespace ft
 		private:
 		struct _node
 		{
-			map& map;
+			map& origin;
+			_node* parent;
 			_node* left;
 			_node* right;
 			value_type value;
