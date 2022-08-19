@@ -18,9 +18,8 @@
                 "reveal": "silent",
                 "focus": false,
                 "panel": "dedicated",
-                "showReuseMessage": true,
+                "showReuseMessage": false,
                 "clear": false,
-                "revealProblems": "onProblem"
             }
         },
     ]
