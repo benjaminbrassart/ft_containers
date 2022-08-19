@@ -6,11 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:40:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:33:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "iterator.hpp"
 #include "utils.hpp"
+
 #include <memory>
 #include <functional>
 
@@ -130,4 +132,25 @@ namespace ft
 		public:
 		allocator_type get_allocator() const;
 	}; // class map
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+
+	template< class Key, class T, class Compare, class Alloc >
+	void swap(map< Key, T, Compare, Alloc >& lhs, map< Key, T, Compare, Alloc >& rhs);
 } // namespace ft
