@@ -6,9 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 01:58:21 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/18 01:58:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:32:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "map.hpp"
 
 int
 main( void )
