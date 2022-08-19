@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:40:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 20:45:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ namespace ft
 	template< class Iterator >
 	struct iterator_traits
 	{
-		typedef Iterator::difference_type difference_type;
-		typedef Iterator::value_type value_type;
-		typedef Iterator::pointer pointer;
-		typedef Iterator::reference reference;
-		typedef Iterator::iterator_category iterator_category;
+		typedef typename Iterator::difference_type difference_type;
+		typedef typename Iterator::value_type value_type;
+		typedef typename Iterator::pointer pointer;
+		typedef typename Iterator::reference reference;
+		typedef typename Iterator::iterator_category iterator_category;
 	}; // struct iterator_traits
 
 	template< class T >
@@ -72,11 +72,11 @@ namespace ft
 	struct reverse_iterator
 	{
 		typedef Iterator iterator_type;
-		typedef iterator_traits< Iterator >::iterator_category iterator_category;
-		typedef iterator_traits< Iterator >::value_type value_type;
-		typedef iterator_traits< Iterator >::difference_type difference_type;
-		typedef iterator_traits< Iterator >::pointer pointer;
-		typedef iterator_traits< Iterator >::reference reference;
+		typedef typename iterator_traits< Iterator >::iterator_category iterator_category;
+		typedef typename iterator_traits< Iterator >::value_type value_type;
+		typedef typename iterator_traits< Iterator >::difference_type difference_type;
+		typedef typename iterator_traits< Iterator >::pointer pointer;
+		typedef typename iterator_traits< Iterator >::reference reference;
 
 		reverse_iterator();
 
@@ -94,14 +94,14 @@ namespace ft
 		reverse_iterator& operator++();
 		reverse_iterator operator++(int);
 
-		reverse_iterator& oerator +=(difference_type n);
+		reverse_iterator& operator +=(difference_type n);
 
 		reverse_iterator operator-(difference_type n) const;
 
 		reverse_iterator& operator--();
 		reverse_iterator operator--(int);
 
-		reverse_iterator& oerator -=(difference_type n);
+		reverse_iterator& operator -=(difference_type n);
 
 		pointer operator->() const;
 		reference operator[](difference_type n) const;
