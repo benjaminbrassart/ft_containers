@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 23:04:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:07:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ namespace ft
 		const mapped_type& at(key_type const& key) const;
 
 		public:
-		pair< iterator, bool > insert(value_type const& val);
+		ft::pair< iterator, bool > insert(value_type const& val);
 
 		iterator insert(iterator position, value_type const& val);
 
@@ -145,8 +145,8 @@ namespace ft
 		iterator upper_bound(key_type const& k);
 		const_iterator upper_bound(key_type const& k) const;
 
-		pair< const_iterator, const_iterator > equal_range(key_type const& k) const;
-		pair< iterator, iterator > equal_range(key_type const& k);
+		ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const;
+		ft::pair< iterator, iterator > equal_range(key_type const& k);
 
 		public:
 		allocator_type get_allocator() const;
