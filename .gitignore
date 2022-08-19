@@ -1,3 +1,4 @@
 /ft_containers
 *.o
 *.d
+/_*
