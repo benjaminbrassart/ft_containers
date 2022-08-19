@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 22:56:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:04:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ namespace ft
 	>
 	class map
 	{
+		private:
+		struct _node;
+		struct _comp;
+
 		public:
 		/** The first template parameter */
 		typedef Key key_type;
@@ -33,7 +37,7 @@ namespace ft
 		typedef T mapped_type;
 		typedef ft::pair< key_type const, mapped_type > value_type;
 		typedef Compare key_compare;
-		typedef void* value_compare; // TODO implement value comparator
+		typedef _comp value_compare;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
@@ -47,16 +51,31 @@ namespace ft
 		typedef typename allocator_type::size_type size_type;
 
 		private:
-		struct node
+		struct _node
 		{
 			map& map;
-			node* left;
-			node* right;
+			_node* left;
+			_node* right;
 			value_type value;
-		}; // struct node
+		}; // struct _node
+
+		struct _comp
+		{
+			Compare comp;
+
+			_comp(Compare comp) :
+				comp(comp)
+			{
+			}
+
+			bool operator ()(value_type const& x, value_type const& y) const
+			{
+				return this->comp(x, y);
+			}
+		}; // struct _comp
 
 		private:
-		node* root;
+		_node* root;
 
 		public:
 		explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type());
