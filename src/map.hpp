@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 22:33:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:47:43 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef void* iterator; // TODO
 		typedef void* const_iterator; // TODO
-		typedef void* reverse_iterator; // TODO
-		typedef void* const_reverse_iterator; // TODO
+		typedef ft::reverse_iterator< iterator > reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 		typedef ptrdiff_t difference_type; // TODO
 		typedef size_t size_type; // TODO
 
