@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:05:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:06:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,44 @@ namespace ft
 			_capacity(0)
 		{}
 
-		// TODO provide implementation
-		explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type());
+		// TODO test implementation
+		explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type()) :
+			_alloc(alloc),
+			_data(),
+			_size(0),
+			_capacity(0)
+		{
+			this->assign(n, val);
+		}
 
-		// TODO provide implementation
+		// TODO test implementation
 		template< class InputIterator >
-		vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type());
+		vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type()) :
+			_alloc(alloc),
+			_data(),
+			_size(0),
+			_capacity(0)
+		{
+			this->assign(first, last);
+		}
 
-		// TODO provide implementation
-		vector(vector const& x);
+		// TODO test implementation
+		vector(vector const& x) :
+			_alloc(x._alloc),
+			_data(),
+			_size(0),
+			_capacity(0)
+		{
+			this->assign(x.begin(), x.end());
+		}
 
-		// TODO provide implementation
-		vector& operator=(vector const& x);
+		// TODO test implementation
+		vector& operator=(vector const& x)
+		{
+			if (&x != this)
+				this->assign(x.begin(), x.end());
+			return *this;
+		}
 
 		// TODO test implementation
 		~vector()
