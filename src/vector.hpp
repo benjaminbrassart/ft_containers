@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:06:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:06:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 namespace ft
 {
+	// TODO add documentation
 	template<
 		class T,
 		class Alloc = std::allocator< T >
