@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 05:20:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 05:46:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,11 +228,23 @@ namespace ft
 		// TODO provide implementation
 		void assign(size_type n, value_type const& val);
 
-		// TODO provide implementation
-		void push_back(value_type const& val);
+		// TODO test implementation
+		void push_back(value_type const& val)
+		{
+			size_type& size = this->_size;
 
-		// TODO provide implementation
-		void pop_back();
+			this->reserve(size + 1);
+			this->get_allocator().construct(this->_data + size, val);
+			++size;
+		}
+
+		// TODO test implementation
+		void pop_back()
+		{
+			if (this->empty())
+				return ;
+			this->resize(this->size() - 1);
+		}
 
 		// TODO provide implementation
 		iterator insert(iterator position, value_type const& val);
