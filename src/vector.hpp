@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 05:46:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 06:19:58 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,19 @@ namespace ft
 		iterator erase(iterator first, iterator last);
 
 		// TODO provide implementation
-		void swap(vector& x);
+		void swap(vector& x)
+		{
+			pointer x_data = x._data;
+
+			x._data = this->_data;
+			this->_data = x_data;
+			this->_size ^= x._size;
+			x._size ^= this->_size;
+			this->_size ^= x._size;
+			this->_capacity ^= x._capacity;
+			x._capacity ^= this->_capacity;
+			this->_capacity ^= x._capacity;
+		}
 
 		// TODO test implementation
 		void clear()
@@ -308,5 +320,8 @@ namespace ft
 
 	// TODO provide implementation
 	template< class T, class Alloc >
-	void swap(vector< T, Alloc >& x, vector< T, Alloc >& y);
+	void swap(vector< T, Alloc >& x, vector< T, Alloc >& y)
+	{
+		x.swap(y);
+	}
 } // namespace ft
