@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 04:35:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 04:36:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,9 @@ namespace ft
 		// TODO test implementation
 		void clear()
 		{
-			for (size_type n = 0; n < this->_size; ++n)
+			size_type const size = this->size();
+
+			for (size_type n = 0; n < size; ++n)
 				this->_alloc.destroy(this->_alloc.address(_data[n]));
 			this->_size = 0;
 		}
