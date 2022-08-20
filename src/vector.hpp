@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 03:56:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 04:35:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,15 @@ namespace ft
 			if (this->capacity() >= n)
 				return ;
 
-			pointer new__data = this->_alloc.allocate(n * 2);
+			pointer new_data = this->_alloc.allocate(n * 2);
 
-			for (size_type i; i < this->size(); ++i)
+			for (size_type i = 0; i < this->size(); ++i)
 			{
-				this->_alloc.construct(this->_alloc.address(new__data[i]), this->_data[i]);
+				this->_alloc.construct(this->_alloc.address(new_data[i]), this->_data[i]);
 				this->_alloc.destroy(this->_alloc.address(this->_data[i]));
 			}
 			this->_alloc.deallocate(this->_data, this->capacity());
+			this->_data = new_data;
 			this->_capacity = n;
 		}
 
