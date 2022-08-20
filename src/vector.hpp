@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 03:54:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 03:56:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,15 +178,29 @@ namespace ft
 			return this->_data[n];
 		}
 
-		// TODO provide implementation
-		reference front();
-		// TODO provide implementation
-		const_reference front() const;
+		// TODO test implementation
+		reference front()
+		{
+			return *(this->begin());
+		}
 
-		// TODO provide implementation
-		reference back();
-		// TODO provide implementation
-		const_reference back() const;
+		// TODO test implementation
+		const_reference front() const
+		{
+			return *(this->begin());
+		}
+
+		// TODO test implementation
+		reference back()
+		{
+			return *(this->rbegin());
+		}
+
+		// TODO test implementation
+		const_reference back() const
+		{
+			return *(this->rbegin());
+		}
 
 		public:
 		// TODO provide implementation
