@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:09:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:09:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ namespace ft
 			return this->_alloc.max_size();
 		}
 
-		// TODO provide implementation
+		// TODO test implementation
 		void resize(size_type n, value_type val = value_type())
 		{
 			size_type const size = this->size();
@@ -263,7 +263,7 @@ namespace ft
 		}
 
 		public:
-		// TODO provide implementation
+		// TODO test implementation
 		// TODO optimize with only 1 loop
 		// BUG does not compile when value_type = int, use enable_if
 		template< class InputIterator >
@@ -273,7 +273,7 @@ namespace ft
 			this->insert(this->begin(), first, last);
 		}
 
-		// TODO provide implementation
+		// TODO test implementation
 		// TODO optimize with only 1 loop
 		// BUG does not compile when value_type = int, use enable_if
 		void assign(size_type n, value_type const& val)
