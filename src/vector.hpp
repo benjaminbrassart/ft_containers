@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:06:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:09:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,29 @@ namespace ft
 			return this->_alloc.address(this->_data[this->_size]);
 		}
 
-		// TODO provide implementation
-		reverse_iterator rbegin();
-		// TODO provide implementation
-		const_reverse_iterator rbegin() const;
+		// TODO test implementation
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(this->end());
+		}
 
-		// TODO provide implementation
-		reverse_iterator rend();
-		// TODO provide implementation
-		const_reverse_iterator rend() const;
+		// TODO test implementation
+		const_reverse_iterator rbegin() const
+		{
+			return reverse_iterator(this->end());
+		}
+
+		// TODO test implementation
+		reverse_iterator rend()
+		{
+			return reverse_iterator(this->begin());
+		}
+
+		// TODO test implementation
+		const_reverse_iterator rend() const
+		{
+			return reverse_iterator(this->begin());
+		}
 
 		public:
 		size_type size() const
