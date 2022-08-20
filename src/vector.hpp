@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 06:19:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 06:21:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "iterator.hpp"
 
 #include <memory>
+#include <stdexcept>
 
 namespace ft
 {
@@ -184,7 +185,7 @@ namespace ft
 		reference at(size_type n)
 		{
 			if (n >= this->_size)
-				throw 0; // TODO throw real exception
+				throw std::out_of_range(__PRETTY_FUNCTION__);
 			return this->_data[n];
 		}
 
@@ -192,7 +193,7 @@ namespace ft
 		const_reference at(size_type n) const
 		{
 			if (n >= this->_size)
-				throw 0; // TODO throw real exception
+				throw std::out_of_range(__PRETTY_FUNCTION__);
 			return this->_data[n];
 		}
 
