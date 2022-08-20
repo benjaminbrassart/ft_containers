@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:03:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:05:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,11 +223,23 @@ namespace ft
 
 		public:
 		// TODO provide implementation
+		// TODO optimize with only 1 loop
+		// BUG does not compile when value_type = int, use enable_if
 		template< class InputIterator >
-		void assign(InputIterator first, InputIterator last);
+		void assign(InputIterator first, InputIterator last)
+		{
+			this->clear();
+			this->insert(this->begin(), first, last);
+		}
 
 		// TODO provide implementation
-		void assign(size_type n, value_type const& val);
+		// TODO optimize with only 1 loop
+		// BUG does not compile when value_type = int, use enable_if
+		void assign(size_type n, value_type const& val)
+		{
+			this->clear();
+			this->resize(n, val);
+		}
 
 		// TODO test implementation
 		void push_back(value_type const& val)
