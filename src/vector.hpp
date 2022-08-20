@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 06:21:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:01:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ namespace ft
 		// TODO provide implementation
 		iterator erase(iterator first, iterator last);
 
-		// TODO provide implementation
+		// TODO test implementation
 		void swap(vector& x)
 		{
 			pointer x_data = x._data;
@@ -319,7 +319,7 @@ namespace ft
 	template< class T, class Alloc >
 	bool operator>=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
 	void swap(vector< T, Alloc >& x, vector< T, Alloc >& y)
 	{
