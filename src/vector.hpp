@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:01:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:03:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,13 +266,18 @@ namespace ft
 		// TODO test implementation
 		void swap(vector& x)
 		{
+			// swap data pointers
 			pointer x_data = x._data;
 
 			x._data = this->_data;
 			this->_data = x_data;
+
+			// swap sizes
 			this->_size ^= x._size;
 			x._size ^= this->_size;
 			this->_size ^= x._size;
+
+			// swap capacities
 			this->_capacity ^= x._capacity;
 			x._capacity ^= this->_capacity;
 			this->_capacity ^= x._capacity;
