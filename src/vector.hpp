@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 04:36:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 05:20:41 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,24 @@ namespace ft
 		}
 
 		// TODO provide implementation
-		void resize(size_type n, value_type val = value_type());
+		void resize(size_type n, value_type val = value_type())
+		{
+			size_type const size = this->size();
+			size_type i;
+
+			this->reserve(n);
+			if (n > size)
+			{
+				for (i = size; i < n; ++i)
+					this->_alloc.construct(this->_alloc.address(this->_data[i]), val);
+			}
+			else if (n < size)
+			{
+				for (i = n; i < size; ++i)
+					this->_alloc.destroy(this->_alloc.address(this->_data[i]));
+			}
+			this->_size = n;
+		}
 
 		size_type capacity() const
 		{
