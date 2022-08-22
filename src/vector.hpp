@@ -6,13 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 07:09:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:45:50 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "iterator.hpp"
+#include "utils.hpp"
 
 #include <memory>
 #include <stdexcept>
@@ -353,29 +354,47 @@ namespace ft
 		}
 	}; // class vector
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator==(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator==(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return equal(lhs.begin(), lhs.end(), rhs.begin(), lhs.end());
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator!=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator!=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return !(lhs == rhs);
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator<(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator<(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), lhs.end());
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator<=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator<=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return !(rhs < lhs);
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator>(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator>(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return rhs < lhs;
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	template< class T, class Alloc >
-	bool operator>=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs);
+	bool operator>=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+	{
+		return !(lhs < rhs);
+	}
 
 	// TODO test implementation
 	template< class T, class Alloc >
