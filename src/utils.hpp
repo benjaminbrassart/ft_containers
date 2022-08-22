@@ -6,11 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/19 20:40:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/20 07:32:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "iterator.hpp"
 
 #include <stdint.h>
 
@@ -165,5 +167,59 @@ namespace ft
 	pair< T1, T2 > make_pair(T1 x, T2 y)
 	{
 		return pair< T1, T2 >(x, y);
+	}
+
+	template< class V1, class V2 >
+	struct _Equal
+	{
+		bool operator()(V1 it1, V2 it2)
+		{
+			return it1 == it2;
+		}
+	};
+
+	template< class V1, class V2 >
+	struct _Less
+	{
+		bool operator()(V1 it1, V2 it2)
+		{
+			return it1 < it2;
+		}
+	};
+
+	template<
+		class InputIterator1,
+		class InputIterator2,
+		class BinaryPredicate
+	>
+	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred = BinaryPredicate())
+	{
+		while (first1 != last1)
+		{
+			if (!pred(*first1, *first2))
+				return false;
+			++first1;
+			++first2;
+		}
+		return first2 != last2;
+	}
+
+	template<
+		class InputIterator1,
+		class InputIterator2,
+		class BinaryPredicate
+	>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred = BinaryPredicate())
+	{
+		while (first1 != last1)
+		{
+			if (first2 == last2 || pred(*first2, *first1))
+				return false;
+			else if (pred(*first1, *first2))
+				return true;
+			++first1;
+			++first2;
+		}
+		return first2 != last2;
 	}
 } // namespace ft
