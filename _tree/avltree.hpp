@@ -176,7 +176,7 @@ class avltree
 		node_type* center = right->left;
 
 		right->left = node;
-		node->right = center; // ! duplicates reference
+		node->right = center;
 		avltree::update_height(node);
 		avltree::update_height(right);
 		return right;

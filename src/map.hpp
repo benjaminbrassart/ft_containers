@@ -6,9 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/23 06:19:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/23 10:58:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include "iterator.hpp"
 #include "utils.hpp"
@@ -23,12 +25,12 @@ namespace ft
 		class Key,
 		class T,
 		class Compare = std::less< Key >,
-		class Alloc = std::allocator< ft::pair< const Key, T > >
+		class Alloc = std::allocator< ft::pair< const Key, T > > //! cannot use this to allocate nodes because
 	>
 	class map
 	{
 		private:
-		struct _Node;
+		struct node_type;
 
 		public:
 		/** The first template parameter */
@@ -51,16 +53,26 @@ namespace ft
 		typedef typename allocator_type::size_type size_type;
 
 		private:
-		struct _Node
+		struct node_type
 		{
-			_Node* parent;
-			_Node* left;
-			_Node* right;
+			public:
+			node_type* left;
+			node_type* right;
 			value_type value;
-		}; // struct _Node
+			int height;
+
+			public:
+			node_type(T const& value) :
+				value(value),
+				left(NULL),
+				right(NULL),
+				height(1)
+			{
+			}
+		}; // struct node_type
 
 		private:
-		_Node* _root;
+		node_type* _root;
 		size_type _size;
 		key_compare _comp;
 		allocator_type _alloc;
@@ -196,7 +208,7 @@ namespace ft
 		void swap(map& x)
 		{
 			// swap root nodes
-			_Node* x_root = x._root;
+			node_type* x_root = x._root;
 
 			x._root = this->_root;
 			this->_root = x_root;
@@ -211,11 +223,15 @@ namespace ft
 		void clear()
 		{
 			this->_size = 0;
+			// TODO delete tree
 		}
 
 		public:
-		// TODO provide implementation
-		key_compare key_comp() const;
+		// TODO test implementation
+		key_compare key_comp() const
+		{
+			return this->_comp;
+		}
 
 		// TODO provide implementation
 		value_compare value_comp() const;
@@ -252,6 +268,116 @@ namespace ft
 		allocator_type get_allocator() const
 		{
 			return this->_alloc;
+		}
+
+		private:
+		node_type* insert(T const& value, node_type* node)
+		{
+			if (node == NULL)
+				return this->get_allocator().construct(this->get_allocator().allocate(1), value);
+			return NULL; // TODO insert
+		}
+
+		static node_type* remove(T const& value, node_type* node)
+		{
+
+		}
+
+		static node_type* search(T const& value, node_type* node)
+		{
+			if (node == NULL)
+				return NULL;
+			if (value > node->value) // TODO use key_compare
+				return search(value, node->right);
+			if (value < node->value) // TODO use key_compare
+				return search(value, node->left);
+			return node;
+		}
+
+		void update_height(node_type* node)
+		{
+			int h_left = get_height(node->left);
+			int h_right = get_height(node->right);
+			int h_max = (h_left > h_right) ? h_left : h_right;
+
+			node->height = h_max + 1;
+		}
+
+		node_type* rebalance(node_type* node)
+		{
+			int balance = get_balance(node);
+			int balance_sub; // TODO remove
+
+			if (balance > 1)
+			{
+				balance_sub = get_balance(node->left);
+				if (balance_sub < 0)
+					node->left = rotate_left(node->left);
+				return rotate_right(node);
+			}
+			else if (balance < -1)
+			{
+				balance_sub = get_balance(node->right);
+				if (balance_sub < 0)
+					node->right = rotate_left(node->right);
+				return rotate_left(node);
+			}
+			return node;
+		}
+
+		node_type* rotate_right(node_type* node)
+		{
+			node_type* left = node->left;
+			node_type* center = left->right;
+
+			left->right = node;
+			node->left = center;
+			update_height(node);
+			update_height(left);
+			return left;
+		}
+
+		node_type* rotate_left(node_type* node)
+		{
+			node_type* right = node->right;
+			node_type* center = right->left;
+
+			right->left = node;
+			node->right = center;
+			avltree::update_height(node);
+			avltree::update_height(right);
+			return right;
+		}
+
+		int get_balance(node_type* node)
+		{
+			if (node == NULL)
+				return 0;
+			return get_height(node->left) - get_height(node->right);
+		}
+
+		int get_height(node_type* node)
+		{
+			if (node == NULL)
+				return 0;
+			return node->height;
+		}
+
+		void release(node_type* node)
+		{
+			if (node == NULL)
+				return ;
+			release(node->left);
+			release(node->right);
+			this->get_allocator().destroy(node);
+			this->get_allocator().deallocate(node, 1);
+		}
+
+		value_type& get_max(node_type* node)
+		{
+			if (node->right != NULL)
+				return get_max(node->right);
+			return node->value;
 		}
 	}; // class map
 
