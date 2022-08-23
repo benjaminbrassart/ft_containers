@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/22 20:45:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/23 08:26:21 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ namespace ft
 		// TODO test implementation
 		const_reverse_iterator rbegin() const
 		{
-			return reverse_iterator(this->end());
+			return const_reverse_iterator(this->end());
 		}
 
 		// TODO test implementation
@@ -148,7 +148,7 @@ namespace ft
 		// TODO test implementation
 		const_reverse_iterator rend() const
 		{
-			return reverse_iterator(this->begin());
+			return const_reverse_iterator(this->begin());
 		}
 
 		public:
@@ -302,20 +302,64 @@ namespace ft
 		}
 
 		// TODO provide implementation
-		iterator insert(iterator position, value_type const& val);
+		iterator insert(iterator position, value_type const& val)
+		{
+			this->reserve(this->size() + 1);
+			if (position != this->end())
+			{
+				// memmove to the right, offset = 1
+			}
+			*position = val;
+			return position;
+		}
 
 		// TODO provide implementation
-		void insert(iterator position, size_type n, value_type const& val);
+		void insert(iterator position, size_type n, value_type const& val)
+		{
+			this->reserve(this->size() + n);
+			if (position != this->end())
+			{
+				// memmove to the right, offset = n
+			}
+			for (size_type i = 0; i < n; ++i)
+			{
+				this->position[i] = val;
+			}
+		}
 
 		// TODO provide implementation
 		template< class InputIterator >
-		void insert(iterator position, InputIterator first, InputIterator last);
+		void insert(iterator position, InputIterator first, InputIterator last)
+		{
+			((void)position, (void)first, (void)last);
+		}
 
-		// TODO provide implementation
-		iterator erase(iterator position);
+		// TODO test implementation
+		iterator erase(iterator position)
+		{
+			return this->erase(position, position + 1);
+		}
 
-		// TODO provide implementation
-		iterator erase(iterator first, iterator last);
+		// [ 1 2 3 4 5 ] //
+		//     ^___^ del //
+		// [ 1 5 ]       //
+		//     ^  return //
+		// TODO test implementation
+		iterator erase(iterator first, iterator last)
+		{
+			size_type n = 0;
+			iterator it;
+
+			for (it = first; first != last; ++n, ++it)
+				this->get_allocator().destroy(it);
+			for (size_type i = 0; i < n; ++i)
+			{
+				this->get_allocator().construct(it + i, *(it + i + n));
+				this->get_allocator().destroy(it + i + n);
+			}
+			this->_size -= n;
+			return this->begin() + n;
+		}
 
 		// TODO test implementation
 		void swap(vector& x)
