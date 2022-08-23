@@ -6,14 +6,14 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 01:49:14 by bbrassar          #+#    #+#              #
-#    Updated: 2022/08/20 01:23:23 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/08/23 08:31:10 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CXX = c++
 CXXFLAGS += -Wall
-CXXFLAGS += -Werror
 CXXFLAGS += -Wextra
+# CXXFLAGS += -Werror
 CXXFLAGS += -c
 CXXFLAGS += -MMD -MP
 CXXFLAGS += -std=c++98
