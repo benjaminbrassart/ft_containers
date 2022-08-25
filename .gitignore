@@ -3,3 +3,4 @@
 *.d
 /_*
 !/_tree
+/containers_test
