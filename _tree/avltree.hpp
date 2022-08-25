@@ -81,6 +81,11 @@ class avltree
 		std::cout.flush();
 	}
 
+	void print_inorder()
+	{
+		avltree::print_inorder(this->root);
+	}
+
 	private:
 	static node_type* insert(T const& value, node_type* node)
 	{
@@ -210,6 +215,15 @@ class avltree
 			print(prefix + (is_left ? "│" : " ") + "   ", node->left, true);
 			print(prefix + (is_left ? "│" : " ") + "   ", node->right, false);
 		}
+	}
+
+	static void print_inorder(node_type const* node)
+	{
+		if (node == null)
+			return ;
+		print_inorder(node->left);
+		std::cout << node->value << '\n';
+		print_inorder(node->right);
 	}
 
 	static void release(node_type* node)
