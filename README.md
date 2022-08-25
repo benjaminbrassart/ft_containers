@@ -9,7 +9,7 @@ Homemade C++ containers
 
 [cplusplus.com](https://legacy.cplusplus.com/)
 [cppreference.com](https://cppreference.com/)
-
+[ISO/IEC 14882](https://www.lirmm.fr/~ducour/Doc-objets/ISO+IEC+14882-1998.pdf)
 ## AVL Trees
 
 AVL Trees are balanced binary search trees, which means they perform rotations to keep their nodes balanced, allowing a complexity of ![](https://latex.codecogs.com/svg.image?%5Csmall%20O(log%20n)) for search, insertion and deletion.
