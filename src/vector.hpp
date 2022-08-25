@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/23 08:26:21 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/25 13:21:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,9 +266,8 @@ namespace ft
 		public:
 		// TODO test implementation
 		// TODO optimize with only 1 loop
-		// BUG does not compile when value_type = int, use enable_if
 		template< class InputIterator >
-		void assign(InputIterator first, InputIterator last)
+		void assign(typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type first, InputIterator last)
 		{
 			this->clear();
 			this->insert(this->begin(), first, last);
