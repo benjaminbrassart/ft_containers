@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/23 08:24:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/25 10:13:14 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "iterator.hpp"
 
 #include <stdint.h>
+#include <typeinfo>
 
 namespace ft
 {
@@ -237,5 +238,17 @@ namespace ft
 			++first2;
 		}
 		return first2 != last2;
+	}
+
+	template< class InputIterator >
+	typename ft::iterator_traits< InputIterator >::difference_type distance(InputIterator first, InputIterator last)
+	{
+		if (typeid(typename ft::iterator_traits< InputIterator >::iterator_category) == typeid(ft::random_access_iterator_tag))
+			return last - first;
+
+		typename ft::iterator_traits< InputIterator >::difference_type n = 0;
+
+		for (InputIterator it = first; it != last; ++it, ++n);
+		return n;
 	}
 } // namespace ft
