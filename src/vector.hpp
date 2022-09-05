@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 01:10:41 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 01:32:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,7 @@ public:
 	// TODO test implementation
 	void pop_back()
 	{
-		if (this->empty())
+		if (this->empty()) // TODO undefined behavior
 			return ;
 		this->resize(this->size() - 1);
 	}
@@ -318,7 +318,7 @@ public:
 	// TODO provide implementation
 	iterator insert(iterator position, value_type const& val)
 	{
-		// ! iterator may be invalidated if reallocation happens!
+		// ! iterator are invalidated if reallocation happens!
 		this->insert(position, 1, val);
 		return position;
 	}
@@ -326,7 +326,7 @@ public:
 	// TODO test implementation
 	void insert(iterator position, size_type n, value_type const& val)
 	{
-		// ! iterator may be invalidated if reallocation happens!
+		// ! iterator are invalidated if reallocation happens!
 		this->reserve(this->size() + n);
 
 		iterator last = this->end();
@@ -334,7 +334,6 @@ public:
 		size_type i;
 
 		// TODO test this, must copy backwards
-
 		i = n;
 		while (i > 0)
 		{
