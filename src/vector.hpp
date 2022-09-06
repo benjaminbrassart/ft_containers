@@ -418,17 +418,17 @@ private:
 		p = (this->begin() + offset);
 		moved = (this->end() - p);
 
-		// TODO test this, must copy backwards
 		i = moved;
 		while (i > 0)
 		{
 			--i;
-			p[n + i] = p[i]; // TODO use allocator::construct
+			this->get_allocator().construct(p + n + i, p[i]);
+			this->get_allocator().destroy(p + i);
 		}
 
 		while (i < n)
 		{
-			p[i] = val; // TODO use allocator::construct
+			this->get_allocator().construct(p + i, val);
 			++i;
 		}
 
