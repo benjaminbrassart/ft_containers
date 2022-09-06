@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 01:49:14 by bbrassar          #+#    #+#              #
-#    Updated: 2022/08/23 08:31:10 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/09/06 05:08:06 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ CXXFLAGS += -I$(DIR_CONTAINERS)
 ifeq ($(DEBUG), true)
 
 CXXFLAGS += -g3
+CXXFLAGS += -fsanitize=address
+LDFLAGS += -fsanitize=address
 
 endif
 
@@ -36,7 +38,7 @@ OBJ = $(SRC:%.cpp=$(DIR_SRC)/%.o)
 DEP = $(OBJ:.o=.d)
 
 $(NAME): $(OBJ)
-	c++ $^ -o $@
+	c++ $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 $(DIR_SRC)/%.o: $(DIR_SRC)/%.cpp
 	@mkdir -p $(@D)
