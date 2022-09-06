@@ -113,49 +113,41 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test implementation
 	iterator begin()
 	{
 		return this->_data;
 	}
 
-	// TODO test implementation
 	const_iterator begin() const
 	{
 		return this->_data;
 	}
 
-	// TODO test implementation
 	iterator end()
 	{
 		return this->_alloc.address(this->operator[](this->size()));
 	}
 
-	// TODO test implementation
 	const_iterator end() const
 	{
 		return this->_alloc.address(this->_data[this->_size]);
 	}
 
-	// TODO test implementation
 	reverse_iterator rbegin()
 	{
 		return reverse_iterator(this->end());
 	}
 
-	// TODO test implementation
 	const_reverse_iterator rbegin() const
 	{
 		return const_reverse_iterator(this->end());
 	}
 
-	// TODO test implementation
 	reverse_iterator rend()
 	{
 		return reverse_iterator(this->begin());
 	}
 
-	// TODO test implementation
 	const_reverse_iterator rend() const
 	{
 		return const_reverse_iterator(this->begin());
