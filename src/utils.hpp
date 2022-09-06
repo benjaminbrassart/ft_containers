@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/25 10:13:14 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 08:37:58 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 
 namespace ft
 {
+	template< class Iterator >
+	struct iterator_traits;
+
+	struct random_access_iterator_tag;
+
+	template< class T >
+	struct is_random_access_iterator;
+
 	template< bool Cond, class T = void >
 	struct enable_if {};
 
