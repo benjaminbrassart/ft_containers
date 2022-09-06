@@ -59,7 +59,7 @@ public:
 	// TODO test implementation
 	explicit vector(allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(),
+		_data(0),
 		_size(0),
 		_capacity(0)
 	{}
@@ -67,7 +67,7 @@ public:
 	// TODO test implementation
 	explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(),
+		_data(0),
 		_size(0),
 		_capacity(0)
 	{
@@ -78,7 +78,7 @@ public:
 	template< class InputIterator >
 	vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(),
+		_data(0),
 		_size(0),
 		_capacity(0)
 	{
@@ -88,7 +88,7 @@ public:
 	// TODO test implementation
 	vector(vector const& x) :
 		_alloc(x._alloc),
-		_data(),
+		_data(0),
 		_size(0),
 		_capacity(0)
 	{
