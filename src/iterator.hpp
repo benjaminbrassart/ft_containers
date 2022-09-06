@@ -6,21 +6,101 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/20 01:56:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 08:33:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "utils.hpp"
+
 #include <cstddef>
 
 namespace ft
 {
+	/* --------------------------------------------------------------------- */
+
 	struct input_iterator_tag {};
 	struct output_iterator_tag {};
 	struct forward_iterator_tag : public input_iterator_tag {};
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+
+	/* --------------------------------------------------------------------- */
+
+	template< class T >
+	struct is_input_iterator : public false_type {};
+
+	template< >
+	struct is_input_iterator< input_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_input_iterator< forward_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_input_iterator< bidirectional_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_input_iterator< random_access_iterator_tag > : public true_type {};
+
+	template< class T >
+	struct is_input_iterator< T* > : public true_type {};
+
+	template< class T >
+	struct is_input_iterator< T const* > : public true_type {};
+
+	/* --------------------------------------------------------------------- */
+
+	template< class T >
+	struct is_forward_iterator : public false_type {};
+
+	template< >
+	struct is_forward_iterator< forward_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_forward_iterator< bidirectional_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_forward_iterator< random_access_iterator_tag > : public true_type {};
+
+	template< class T >
+	struct is_forward_iterator< T* > : public true_type {};
+
+	template< class T >
+	struct is_forward_iterator< T const* > : public true_type {};
+
+	/* --------------------------------------------------------------------- */
+
+	template< class T >
+	struct is_bidirectional_iterator : public false_type {};
+
+	template< >
+	struct is_bidirectional_iterator< bidirectional_iterator_tag > : public true_type {};
+
+	template< >
+	struct is_bidirectional_iterator< random_access_iterator_tag > : public true_type {};
+
+	template< class T >
+	struct is_bidirectional_iterator< T* > : public true_type {};
+
+	template< class T >
+	struct is_bidirectional_iterator< T const* > : public true_type {};
+
+	/* --------------------------------------------------------------------- */
+
+	template< class T >
+	struct is_random_access_iterator : public false_type {};
+
+	template< >
+	struct is_random_access_iterator< random_access_iterator_tag > : public true_type {};
+
+	template< class T >
+	struct is_random_access_iterator< T* > : public true_type {};
+
+	template< class T >
+	struct is_random_access_iterator< T const* > : public true_type {};
+
+	/* --------------------------------------------------------------------- */
 
 	template<
 		class Category,
@@ -37,6 +117,8 @@ namespace ft
 		typedef Pointer pointer;
 		typedef Reference reference;
 	}; // struct iterator
+
+	/* --------------------------------------------------------------------- */
 
 	template< class Iterator >
 	struct iterator_traits
@@ -67,6 +149,8 @@ namespace ft
 		typedef T const& reference;
 		typedef random_access_iterator_tag iterator_category;
 	}; // struct iterator_traits
+
+	/* --------------------------------------------------------------------- */
 
 	template< class Iterator >
 	struct reverse_iterator : public iterator<
