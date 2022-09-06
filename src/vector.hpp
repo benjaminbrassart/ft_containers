@@ -328,6 +328,7 @@ public:
 	}
 
 	// TODO provide implementation
+	// ! inefficient af
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
