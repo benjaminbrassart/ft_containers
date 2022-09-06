@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 04:50:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 09:05:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,13 +219,11 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test implementation
 	reference operator[](size_type n)
 	{
 		return this->_data[n];
 	}
 
-	// TODO test implementation
 	const_reference operator[](size_type n) const
 	{
 		return this->_data[n];
@@ -247,25 +245,21 @@ public:
 		return this->_data[n];
 	}
 
-	// TODO test implementation
 	reference front()
 	{
 		return *(this->begin());
 	}
 
-	// TODO test implementation
 	const_reference front() const
 	{
 		return *(this->begin());
 	}
 
-	// TODO test implementation
 	reference back()
 	{
 		return *(this->rbegin());
 	}
 
-	// TODO test implementation
 	const_reference back() const
 	{
 		return *(this->rbegin());
@@ -322,16 +316,16 @@ public:
 	}
 
 	// TODO provide implementation
-	// ! inefficient af
+	// ! inefficient af <-- WIP
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
-		size_type i = 0;
+		vector< T, Alloc > v;
 
-		for (InputIterator it = first; it != last; ++it, ++i)
-		{
-			this->insert(position + i, *it);
-		}
+		for (InputIterator it = first; it != last; ++it)
+			v.push_back(*it);
+
+		// TODO move stuff right, you know the drill
 	}
 
 	// TODO test implementation
@@ -407,13 +401,10 @@ private:
 		size_type const offset = (position - this->begin());
 		iterator p;
 		size_type i;
-		size_type moved;
 
 		this->reserve(this->size() + n);
 		p = (this->begin() + offset);
-		moved = (this->end() - p);
-
-		i = moved;
+		i = (this->end() - p);
 		while (i > 0)
 		{
 			--i;
@@ -430,7 +421,6 @@ private:
 		this->_size += n;
 		return p;
 	}
-
 }; // class vector
 
 /* ------------------------------------------------------------------------- */
