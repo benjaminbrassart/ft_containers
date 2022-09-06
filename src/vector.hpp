@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 01:32:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 02:41:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,35 +318,13 @@ public:
 	// TODO provide implementation
 	iterator insert(iterator position, value_type const& val)
 	{
-		// ! iterator are invalidated if reallocation happens!
-		this->insert(position, 1, val);
-		return position;
+		return this->__insert_fill(position, 1, val);
 	}
 
 	// TODO test implementation
 	void insert(iterator position, size_type n, value_type const& val)
 	{
-		// ! iterator are invalidated if reallocation happens!
-		this->reserve(this->size() + n);
-
-		iterator last = this->end();
-		difference_type moved = (last - position);
-		size_type i;
-
-		// TODO test this, must copy backwards
-		i = n;
-		while (i > 0)
-		{
-			--i;
-			position[moved + i - 1] = position[i - 1]; // TODO use allocator
-		}
-
-		while (i < n)
-		{
-			position[i] = val; // TODO use allocator::construct
-			++i;
-		}
-		this->_size += n;
+		this->__insert_fill(position, n, val);
 	}
 
 	// TODO provide implementation
@@ -424,6 +402,38 @@ public:
 	allocator_type get_allocator() const
 	{
 		return this->_alloc;
+	}
+
+/* ------------------------------------------------------------------------- */
+
+private:
+	iterator __insert_fill(iterator position, size_type n, value_type const& val)
+	{
+		size_type const offset = (position - this->begin());
+		iterator p;
+		size_type i;
+		size_type moved;
+
+		this->reserve(this->size() + n);
+		p = (this->begin() + offset);
+		moved = (this->end() - p);
+
+		// TODO test this, must copy backwards
+		i = moved;
+		while (i > 0)
+		{
+			--i;
+			p[n + i] = p[i]; // TODO use allocator::construct
+		}
+
+		while (i < n)
+		{
+			p[i] = val; // TODO use allocator::construct
+			++i;
+		}
+
+		this->_size += n;
+		return p;
 	}
 
 }; // class vector
