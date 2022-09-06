@@ -210,16 +210,18 @@ public:
 		if (this->capacity() >= n)
 			return ;
 
-		pointer new_data = this->_alloc.allocate(n * 2);
+		size_type new_capacity = n * 2;
+		pointer new_data = this->_alloc.allocate(new_capacity);
 
 		for (size_type i = 0; i < this->size(); ++i)
 		{
 			this->_alloc.construct(this->_alloc.address(new_data[i]), this->_data[i]);
 			this->_alloc.destroy(this->_alloc.address(this->_data[i]));
 		}
+
 		this->_alloc.deallocate(this->_data, this->capacity());
 		this->_data = new_data;
-		this->_capacity = n;
+		this->_capacity = new_capacity;
 	}
 
 /* ------------------------------------------------------------------------- */
