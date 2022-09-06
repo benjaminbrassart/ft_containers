@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 01:58:21 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/23 08:32:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 05:08:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,39 @@
 
 using namespace ft;
 
-static void _print(vector< int > const& v)
+template< class T >
+std::ostream& operator<<(std::ostream& os, vector< T > const& v)
+{
+	for (typename vector< T >::const_iterator it = v.begin(); it != v.end(); ++it)
+		os << *it << '\n';
+	return os;
+}
+
+// * cout << vector::begin() makes bad read, same for end, rbegin and rend
+template< class T >
+static void _print(vector< T > const& v)
 {
 	std::cout
-		<< "begin(): " << v.begin() << '\n'
-		<< "end(): " << v.end() << '\n'
+		<< "size(): "
+		<< v.size()
+		<< '\n'
+
+		<< "capacity(): "
+		<< v.capacity()
+		<< '\n'
+
 		<< "content: \n"
-	;
-	for (vector< int >::const_reverse_iterator it = v.rbegin(); it != v.rend(); ++it)
-		std::cout << *it << '\n';
-	std::cout.flush();
+		<< v
+
+		<< std::flush;
 }
 
 int
-main( void )
+main(void)
 {
-	std::boolalpha(std::cout);
+	std::cout << std::boolalpha;
+
+
 
 	// int ints[5];
 
@@ -49,6 +66,8 @@ main( void )
 	// 	std::cout << *it << '\n';
 	// std::cout << (it - rend) << '\n';
 	// std::cout.flush();
+
+	// -------------------------------------------------------------
 
 	// vector< int > v;
 	// vector< int > w;
@@ -66,6 +85,8 @@ main( void )
 
 	// swap(v, w);
 
+	// -------------------------------------------------------------
+
 	// vector< int > z(w);
 
 	// _print(v);
@@ -82,12 +103,34 @@ main( void )
 	// z.pop_back();
 	// std::cout << (z == w) << std::endl;
 
-	vector< int > v;
+	// -------------------------------------------------------------
 
-	v.push_back(4);
-	v.push_back(5);
-	v.push_back(6);
-	v.push_back(1);
+	// vector< int > v;
+
+	// v.push_back(4);
+	// v.push_back(5);
+	// v.push_back(6);
+	// v.push_back(1);
+
+	// _print(v);
+
+	// std::cout << v.at(0) << '\n';
+	// std::cout << v.at(4) << '\n';
+
+	// -------------------------------------------------------------
+
+	vector< char, std::allocator< char > > v;
+
+	v.begin();
+
+	for (int i = 0; i < 6; ++i)
+	{
+		v.push_back('0' + i);
+	}
+
+	_print(v);
+
+	v.insert(v.begin(), 4, 'a');
 
 	_print(v);
 
