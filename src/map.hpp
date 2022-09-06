@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/23 10:58:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/08/25 13:34:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ namespace ft
 	{
 		private:
 		struct node_type;
+		class map_iterator;
 
 		public:
 		/** The first template parameter */
@@ -71,17 +72,47 @@ namespace ft
 			}
 		}; // struct node_type
 
+		class map_iterator : public ft::iterator< ft::bidirectional_iterator_tag, value_type >
+		{
+			private:
+
+			public:
+			map_iterator();
+
+			private:
+			map_iterator(node_type* node);
+
+			public:
+			map_iterator(map_iterator const& x);
+
+			map_iterator& operator=(map_iterator const& rhs);
+
+			~map_iterator();
+
+			public:
+			bool operator==(map_iterator const& rhs);
+			bool operator!=(map_iterator const& rhs);
+			reference operator*();
+			const_reference operator*() const;
+			pointer operator->();
+			map_iterator& operator++(); // pre
+			map_iterator operator++(int); // post
+			map_iterator& operator--(); // pre
+			map_iterator operator--(int); // post
+		}; // class map_iterator
+
 		private:
 		node_type* _root;
 		size_type _size;
-		key_compare _comp;
+		key_compare _kcomp;
+		value_compare _vcomp;
 		allocator_type _alloc;
 
 		public:
 		explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 			_root(NULL),
 			_size(0),
-			_comp(comp),
+			_kcomp(comp),
 			_alloc(alloc)
 		{
 		}
@@ -90,7 +121,7 @@ namespace ft
 		map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 			_root(NULL),
 			_size(0),
-			_comp(comp),
+			_kcomp(comp),
 			_alloc(alloc)
 		{
 			for (InputIterator it = first; it != last; ++it)
@@ -100,7 +131,7 @@ namespace ft
 		map(map const& x) :
 			_root(NULL),
 			_size(0),
-			_comp(x._comp),
+			_kcomp(x._kcomp),
 			_alloc(x._alloc)
 		{
 			for (iterator it = x.begin(); it != x.end(), ++it)
@@ -125,10 +156,16 @@ namespace ft
 
 		public:
 		// TODO provide implementation
-		iterator begin();
+		iterator begin()
+		{
+			return iterator(this->_root);
+		}
 
 		// TODO provide implementation
-		const_iterator begin() const;
+		const_iterator begin() const
+		{
+			return iterator(this->_root);
+		}
 
 		// TODO provide implementation
 		iterator end();
@@ -166,6 +203,7 @@ namespace ft
 
 		public:
 		// TODO provide implementation
+		// never throws exception,
 		mapped_type& operator[](key_type const& key);
 
 		// TODO provide implementation
@@ -219,22 +257,25 @@ namespace ft
 			this->_size ^= x._size;
 		}
 
-		// TODO provide implementation
+		// TODO test implementation
 		void clear()
 		{
 			this->_size = 0;
-			// TODO delete tree
+			this->release(this->_root);
 		}
 
 		public:
 		// TODO test implementation
 		key_compare key_comp() const
 		{
-			return this->_comp;
+			return this->_kcomp;
 		}
 
-		// TODO provide implementation
-		value_compare value_comp() const;
+		// TODO test implementation
+		value_compare value_comp() const
+		{
+			return this->_vcomp;
+		}
 
 		public:
 		// TODO provide implementation
@@ -247,7 +288,7 @@ namespace ft
 		size_type count(key_type const& k) const;
 
 		// TODO provide implementation
-		iterator lower_bound(key_type const&k);
+		iterator lower_bound(key_type const& k);
 
 		// TODO provide implementation
 		const_iterator lower_bound(key_type const& k) const;
@@ -280,7 +321,6 @@ namespace ft
 
 		static node_type* remove(T const& value, node_type* node)
 		{
-
 		}
 
 		static node_type* search(T const& value, node_type* node)
