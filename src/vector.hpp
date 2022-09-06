@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 02:41:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/06 04:50:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ class vector
 
 public:
 	typedef T value_type;
-	typedef std::allocator< T > allocator_type; // TODO revert to Alloc
+	typedef Alloc allocator_type;
 	typedef typename allocator_type::reference reference;
 	typedef typename allocator_type::const_reference const_reference;
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
-	typedef value_type* iterator;
-	typedef value_type const* const_iterator;
+	typedef pointer iterator;
+	typedef const_pointer const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
