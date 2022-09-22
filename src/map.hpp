@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/22 02:42:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/22 03:33:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ namespace ft
 	template<
 		class Key,
 		class T,
-		class Compare = std::less< Key >,
+		class Compare = less< Key >,
 		class Alloc = std::allocator< ft::pair< const Key, T > > //! cannot use this to allocate nodes because
 	>
 	class map
@@ -238,41 +238,49 @@ namespace ft
 		}
 
 		public:
-		// TODO provide implementation
 		iterator begin()
 		{
 			return iterator(this->_min);
 		}
 
-		// TODO provide implementation
 		const_iterator begin() const
 		{
 			return iterator(this->_min);
 		}
 
-		// TODO provide implementation
-		iterator end();
+		// TODO test implementation
+		iterator end()
+		{
+			return iterator(NULL);
+		}
 
-		// TODO provide implementation
-		const_iterator end() const;
+		// TODO test implementation
+		const_iterator end() const
+		{
+			return iterator(NULL);
+		}
 
-		// TODO provide implementation
 		reverse_iterator rbegin()
 		{
 			return iterator(this->_max);
 		}
 
-		// TODO provide implementation
 		const_reverse_iterator rbegin() const
 		{
 			return iterator(this->_max);
 		}
 
-		// TODO provide implementation
-		reverse_iterator rend();
+		// TODO test implementation
+		reverse_iterator rend()
+		{
+			return reverse_iterator(NULL);
+		}
 
-		// TODO provide implementation
-		const_reverse_iterator rend() const;
+		// TODO test implementation
+		const_reverse_iterator rend() const
+		{
+			return reverse_iterator(NULL);
+		}
 
 		public:
 		bool empty() const
@@ -298,7 +306,11 @@ namespace ft
 		// TODO provide implementation
 		mapped_type& at(key_type const& key)
 		{
-			throw std::out_of_range(__PRETTY_FUNCTION__);
+			const_iterator it = this->find(key);
+
+			if (it == this->end())
+				throw std::out_of_range(__PRETTY_FUNCTION__);
+			return it->;
 		}
 
 		// TODO provide implementation
@@ -311,7 +323,21 @@ namespace ft
 		// TODO provide implementation
 		ft::pair< iterator, bool > insert(value_type const& val)
 		{
+			node_type* node = this->_root;
 
+			while (node != NULL)
+			{
+				if (!this->key_comp()(k, node->_value))
+					node = node->right;
+				else if (!this->key_comp()(node->_value, k))
+					node = node->left;
+				else
+				{
+					node->value.second = val.second;
+					return ft::pair<iterator, bool>(iterator(node), false);
+				}
+			}
+			return iterator(node);
 		}
 
 		// TODO provide implementation
@@ -332,7 +358,11 @@ namespace ft
 		size_type erase(key_type const& k);
 
 		// TODO provide implementation
-		void erase(iterator first, iterator last);
+		void erase(iterator first, iterator last)
+		{
+			for (iterator it = first; first != last; ++first)
+				this->erase(it);
+		}
 
 		// TODO test implementation
 		void swap(map& x)
@@ -373,13 +403,35 @@ namespace ft
 		// TODO test implementation
 		iterator find(key_type const& k)
 		{
-			return iterator(search(k, this->root));
+			node_type* node = this->_root;
+
+			while (node != NULL)
+			{
+				if (!this->key_comp()(k, node->_value))
+					node = node->right;
+				else if (!this->key_comp()(node->_value, k))
+					node = node->left;
+				else
+					break;
+			}
+			return iterator(node);
 		}
 
 		// TODO test implementation
 		const_iterator find(key_type const& k) const
 		{
-			return const_iterator(search(k, this->root));
+			node_type* node = this->_root;
+
+			while (node != NULL)
+			{
+				if (!this->key_comp()(k, node->_value))
+					node = node->right;
+				else if (!this->key_comp()(node->_value, k))
+					node = node->left;
+				else
+					break;
+			}
+			return iterator(node);
 		}
 
 		// TODO test implementation
