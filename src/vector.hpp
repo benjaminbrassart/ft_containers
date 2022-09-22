@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 09:05:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/21 23:31:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,16 @@ public:
 	// TODO test implementation
 	explicit vector(allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(0),
+		_data(NULL),
 		_size(0),
 		_capacity(0)
-	{}
+	{
+	}
 
 	// TODO test implementation
 	explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(0),
+		_data(NULL),
 		_size(0),
 		_capacity(0)
 	{
@@ -78,7 +79,7 @@ public:
 	template< class InputIterator >
 	vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
-		_data(0),
+		_data(NULL),
 		_size(0),
 		_capacity(0)
 	{
@@ -88,7 +89,7 @@ public:
 	// TODO test implementation
 	vector(vector const& x) :
 		_alloc(x._alloc),
-		_data(0),
+		_data(NULL),
 		_size(0),
 		_capacity(0)
 	{
@@ -303,7 +304,7 @@ public:
 		this->resize(this->size() - 1);
 	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	iterator insert(iterator position, value_type const& val)
 	{
 		return this->__insert_fill(position, 1, val);
@@ -315,17 +316,24 @@ public:
 		this->__insert_fill(position, n, val);
 	}
 
-	// TODO provide implementation
-	// ! inefficient af <-- WIP
+	// TODO test implementation
+	// NOTE: memory usage might be high for this function to avoid
+	// inserting elements one by one
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
 		vector< T, Alloc > v;
+		size_type size;
 
 		for (InputIterator it = first; it != last; ++it)
 			v.push_back(*it);
 
-		// TODO move stuff right, you know the drill
+		size = v.size();
+		__move_right(position, size);
+
+		for (size_type i = 0; i < size; ++i)
+			this->get_allocator().construct(position + i, v[i]);
+		this->_size += size;
 	}
 
 	// TODO test implementation
@@ -344,13 +352,12 @@ public:
 		size_type n = 0;
 		iterator it;
 
-		for (it = first; first != last; ++n, ++it)
-			this->get_allocator().destroy(it);
-		for (size_type i = 0; i < n; ++i)
+		for (it = first; first != last; ++it)
 		{
-			this->get_allocator().construct(it + i, *(it + i + n));
-			this->get_allocator().destroy(it + i + n);
+			this->get_allocator().destroy(it);
+			++n;
 		}
+		__move_left(it, n);
 		this->_size -= n;
 		return this->begin() + n;
 	}
@@ -396,7 +403,7 @@ public:
 /* ------------------------------------------------------------------------- */
 
 private:
-	iterator __insert_fill(iterator position, size_type n, value_type const& val)
+	iterator __move_right(iterator position, size_type n)
 	{
 		size_type const offset = (position - this->begin());
 		iterator p;
@@ -411,12 +418,27 @@ private:
 			this->get_allocator().construct(p + n + i, p[i]);
 			this->get_allocator().destroy(p + i);
 		}
+		return p;
+	}
 
-		while (i < n)
+	iterator __move_left(iterator position, size_type n)
+	{
+		for (size_type i = 0; i < n; ++i)
 		{
-			this->get_allocator().construct(p + i, val);
-			++i;
+			this->get_allocator().construct(position + i, *(position + i + n));
+			this->get_allocator().destroy(position + i + n);
 		}
+		return position - n;
+	}
+
+	iterator __insert_fill(iterator position, size_type n, value_type const& val)
+	{
+		iterator p;
+
+		p = __move_right(position, n);
+
+		for (size_type i = 0; i < n; ++i)
+			this->get_allocator().construct(p + i, val);
 
 		this->_size += n;
 		return p;
