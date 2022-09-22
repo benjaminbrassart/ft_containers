@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/08/25 13:34:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/22 02:42:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ namespace ft
 		typedef ft::pair< key_type const, mapped_type > value_type;
 		typedef Compare key_compare;
 		typedef void *value_compare; // TODO
-		typedef std::allocator< value_type > allocator_type; // TODO revert to Alloc
+		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef value_type* iterator; // TODO implement bidirectional iterator
-		typedef value_type const* const_iterator; // TODO implement bidirectional iterator
+		typedef map_iterator iterator;
+		typedef map_iterator const const_iterator;
 		typedef ft::reverse_iterator< iterator > reverse_iterator;
 		typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 		typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
@@ -57,16 +57,18 @@ namespace ft
 		struct node_type
 		{
 			public:
+			node_type* parent;
 			node_type* left;
 			node_type* right;
 			value_type value;
 			int height;
 
 			public:
-			node_type(T const& value) :
-				value(value),
+			node_type(node_type* parent, T const& value) :
+				parent(parent),
 				left(NULL),
 				right(NULL),
+				value(value),
 				height(1)
 			{
 			}
@@ -75,34 +77,109 @@ namespace ft
 		class map_iterator : public ft::iterator< ft::bidirectional_iterator_tag, value_type >
 		{
 			private:
+			node_type* _node;
 
 			public:
-			map_iterator();
+			map_iterator() :
+				_node(NULL)
+			{
+			}
 
 			private:
-			map_iterator(node_type* node);
+			map_iterator(node_type* node) :
+				_node(node)
+			{
+			}
 
 			public:
-			map_iterator(map_iterator const& x);
+			map_iterator(map_iterator const& x) :
+				_node(x.node)
+			{
+			}
 
-			map_iterator& operator=(map_iterator const& rhs);
+			map_iterator& operator=(map_iterator const& rhs)
+			{
+				if (&rhs != this)
+				{
+					this->_node = rhs._node;
+				}
+				return *this;
+			}
 
-			~map_iterator();
+			~map_iterator()
+			{
+			}
 
 			public:
-			bool operator==(map_iterator const& rhs);
-			bool operator!=(map_iterator const& rhs);
-			reference operator*();
-			const_reference operator*() const;
-			pointer operator->();
-			map_iterator& operator++(); // pre
-			map_iterator operator++(int); // post
-			map_iterator& operator--(); // pre
-			map_iterator operator--(int); // post
+			bool operator==(map_iterator const& rhs)
+			{
+				return this->_node == rhs.node;
+			}
+
+			bool operator!=(map_iterator const& rhs)
+			{
+				return !(*this == rhs);
+			}
+
+			// TODO test implementation
+			reference operator*()
+			{
+				return this->_node.value;
+			}
+
+			// TODO test implementation
+			const_reference operator*() const
+			{
+				return this->_node.value;
+			}
+
+			// TODO test implementation
+			pointer operator->()
+			{
+				return &this->_node.value;
+			}
+
+			// TODO test implementation
+			map_iterator& operator++() // pre
+			{
+				if (this->_node != NULL)
+				{
+					if (this->_node->right != NULL)
+						this->_node = this->_node->right;
+					else if (this->_node->parent != NULL)
+						this->_node = this->_node->parent;
+				}
+				return *this;
+			}
+
+			map_iterator operator++(int)
+			{
+				return map_iterator(); // TODO
+			}
+
+			// TODO test implementation
+			map_iterator& operator--() // pre
+			{
+				if (this->_node != NULL)
+				{
+					if (this->_node->left != NULL)
+						this->_node = this->_node->rileftght;
+					else if (this->_node->parent != NULL)
+						this->_node = this->_node->parent;
+				}
+				return *this;
+			}
+
+			map_iterator operator--(int)
+			{
+				return map_iterator(); // TODO
+			}
 		}; // class map_iterator
 
 		private:
 		node_type* _root;
+		node_type* _min;
+		node_type* _max;
 		size_type _size;
 		key_compare _kcomp;
 		value_compare _vcomp;
@@ -111,6 +188,8 @@ namespace ft
 		public:
 		explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 			_root(NULL),
+			_min(NULL),
+			_max(NULL),
 			_size(0),
 			_kcomp(comp),
 			_alloc(alloc)
@@ -120,6 +199,8 @@ namespace ft
 		template< class InputIterator >
 		map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 			_root(NULL),
+			_min(NULL),
+			_max(NULL),
 			_size(0),
 			_kcomp(comp),
 			_alloc(alloc)
@@ -130,11 +211,13 @@ namespace ft
 
 		map(map const& x) :
 			_root(NULL),
+			_min(NULL),
+			_max(NULL),
 			_size(0),
 			_kcomp(x._kcomp),
 			_alloc(x._alloc)
 		{
-			for (iterator it = x.begin(); it != x.end(), ++it)
+			for (iterator it = x.begin(); it != x.end(); ++it)
 				this->insert(*it);
 		}
 
@@ -148,7 +231,7 @@ namespace ft
 			if (this != &rhs)
 			{
 				this->clear();
-				for (iterator it = x.begin(); it != x.end(), ++it)
+				for (iterator it = rhs.begin(); it != rhs.end(); ++it)
 					this->insert(*it);
 			}
 			return *this;
@@ -158,13 +241,13 @@ namespace ft
 		// TODO provide implementation
 		iterator begin()
 		{
-			return iterator(this->_root);
+			return iterator(this->_min);
 		}
 
 		// TODO provide implementation
 		const_iterator begin() const
 		{
-			return iterator(this->_root);
+			return iterator(this->_min);
 		}
 
 		// TODO provide implementation
@@ -174,10 +257,16 @@ namespace ft
 		const_iterator end() const;
 
 		// TODO provide implementation
-		reverse_iterator rbegin();
+		reverse_iterator rbegin()
+		{
+			return iterator(this->_max);
+		}
 
 		// TODO provide implementation
-		const_reverse_iterator rbegin() const;
+		const_reverse_iterator rbegin() const
+		{
+			return iterator(this->_max);
+		}
 
 		// TODO provide implementation
 		reverse_iterator rend();
@@ -203,7 +292,7 @@ namespace ft
 
 		public:
 		// TODO provide implementation
-		// never throws exception,
+		// never throws exception, always add element
 		mapped_type& operator[](key_type const& key);
 
 		// TODO provide implementation
@@ -220,7 +309,10 @@ namespace ft
 
 		public:
 		// TODO provide implementation
-		ft::pair< iterator, bool > insert(value_type const& val);
+		ft::pair< iterator, bool > insert(value_type const& val)
+		{
+
+		}
 
 		// TODO provide implementation
 		iterator insert(iterator position, value_type const& val);
@@ -253,7 +345,7 @@ namespace ft
 
 			// swap sizes
 			this->_size ^= x._size;
-			x._size ^= thi->._size;
+			x._size ^= this->_size;
 			this->_size ^= x._size;
 		}
 
@@ -278,14 +370,25 @@ namespace ft
 		}
 
 		public:
-		// TODO provide implementation
-		iterator find(key_type const& k);
+		// TODO test implementation
+		iterator find(key_type const& k)
+		{
+			return iterator(search(k, this->root));
+		}
 
-		// TODO provide implementation
-		const_iterator find(key_type const& k) const;
+		// TODO test implementation
+		const_iterator find(key_type const& k) const
+		{
+			return const_iterator(search(k, this->root));
+		}
 
-		// TODO provide implementation
-		size_type count(key_type const& k) const;
+		// TODO test implementation
+		size_type count(key_type const& k) const
+		{
+			if (this->find(k) == NULL)
+				return 0;
+			return 1;
+		}
 
 		// TODO provide implementation
 		iterator lower_bound(key_type const& k);
@@ -312,11 +415,19 @@ namespace ft
 		}
 
 		private:
-		node_type* insert(T const& value, node_type* node)
+		template< class _Alloc >
+		static node_type* insert(T const& value, node_type* node, _Alloc const& alloc)
 		{
 			if (node == NULL)
-				return this->get_allocator().construct(this->get_allocator().allocate(1), value);
-			return NULL; // TODO insert
+				return alloc.construct(alloc.allocate(1), value);
+			if (value < node->value) // TODO use key_compare
+				node->left = insert(value, node->left, alloc);
+			else if (value > node->value) // TODO use key_compare
+				node->right = insert(value, node->right, alloc);
+			else
+				return node;
+			update_height(node);
+			return rebalance(node);
 		}
 
 		static node_type* remove(T const& value, node_type* node)
@@ -334,7 +445,7 @@ namespace ft
 			return node;
 		}
 
-		void update_height(node_type* node)
+		static void update_height(node_type* node)
 		{
 			int h_left = get_height(node->left);
 			int h_right = get_height(node->right);
@@ -343,7 +454,7 @@ namespace ft
 			node->height = h_max + 1;
 		}
 
-		node_type* rebalance(node_type* node)
+		static node_type* rebalance(node_type* node)
 		{
 			int balance = get_balance(node);
 			int balance_sub; // TODO remove
@@ -365,7 +476,7 @@ namespace ft
 			return node;
 		}
 
-		node_type* rotate_right(node_type* node)
+		static node_type* rotate_right(node_type* node)
 		{
 			node_type* left = node->left;
 			node_type* center = left->right;
@@ -377,43 +488,44 @@ namespace ft
 			return left;
 		}
 
-		node_type* rotate_left(node_type* node)
+		static node_type* rotate_left(node_type* node)
 		{
 			node_type* right = node->right;
 			node_type* center = right->left;
 
 			right->left = node;
 			node->right = center;
-			avltree::update_height(node);
-			avltree::update_height(right);
+			update_height(node);
+			update_height(right);
 			return right;
 		}
 
-		int get_balance(node_type* node)
+		static int get_balance(node_type* node)
 		{
 			if (node == NULL)
 				return 0;
 			return get_height(node->left) - get_height(node->right);
 		}
 
-		int get_height(node_type* node)
+		static int get_height(node_type* node)
 		{
 			if (node == NULL)
 				return 0;
 			return node->height;
 		}
 
-		void release(node_type* node)
+		template< class _Alloc >
+		static void release(node_type* node, _Alloc const& alloc)
 		{
 			if (node == NULL)
 				return ;
 			release(node->left);
 			release(node->right);
-			this->get_allocator().destroy(node);
-			this->get_allocator().deallocate(node, 1);
+			alloc.destroy(node);
+			alloc.deallocate(node, 1);
 		}
 
-		value_type& get_max(node_type* node)
+		static value_type& get_max(node_type* node)
 		{
 			if (node->right != NULL)
 				return get_max(node->right);
