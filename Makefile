@@ -6,7 +6,7 @@
 #    By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/18 01:49:14 by bbrassar          #+#    #+#              #
-#    Updated: 2022/09/06 05:08:06 by bbrassar         ###   ########.fr        #
+#    Updated: 2022/09/21 23:35:35 by bbrassar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ CXXFLAGS += -MMD -MP
 CXXFLAGS += -std=c++98
 CXXFLAGS += -I$(DIR_SRC)
 CXXFLAGS += -I$(DIR_CONTAINERS)
+CXXFLAGS += -ferror-limit=1
 
 ifeq ($(DEBUG), true)
 
