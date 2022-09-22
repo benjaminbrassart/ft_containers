@@ -6,12 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 01:58:21 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 05:08:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/21 23:33:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "iterator.hpp"
 #include "vector.hpp"
+#include "map.hpp"
+
 #include <iterator>
 #include <iostream>
 #include <vector>
