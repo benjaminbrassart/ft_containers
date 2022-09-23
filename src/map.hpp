@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/22 03:33:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/09/23 19:32:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 		class Key,
 		class T,
 		class Compare = less< Key >,
-		class Alloc = std::allocator< ft::pair< const Key, T > > //! cannot use this to allocate nodes because
+		class Alloc = std::allocator< node_type >
 	>
 	class map
 	{
