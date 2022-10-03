@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/21 23:31:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/03 23:13:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,9 +273,11 @@ public:
 	// TODO optimize with only 1 loop
 	template< class InputIterator >
 	void assign(typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type first, InputIterator last)
+	// void assign(InputIterator first, InputIterator last)
 	{
 		this->clear();
-		this->insert(this->begin(), first, last);
+		for (InputIterator it = first; it != last; ++it)
+			this->push_back(*it);
 	}
 
 	// TODO test implementation
@@ -329,7 +331,7 @@ public:
 			v.push_back(*it);
 
 		size = v.size();
-		__move_right(position, size);
+		this->__move_right(position, size);
 
 		for (size_type i = 0; i < size; ++i)
 			this->get_allocator().construct(position + i, v[i]);
@@ -357,7 +359,8 @@ public:
 			this->get_allocator().destroy(it);
 			++n;
 		}
-		__move_left(it, n);
+
+		this->__move_left(it, n);
 		this->_size -= n;
 		return this->begin() + n;
 	}
@@ -435,7 +438,7 @@ private:
 	{
 		iterator p;
 
-		p = __move_right(position, n);
+		p = this->__move_right(position, n);
 
 		for (size_type i = 0; i < n; ++i)
 			this->get_allocator().construct(p + i, val);
