@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/03 23:13:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 00:13:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,20 +272,17 @@ public:
 	// TODO test implementation
 	// TODO optimize with only 1 loop
 	template< class InputIterator >
-	void assign(typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type first, InputIterator last)
-	// void assign(InputIterator first, InputIterator last)
+	void assign(InputIterator first, InputIterator last)
 	{
-		this->clear();
-		for (InputIterator it = first; it != last; ++it)
-			this->push_back(*it);
+		this->__dispatch_assign(first, last, ft::is_integral<InputIterator>());
 	}
 
+	// TODO add dispatcher
 	// TODO test implementation
 	// TODO optimize with only 1 loop
 	void assign(size_type n, value_type const& val)
 	{
-		this->clear();
-		this->resize(n, val);
+		this->__assign_fill(n, val);
 	}
 
 	// TODO test implementation
@@ -301,7 +298,7 @@ public:
 	// TODO test implementation
 	void pop_back()
 	{
-		if (this->empty()) // TODO undefined behavior
+		if (this->empty())
 			return ;
 		this->resize(this->size() - 1);
 	}
@@ -324,18 +321,7 @@ public:
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
-		vector< T, Alloc > v;
-		size_type size;
-
-		for (InputIterator it = first; it != last; ++it)
-			v.push_back(*it);
-
-		size = v.size();
-		this->__move_right(position, size);
-
-		for (size_type i = 0; i < size; ++i)
-			this->get_allocator().construct(position + i, v[i]);
-		this->_size += size;
+		this->__dispatch_insert(position, first, last, ft::is_integral<InputIterator>());
 	}
 
 	// TODO test implementation
@@ -354,7 +340,7 @@ public:
 		size_type n = 0;
 		iterator it;
 
-		for (it = first; first != last; ++it)
+		for (it = first; it != last; ++it)
 		{
 			this->get_allocator().destroy(it);
 			++n;
@@ -438,6 +424,21 @@ private:
 	{
 		iterator p;
 
+		if (position == this->begin() && this->empty())
+		{
+			this->assign(n, val);
+			return this->begin();
+		}
+		if (position == this->end())
+		{
+			size_type const start_size = this->size();
+
+			for (size_type i = 0; i < n; ++i)
+				this->push_back(val);
+
+			return this->begin() + start_size;
+		}
+
 		p = this->__move_right(position, n);
 
 		for (size_type i = 0; i < n; ++i)
@@ -445,6 +446,75 @@ private:
 
 		this->_size += n;
 		return p;
+	}
+
+	template< class InputIterator >
+	void __insert_range(iterator position, InputIterator first, InputIterator last)
+	{
+		if (position == this->begin() && this->empty())
+		{
+			this->assign(first, last);
+			return ;
+		}
+		if (position == this->end())
+		{
+			for (InputIterator it = first; it != last; ++it)
+				this->push_back(*it);
+			return ;
+		}
+
+		vector< T, Alloc > v;
+		size_type size;
+
+		for (InputIterator it = first; it != last; ++it)
+			v.push_back(*it);
+
+		size = v.size();
+		this->__move_right(position, size);
+
+		for (size_type i = 0; i < size; ++i)
+			this->get_allocator().construct(position + i, v[i]);
+		this->_size += size;
+	}
+
+	// if InputIterator is integral, insert via fill method (aka the same value for n elements)
+	template< class InputIterator >
+	void __dispatch_insert(iterator position, InputIterator first, InputIterator last, ft::true_type)
+	{
+		this->__insert_fill(position, first, last);
+	}
+
+	// if InputIterator is not integral, insert via range method (aka insert from first to last)
+	template< class InputIterator >
+	void __dispatch_insert(iterator position, InputIterator first, InputIterator last, ft::false_type)
+	{
+		this->__insert_range(position, first, last);
+	}
+
+	void __assign_fill(size_type n, value_type const& val)
+	{
+		this->clear();
+		this->resize(n, val);
+	}
+
+	template< class InputIterator >
+	void __assign_range(InputIterator first, InputIterator last)
+	{
+		this->clear();
+		for (InputIterator it = first; it != last; ++it)
+			this->push_back(*it);
+	}
+
+	template< class InputIterator >
+	void __dispatch_assign(InputIterator first, InputIterator last, ft::true_type)
+	{
+		this->__assign_fill(first, last);
+	}
+
+	template< class InputIterator >
+	void __dispatch_assign(InputIterator first, InputIterator last, ft::false_type)
+	{
+		this->__assign_range(first, last);
 	}
 }; // class vector
 
