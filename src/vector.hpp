@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 00:13:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 00:50:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,6 +335,7 @@ public:
 	// [ 1 5 ]       //
 	//     ^  return //
 	// TODO test implementation
+	// ! not working at all
 	iterator erase(iterator first, iterator last)
 	{
 		size_type n = 0;
