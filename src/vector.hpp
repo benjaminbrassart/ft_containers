@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 00:50:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 00:53:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -523,42 +523,42 @@ private:
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator==(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator==(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return equal(lhs.begin(), lhs.end(), rhs.begin(), lhs.end());
 }
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator!=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator!=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(lhs == rhs);
 }
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator<(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator<(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), lhs.end());
 }
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator<=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator<=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(rhs < lhs);
 }
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator>(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator>(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return rhs < lhs;
 }
 
 // TODO test implementation
 template< class T, class Alloc >
-bool operator>=(vector< T, Alloc >& lhs, vector< T, Alloc >& rhs)
+bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(lhs < rhs);
 }
