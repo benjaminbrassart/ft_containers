@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 00:53:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 01:46:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ public:
 	// TODO test implementation
 	iterator erase(iterator position)
 	{
-		return this->erase(position, position + 1);
+		return this->__erase(position - this->_data, 1);
 	}
 
 	// [ 1 2 3 4 5 ] //
@@ -335,21 +335,9 @@ public:
 	// [ 1 5 ]       //
 	//     ^  return //
 	// TODO test implementation
-	// ! not working at all
 	iterator erase(iterator first, iterator last)
 	{
-		size_type n = 0;
-		iterator it;
-
-		for (it = first; it != last; ++it)
-		{
-			this->get_allocator().destroy(it);
-			++n;
-		}
-
-		this->__move_left(it, n);
-		this->_size -= n;
-		return this->begin() + n;
+		return this->__erase(first - this->_data, last - first);
 	}
 
 	// TODO test implementation
@@ -516,6 +504,20 @@ private:
 	void __dispatch_assign(InputIterator first, InputIterator last, ft::false_type)
 	{
 		this->__assign_range(first, last);
+	}
+
+	iterator __erase(size_type index, size_type width)
+	{
+		size_type const elems = this->size();
+
+		for (size_type i = index; i < (elems - width); ++i)
+		{
+			this->get_allocator().destroy(this->_data + i);
+			this->get_allocator().construct(this->_data + i, this->_data[i + width]);
+			this->get_allocator().destroy(this->_data + i + width);
+		}
+		this->_size -= width;
+		return this->_data + index;
 	}
 }; // class vector
 
