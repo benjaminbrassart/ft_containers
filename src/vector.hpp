@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 01:46:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:39:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,16 +453,17 @@ private:
 		}
 
 		vector< T, Alloc > v;
-		size_type size;
 
 		for (InputIterator it = first; it != last; ++it)
 			v.push_back(*it);
 
-		size = v.size();
-		this->__move_right(position, size);
+		size_type const size = v.size();
+		size_type const offset = position - this->begin();
+
+		this->__move_right(this->begin() + offset, size);
 
 		for (size_type i = 0; i < size; ++i)
-			this->get_allocator().construct(position + i, v[i]);
+			this->get_allocator().construct(this->begin() + offset + i, v[i]);
 		this->_size += size;
 	}
 
