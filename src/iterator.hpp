@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 09:28:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:07:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ namespace ft
 	template< class Iterator1, class Iterator2 >
 	bool operator!=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
-		return !(lhs == rhs);
+		return lhs.base() != rhs.base();
 	}
 
 	// TODO test implementation
@@ -298,7 +298,7 @@ namespace ft
 	template< class Iterator1, class Iterator2 >
 	bool operator<=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
-		return lhs.base() <= rhs.base();
+		return lhs.base() >= rhs.base();
 	}
 
 	// TODO test implementation
