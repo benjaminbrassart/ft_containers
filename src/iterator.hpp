@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/06 08:33:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 09:28:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,34 +170,34 @@ namespace ft
 		typedef typename iterator_traits< Iterator >::reference reference;
 
 		private:
-		iterator_type base_iterator;
+		iterator_type _base;
 
 		public:
 		reverse_iterator() :
-			base_iterator()
+			_base()
 		{
 		}
 
 		explicit reverse_iterator(iterator_type it) :
-			base_iterator(it)
+			_base(it)
 		{
 		}
 
 		template< class Iter >
 		reverse_iterator(reverse_iterator< Iter > const& rev_it) :
-			base_iterator(rev_it.base_iterator)
+			_base(rev_it.base())
 		{
 		}
 
 		iterator_type base() const
 		{
-			return this->base_iterator;
+			return this->_base;
 		}
 
 		// TODO test implementation
 		reference operator*() const
 		{
-			iterator_type it(this->base_iterator);
+			iterator_type it(this->_base);
 
 			return *--it;
 		}
@@ -205,13 +205,13 @@ namespace ft
 		// TODO test implementation
 		reverse_iterator operator+(difference_type n) const
 		{
-			return reverse_iterator(this->base_iterator - n);
+			return reverse_iterator(this->_base - n);
 		}
 
 		// TODO test implementation
 		reverse_iterator& operator++() // pre-increment => ++it
 		{
-			--this->base_iterator;
+			--this->_base;
 			return *this;
 		}
 
@@ -227,20 +227,20 @@ namespace ft
 		// TODO test implementation
 		reverse_iterator& operator+=(difference_type n)
 		{
-			this->base_iterator -= n;
+			this->_base -= n;
 			return *this;
 		}
 
 		// TODO test implementation
 		reverse_iterator operator-(difference_type n) const
 		{
-			return reverse_iterator(this->base_iterator + n);
+			return reverse_iterator(this->_base + n);
 		}
 
 		// TODO test implementation
 		reverse_iterator& operator--() // pre-increment => --it
 		{
-			++this->base_iterator;
+			++this->_base;
 			return *this;
 		}
 
@@ -256,7 +256,7 @@ namespace ft
 		// TODO test implementation
 		reverse_iterator& operator-=(difference_type n)
 		{
-			this->base_iterator += n;
+			this->_base += n;
 			return *this;
 		}
 
@@ -269,48 +269,48 @@ namespace ft
 		// TODO test implementation
 		reference operator[](difference_type n) const
 		{
-			return this->base_iterator[-n - 1];
+			return this->_base[-n - 1];
 		}
 	}; // struct reverse_iterator
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator==(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator==(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator!=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator!=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator<(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator<(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() > rhs.base();
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator<=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator<=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() <= rhs.base();
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator>(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator>(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	bool operator>=(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	bool operator>=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() <= rhs.base();
 	}
@@ -323,8 +323,8 @@ namespace ft
 	}
 
 	// TODO test implementation
-	template< class Iterator >
-	typename reverse_iterator< Iterator >::difference_type operator-(reverse_iterator< Iterator > const& lhs, reverse_iterator< Iterator > const& rhs)
+	template< class Iterator1, class Iterator2 >
+	typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return rhs.base() - lhs.base();
 	}
