@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 10:39:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:17:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -524,14 +524,12 @@ private:
 
 /* ------------------------------------------------------------------------- */
 
-// TODO test implementation
 template< class T, class Alloc >
 bool operator==(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
-	return equal(lhs.begin(), lhs.end(), rhs.begin(), lhs.end());
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && equal(lhs.begin(), lhs.end(), rhs.begin(), lhs.end()));
 }
 
-// TODO test implementation
 template< class T, class Alloc >
 bool operator!=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
