@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 11:16:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:15:51 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,12 @@ public:
 
 	iterator end()
 	{
-		return this->_alloc.address(this->operator[](this->size()));
+		return this->begin() + this->size();
 	}
 
 	const_iterator end() const
 	{
-		return this->_alloc.address(this->_data[this->_size]);
+		return this->begin() + this->size();
 	}
 
 	reverse_iterator rbegin()
@@ -171,18 +171,17 @@ public:
 	void resize(size_type n, value_type val = value_type())
 	{
 		size_type const size = this->size();
-		size_type i;
 
 		this->reserve(n);
 		if (n > size)
 		{
-			for (i = size; i < n; ++i)
-				this->_alloc.construct(this->_alloc.address(this->_data[i]), val);
+			for (size_type i = size; i < n; ++i)
+				this->_alloc.construct(this->_data + i, val);
 		}
 		else if (n < size)
 		{
-			for (i = n; i < size; ++i)
-				this->_alloc.destroy(this->_alloc.address(this->_data[i]));
+			for (size_type i = n; i < size; ++i)
+				this->_alloc.destroy(this->_data + i);
 		}
 		this->_size = n;
 	}
@@ -208,8 +207,8 @@ public:
 
 		for (size_type i = 0; i < this->size(); ++i)
 		{
-			this->_alloc.construct(this->_alloc.address(new_data[i]), this->_data[i]);
-			this->_alloc.destroy(this->_alloc.address(this->_data[i]));
+			this->_alloc.construct(new_data + i, this->_data[i]);
+			this->_alloc.destroy(this->_data + i);
 		}
 
 		this->_alloc.deallocate(this->_data, this->capacity());
@@ -300,7 +299,8 @@ public:
 	{
 		if (this->empty())
 			return ;
-		this->resize(this->size() - 1);
+		--this->_size;
+		this->get_allocator().destroy(this->_data + this->size());
 	}
 
 	// TODO test implementation
@@ -363,11 +363,7 @@ public:
 	// TODO test implementation
 	void clear()
 	{
-		size_type const size = this->size();
-
-		for (size_type n = 0; n < size; ++n)
-			this->_alloc.destroy(this->_alloc.address(_data[n]));
-		this->_size = 0;
+		this->resize(0);
 	}
 
 /* ------------------------------------------------------------------------- */
@@ -383,6 +379,9 @@ public:
 private:
 	iterator __move_right(iterator position, size_type n)
 	{
+		if (n == 0)
+			return position;
+
 		size_type const offset = (position - this->begin());
 		iterator p;
 		size_type i;
@@ -401,6 +400,9 @@ private:
 
 	iterator __move_left(iterator position, size_type n)
 	{
+		if (n == 0)
+			return position;
+
 		for (size_type i = 0; i < n; ++i)
 		{
 			this->get_allocator().construct(position + i, *(position + i + n));
@@ -440,12 +442,7 @@ private:
 	template< class InputIterator >
 	void __insert_range(iterator position, InputIterator first, InputIterator last)
 	{
-		if (position == this->begin() && this->empty())
-		{
-			this->assign(first, last);
-			return ;
-		}
-		if (position == this->end())
+		if (this->empty() || position == this->end())
 		{
 			for (InputIterator it = first; it != last; ++it)
 				this->push_back(*it);
@@ -460,7 +457,7 @@ private:
 		size_type const size = v.size();
 		size_type const offset = position - this->begin();
 
-		this->__move_right(this->begin() + offset, size);
+		this->__move_right(position, size);
 
 		for (size_type i = 0; i < size; ++i)
 			this->get_allocator().construct(this->begin() + offset + i, v[i]);
@@ -572,3 +569,12 @@ void swap(vector< T, Alloc >& x, vector< T, Alloc >& y)
 }
 
 } // namespace ft
+
+namespace std
+{
+template< class T, class Alloc >
+void swap(ft::vector< T, Alloc >& x, ft::vector< T, Alloc >& y)
+{
+	ft::swap(x, y);
+}
+} // namespace std
