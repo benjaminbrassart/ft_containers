@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/23 19:46:50 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:53:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,31 @@
 
 namespace ft::avl
 {
+
+class tree;
+
 template< class Pair >
 struct tree_node
 {
-	tree_node* parent;
+	ft::avl::tree* tree;
+	ft::avl::tree_node< Pair >* parent;
 	Pair pair;
-	tree_node* left;
-	tree_node* right;
+	ft::avl::tree_node< Pair >* left;
+	ft::avl::tree_node< Pair >* right;
 	int height;
 
 	private:
-	tree_node();
+	tree_node() :
+		parent(NULL),
+		pair(),
+		left(NULL),
+		right(NULL),
+		height(0)
+	{
+	}
 
 	public:
-	tree_node(tree_node* p_parent, Pair const& p_pair) :
+	tree_node(ft::avl::tree_node* p_parent, Pair const& p_pair) :
 		parent(p_parent),
 		pair(p_pair),
 		left(NULL),
@@ -36,7 +47,7 @@ struct tree_node
 	{
 	}
 
-	tree_node(tree_node const& x) :
+	tree_node(ft::avl::tree_node const& x) :
 		parent(x.parent),
 		pair(x.pair),
 		left(x.left),
@@ -45,7 +56,7 @@ struct tree_node
 	{
 	}
 
-	tree_node& operator=(tree_node const& x)
+	tree_node& operator=(ft::avl::tree_node const& x)
 	{
 		if (&x != this)
 		{

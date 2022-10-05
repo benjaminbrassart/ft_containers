@@ -6,11 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/09/23 19:32:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:08:27 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "private/tree.hpp"
+#include "private/tree_node.hpp"
+#include "private/tree_iterator.hpp"
 
 #include "iterator.hpp"
 #include "utils.hpp"
@@ -25,14 +29,10 @@ namespace ft
 		class Key,
 		class T,
 		class Compare = less< Key >,
-		class Alloc = std::allocator< node_type >
+		class Alloc = std::allocator< ft::avl::tree_node< ft::pair< Key, T > > >
 	>
 	class map
 	{
-		private:
-		struct node_type;
-		class map_iterator;
-
 		public:
 		/** The first template parameter */
 		typedef Key key_type;
@@ -46,151 +46,22 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef map_iterator iterator;
-		typedef map_iterator const const_iterator;
+		typedef ft::avl::tree_iterator iterator;
+		typedef ft::avl::tree_iterator const const_iterator;
 		typedef ft::reverse_iterator< iterator > reverse_iterator;
 		typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 		typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 		typedef typename allocator_type::size_type size_type;
 
 		private:
-		struct node_type
-		{
-			public:
-			node_type* parent;
-			node_type* left;
-			node_type* right;
-			value_type value;
-			int height;
-
-			public:
-			node_type(node_type* parent, T const& value) :
-				parent(parent),
-				left(NULL),
-				right(NULL),
-				value(value),
-				height(1)
-			{
-			}
-		}; // struct node_type
-
-		class map_iterator : public ft::iterator< ft::bidirectional_iterator_tag, value_type >
-		{
-			private:
-			node_type* _node;
-
-			public:
-			map_iterator() :
-				_node(NULL)
-			{
-			}
-
-			private:
-			map_iterator(node_type* node) :
-				_node(node)
-			{
-			}
-
-			public:
-			map_iterator(map_iterator const& x) :
-				_node(x.node)
-			{
-			}
-
-			map_iterator& operator=(map_iterator const& rhs)
-			{
-				if (&rhs != this)
-				{
-					this->_node = rhs._node;
-				}
-				return *this;
-			}
-
-			~map_iterator()
-			{
-			}
-
-			public:
-			bool operator==(map_iterator const& rhs)
-			{
-				return this->_node == rhs.node;
-			}
-
-			bool operator!=(map_iterator const& rhs)
-			{
-				return !(*this == rhs);
-			}
-
-			// TODO test implementation
-			reference operator*()
-			{
-				return this->_node.value;
-			}
-
-			// TODO test implementation
-			const_reference operator*() const
-			{
-				return this->_node.value;
-			}
-
-			// TODO test implementation
-			pointer operator->()
-			{
-				return &this->_node.value;
-			}
-
-			// TODO test implementation
-			map_iterator& operator++() // pre
-			{
-				if (this->_node != NULL)
-				{
-					if (this->_node->right != NULL)
-						this->_node = this->_node->right;
-					else if (this->_node->parent != NULL)
-						this->_node = this->_node->parent;
-				}
-				return *this;
-			}
-
-			map_iterator operator++(int)
-			{
-				return map_iterator(); // TODO
-			}
-
-			// TODO test implementation
-			map_iterator& operator--() // pre
-			{
-				if (this->_node != NULL)
-				{
-					if (this->_node->left != NULL)
-						this->_node = this->_node->rileftght;
-					else if (this->_node->parent != NULL)
-						this->_node = this->_node->parent;
-				}
-				return *this;
-			}
-
-			map_iterator operator--(int)
-			{
-				return map_iterator(); // TODO
-			}
-		}; // class map_iterator
-
-		private:
-		node_type* _root;
-		node_type* _min;
-		node_type* _max;
-		size_type _size;
+		ft::avl::tree< value_type, Compare, Alloc > _tree;
 		key_compare _kcomp;
 		value_compare _vcomp;
 		allocator_type _alloc;
 
 		public:
 		explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
-			_root(NULL),
-			_min(NULL),
-			_max(NULL),
-			_size(0),
+			_tree(),
 			_kcomp(comp),
 			_alloc(alloc)
 		{
@@ -198,10 +69,7 @@ namespace ft
 
 		template< class InputIterator >
 		map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
-			_root(NULL),
-			_min(NULL),
-			_max(NULL),
-			_size(0),
+			_tree(),
 			_kcomp(comp),
 			_alloc(alloc)
 		{
@@ -210,10 +78,7 @@ namespace ft
 		}
 
 		map(map const& x) :
-			_root(NULL),
-			_min(NULL),
-			_max(NULL),
-			_size(0),
+			_tree(),
 			_kcomp(x._kcomp),
 			_alloc(x._alloc)
 		{
@@ -251,23 +116,23 @@ namespace ft
 		// TODO test implementation
 		iterator end()
 		{
-			return iterator(NULL);
+			return iterator(NULL); // TODO change to nil node
 		}
 
 		// TODO test implementation
 		const_iterator end() const
 		{
-			return iterator(NULL);
+			return iterator(NULL); // TODO change to nil node
 		}
 
 		reverse_iterator rbegin()
 		{
-			return iterator(this->_max);
+			return reverse_iterator(this->);
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return iterator(this->_max);
+			return const_reverse_iterator(this->_max);
 		}
 
 		// TODO test implementation
@@ -279,7 +144,7 @@ namespace ft
 		// TODO test implementation
 		const_reverse_iterator rend() const
 		{
-			return reverse_iterator(NULL);
+			return const_reverse_iterator(NULL);
 		}
 
 		public:
@@ -290,7 +155,7 @@ namespace ft
 
 		size_type size() const
 		{
-			return this->_size;
+			return this->_tree._size;
 		}
 
 		size_type max_size() const
@@ -300,7 +165,7 @@ namespace ft
 
 		public:
 		// TODO provide implementation
-		// never throws exception, always add element
+		// never throws exception, always add element (wtf?)
 		mapped_type& operator[](key_type const& key);
 
 		// TODO provide implementation
