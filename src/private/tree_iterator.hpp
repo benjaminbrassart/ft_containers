@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 18:22:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:02:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 #include "private/tree_node.hpp"
 #include "iterator.hpp"
 
-namespace ft::avl
+namespace ft
 {
-template< class Pair >
+namespace avl
+{
+template< class Pair, class Compare, class Alloc >
 class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
 {
 	private:
@@ -27,20 +29,21 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	typedef Pair const& const_reference;
 
 	private:
-	tree_node< Pair >* _node;
+	tree_node< Pair, Compare, Alloc >* _node;
 
 	public:
 	tree_iterator() :
-		_node(NULL),
-		_nil_node()
+		_node(NULL)
 	{
 	}
 
-	tree_iterator(tree_iterator< Pair > const& x);
+	tree_iterator(tree_iterator< Pair, Compare, Alloc > const& x);
 
-	tree_iterator& operator=(tree_iterator< Pair > const& x);
+	tree_iterator& operator=(tree_iterator< Pair, Compare, Alloc > const& x);
 
-	~tree_iterator();
+	~tree_iterator()
+	{
+	}
 
 	reference operator*()
 	{
@@ -65,6 +68,10 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	tree_iterator& operator++()
 	{
 		// TODO add binary tree logic
+
+		if (this->_node->right->is_nil())
+		{
+		}
 		return *this;
 	}
 
@@ -91,15 +98,16 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	}
 };
 
-template< class Pair1, class Pair2 >
-bool operator==(tree_iterator< Pair1 > const& lhs, tree_iterator< Pair2 > const& rhs)
+template< class Pair, class Compare, class Alloc >
+bool operator==(tree_iterator< Pair, class Compare, class Alloc > const& lhs, tree_iterator< Pair, class Compare, class Alloc > const& rhs)
 {
 	return rhs._node == lhs._node; // TODO check value instead?
 }
 
-template< class Pair1, class Pair2 >
-bool operator!=(tree_iterator< Pair1 > const& lhs, tree_iterator< Pair2 > const& rhs)
+template< class Pair, class Compare, class Alloc >
+bool operator!=(tree_iterator< Pair, class Compare, class Alloc > const& lhs, tree_iterator< Pair, class Compare, class Alloc > const& rhs)
 {
 	return !(lhs == rhs);
 }
-} // namespace ft::avl
+} // namespace avl
+} // namespace ft

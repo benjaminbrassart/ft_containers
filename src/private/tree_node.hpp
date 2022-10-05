@@ -6,25 +6,26 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 17:53:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:00:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define NULL ((void*)0)
+#pragma once
 
-namespace ft::avl
+namespace ft
 {
+namespace avl {
+template< class Pair, class Compare, class Alloc >
+struct tree;
 
-class tree;
-
-template< class Pair >
+template< class Pair, class Compare, class Alloc >
 struct tree_node
 {
-	ft::avl::tree* tree;
-	ft::avl::tree_node< Pair >* parent;
+	ft::avl::tree< Pair, Compare, Alloc >* tree;
+	ft::avl::tree_node< Pair, Compare, Alloc >* parent;
 	Pair pair;
-	ft::avl::tree_node< Pair >* left;
-	ft::avl::tree_node< Pair >* right;
+	ft::avl::tree_node< Pair, Compare, Alloc >* left;
+	ft::avl::tree_node< Pair, Compare, Alloc >* right;
 	int height;
 
 	private:
@@ -38,7 +39,7 @@ struct tree_node
 	}
 
 	public:
-	tree_node(ft::avl::tree_node* p_parent, Pair const& p_pair) :
+	tree_node(ft::avl::tree_node< Pair, Compare, Alloc >* p_parent, Pair const& p_pair) :
 		parent(p_parent),
 		pair(p_pair),
 		left(NULL),
@@ -47,7 +48,7 @@ struct tree_node
 	{
 	}
 
-	tree_node(ft::avl::tree_node const& x) :
+	tree_node(ft::avl::tree_node< Pair, Compare, Alloc > const& x) :
 		parent(x.parent),
 		pair(x.pair),
 		left(x.left),
@@ -56,7 +57,7 @@ struct tree_node
 	{
 	}
 
-	tree_node& operator=(ft::avl::tree_node const& x)
+	tree_node& operator=(ft::avl::tree_node< Pair, Compare, Alloc > const& x)
 	{
 		if (&x != this)
 		{
@@ -72,5 +73,12 @@ struct tree_node
 	~tree_node()
 	{
 	}
+
+	public:
+	bool is_nil() const
+	{
+		return this->parent == NULL;
+	}
 };
-} // namespace ft::avl
+} // namespace avl
+} // namespace ft

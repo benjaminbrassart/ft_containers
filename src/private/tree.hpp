@@ -6,16 +6,18 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:24:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 18:01:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:00:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include "private/tree_node.hpp"
 #include "utils.hpp"
 
-namespace ft::avl
+namespace ft
 {
-
+namespace avl {
 template<
 	class Pair,
 	class Compare,
@@ -24,7 +26,7 @@ template<
 struct tree
 {
 	private:
-	typedef ft::avl::tree_node< Pair > Node;
+	typedef ft::avl::tree_node< Pair, Compare, Alloc > Node;
 	typedef Pair value_type;
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::size_type size_type;
@@ -90,4 +92,5 @@ struct tree
 		this->_alloc.dealloc(node, 1);
 	}
 };
-} // namespace ft::avl
+} // namespace avl
+} // namespace ft
