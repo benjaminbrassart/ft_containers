@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CXX = c++
+CXX = clang++
 CXXFLAGS += -Wall
 CXXFLAGS += -Wextra
 # CXXFLAGS += -Werror
