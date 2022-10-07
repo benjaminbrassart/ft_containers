@@ -6,9 +6,11 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:46:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 21:47:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/07 21:51:05 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include "vector.hpp"
 
