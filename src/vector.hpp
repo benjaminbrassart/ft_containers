@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 17:15:51 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:38:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -561,13 +561,6 @@ bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 	return !(lhs < rhs);
 }
 
-// TODO test implementation
-template< class T, class Alloc >
-void swap(vector< T, Alloc >& x, vector< T, Alloc >& y)
-{
-	x.swap(y);
-}
-
 } // namespace ft
 
 namespace std
@@ -575,6 +568,6 @@ namespace std
 template< class T, class Alloc >
 void swap(ft::vector< T, Alloc >& x, ft::vector< T, Alloc >& y)
 {
-	ft::swap(x, y);
+	x.swap(y);
 }
 } // namespace std
