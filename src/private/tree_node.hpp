@@ -14,18 +14,15 @@
 
 namespace ft
 {
-namespace avl {
-template< class Pair, class Compare, class Alloc >
-struct tree;
-
-template< class Pair, class Compare, class Alloc >
+namespace avl
+{
+template< class Pair >
 struct tree_node
 {
-	ft::avl::tree< Pair, Compare, Alloc >* tree;
-	ft::avl::tree_node< Pair, Compare, Alloc >* parent;
+	ft::avl::tree_node< Pair >* parent;
 	Pair pair;
-	ft::avl::tree_node< Pair, Compare, Alloc >* left;
-	ft::avl::tree_node< Pair, Compare, Alloc >* right;
+	ft::avl::tree_node< Pair >* left;
+	ft::avl::tree_node< Pair >* right;
 	int height;
 
 	private:
@@ -39,7 +36,7 @@ struct tree_node
 	}
 
 	public:
-	tree_node(ft::avl::tree_node< Pair, Compare, Alloc >* p_parent, Pair const& p_pair) :
+	tree_node(ft::avl::tree_node< Pair >* p_parent, Pair const& p_pair) :
 		parent(p_parent),
 		pair(p_pair),
 		left(NULL),
@@ -48,7 +45,7 @@ struct tree_node
 	{
 	}
 
-	tree_node(ft::avl::tree_node< Pair, Compare, Alloc > const& x) :
+	tree_node(ft::avl::tree_node< Pair > const& x) :
 		parent(x.parent),
 		pair(x.pair),
 		left(x.left),
@@ -57,7 +54,7 @@ struct tree_node
 	{
 	}
 
-	tree_node& operator=(ft::avl::tree_node< Pair, Compare, Alloc > const& x)
+	tree_node& operator=(ft::avl::tree_node< Pair > const& x)
 	{
 		if (&x != this)
 		{

@@ -19,7 +19,7 @@ namespace ft
 {
 namespace avl
 {
-template< class Pair, class Compare, class Alloc >
+template< class Pair >
 class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
 {
 	private:
@@ -28,8 +28,8 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	typedef Pair& reference;
 	typedef Pair const& const_reference;
 
-	private:
-	tree_node< Pair, Compare, Alloc >* _node;
+	public:
+	tree_node< Pair >* _node;
 
 	public:
 	tree_iterator() :
@@ -37,9 +37,9 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	{
 	}
 
-	tree_iterator(tree_iterator< Pair, Compare, Alloc > const& x);
+	tree_iterator(tree_iterator< Pair > const& x);
 
-	tree_iterator& operator=(tree_iterator< Pair, Compare, Alloc > const& x);
+	tree_iterator& operator=(tree_iterator< Pair > const& x);
 
 	~tree_iterator()
 	{
@@ -98,14 +98,14 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	}
 };
 
-template< class Pair, class Compare, class Alloc >
-bool operator==(tree_iterator< Pair, class Compare, class Alloc > const& lhs, tree_iterator< Pair, class Compare, class Alloc > const& rhs)
+template< class Pair >
+bool operator==(tree_iterator< Pair > const& lhs, tree_iterator< Pair > const& rhs)
 {
 	return rhs._node == lhs._node; // TODO check value instead?
 }
 
-template< class Pair, class Compare, class Alloc >
-bool operator!=(tree_iterator< Pair, class Compare, class Alloc > const& lhs, tree_iterator< Pair, class Compare, class Alloc > const& rhs)
+template< class Pair >
+bool operator!=(tree_iterator< Pair > const& lhs, tree_iterator< Pair > const& rhs)
 {
 	return !(lhs == rhs);
 }

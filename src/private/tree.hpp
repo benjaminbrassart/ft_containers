@@ -26,7 +26,7 @@ template<
 struct tree
 {
 	private:
-	typedef ft::avl::tree_node< Pair, Compare, Alloc > Node;
+	typedef ft::avl::tree_node< Pair > Node;
 	typedef Pair value_type;
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::size_type size_type;
