@@ -17,6 +17,7 @@ RED="$(tput setaf 1)"
 GREEN="$(tput setaf 2)"
 YELLOW="$(tput setaf 11)"
 BLUE="$(tput setaf 12)"
+PURPLE="$(tput setaf 5)"
 
 is_absolute() {
     case "$1" in
@@ -104,6 +105,10 @@ now() {
     date +%s%N | cut -b1-16
 }
 
+upper() {
+    echo "$1" | awk 'BEGIN { getline; print toupper($0) }'
+}
+
 setup() {
     if [ ! -f "${INCLUDE_PATH_FILE}" ]; then
         {
@@ -157,6 +162,12 @@ TESTS="$(find "${DIR_SRC}/${container}" -mindepth 1 -maxdepth 1 -name '*.cpp' -e
 
 DIFF_OK=0
 DIFF_KO=0
+
+TITLE="${DIR_SRC}/${container}/title.txt"
+
+printf -- "${PURPLE}\n"
+[ -f "${TITLE}" ] && cat "${TITLE}" || upper "${container}"
+printf -- "${RESET}\n"
 
 for test in ${TESTS}; do
     printf -- "${BLUE}-------------------- %s${RESET}\n" "${test}"
