@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 22:00:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/07 21:02:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ struct tree_node
 	bool is_nil() const
 	{
 		return this->parent == NULL;
+	}
+
+	int get_balance() const
+	{
+		return this->left.height - this->right.height;
 	}
 };
 } // namespace avl

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/05 22:02:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:28:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	typedef Pair const* const_pointer;
 	typedef Pair& reference;
 	typedef Pair const& const_reference;
+	typedef tree_node< Pair > node_type;
 
 	public:
-	tree_node< Pair >* _node;
+	node_type* _node;
 
 	public:
 	tree_iterator() :
@@ -37,9 +38,22 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 	{
 	}
 
-	tree_iterator(tree_iterator< Pair > const& x);
+	tree_iterator(node_type* node) :
+		_node(node)
+	{
+	}
 
-	tree_iterator& operator=(tree_iterator< Pair > const& x);
+	tree_iterator(tree_iterator< Pair > const& x) :
+		_node(x._node)
+	{
+	}
+
+	tree_iterator& operator=(tree_iterator< Pair > const& x)
+	{
+		if (this != &x)
+			this->_node = x._node;
+		return *this;
+	}
 
 	~tree_iterator()
 	{
@@ -50,17 +64,7 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 		return this->_node->pair;
 	}
 
-	const_reference operator*() const
-	{
-		return this->_node->pair;
-	}
-
 	pointer operator->()
-	{
-		return &this->_node->pair;
-	}
-
-	const_pointer operator->() const
 	{
 		return &this->_node->pair;
 	}
@@ -71,6 +75,14 @@ class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair 
 
 		if (this->_node->right->is_nil())
 		{
+			if (this->_node->parent->left == this)
+			{
+				this->_node = this->_node->parent;
+			}
+			else
+			{
+
+			}
 		}
 		return *this;
 	}
