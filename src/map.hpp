@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 20:29:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/11 23:47:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,27 +465,45 @@ class map
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft:equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); // TODO use Compare object
+}
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return !(lhs == rhs);
+}
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); // TODO use Compare object
+}
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator<=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator<=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return !(rhs < lhs);
+}
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator>(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator>(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return (rhs < lhs);
+}
 
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs);
+bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
+{
+	return !(lhs < rhs);
+}
 } // namespace ft
 
 namespace std
