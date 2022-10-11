@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/04 15:07:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/11 23:49:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ namespace ft
 			return this->_base;
 		}
 
-		// TODO test implementation
 		reference operator*() const
 		{
 			iterator_type it(this->_base);
@@ -202,20 +201,17 @@ namespace ft
 			return *--it;
 		}
 
-		// TODO test implementation
 		reverse_iterator operator+(difference_type n) const
 		{
 			return reverse_iterator(this->_base - n);
 		}
 
-		// TODO test implementation
 		reverse_iterator& operator++() // pre-increment => ++it
 		{
 			--this->_base;
 			return *this;
 		}
 
-		// TODO test implementation
 		reverse_iterator operator++(int) // post-increment => it++
 		{
 			reverse_iterator it(*this);
@@ -224,27 +220,23 @@ namespace ft
 			return it;
 		}
 
-		// TODO test implementation
 		reverse_iterator& operator+=(difference_type n)
 		{
 			this->_base -= n;
 			return *this;
 		}
 
-		// TODO test implementation
 		reverse_iterator operator-(difference_type n) const
 		{
 			return reverse_iterator(this->_base + n);
 		}
 
-		// TODO test implementation
 		reverse_iterator& operator--() // pre-increment => --it
 		{
 			++this->_base;
 			return *this;
 		}
 
-		// TODO test implementation
 		reverse_iterator operator--(int) // post-increment => it--
 		{
 			reverse_iterator it(*this);
@@ -253,76 +245,65 @@ namespace ft
 			return it;
 		}
 
-		// TODO test implementation
 		reverse_iterator& operator-=(difference_type n)
 		{
 			this->_base += n;
 			return *this;
 		}
 
-		// TODO test implementation
 		pointer operator->() const
 		{
 			return &(this->operator*());
 		}
 
-		// TODO test implementation
 		reference operator[](difference_type n) const
 		{
 			return this->_base[-n - 1];
 		}
 	}; // struct reverse_iterator
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator==(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator!=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() != rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator<(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() > rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator<=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() >= rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator>(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	bool operator>=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
 		return lhs.base() <= rhs.base();
 	}
 
-	// TODO test implementation
 	template< class Iterator >
 	reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it)
 	{
 		return rev_it + n;
 	}
 
-	// TODO test implementation
 	template< class Iterator1, class Iterator2 >
 	typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 	{
