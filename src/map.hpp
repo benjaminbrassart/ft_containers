@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/11 23:47:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/11 23:47:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,5 +510,8 @@ namespace std
 {
 // TODO provide implementation
 template< class Key, class T, class Compare, class Alloc >
-void swap(ft::map< Key, T, Compare, Alloc >& lhs, ft::map< Key, T, Compare, Alloc >& rhs);
+void swap(ft::map< Key, T, Compare, Alloc >& lhs, ft::map< Key, T, Compare, Alloc >& rhs)
+{
+	lhs.swap(rhs);
+}
 } // namespace std
