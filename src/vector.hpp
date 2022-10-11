@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 19:38:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/11 23:50:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ private:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test implementation
 	explicit vector(allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_data(NULL),
@@ -65,7 +64,6 @@ public:
 	{
 	}
 
-	// TODO test implementation
 	explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_data(NULL),
@@ -75,7 +73,6 @@ public:
 		this->assign(n, val);
 	}
 
-	// TODO test implementation
 	template< class InputIterator >
 	vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
@@ -86,7 +83,6 @@ public:
 		this->assign(first, last);
 	}
 
-	// TODO test implementation
 	vector(vector const& x) :
 		_alloc(x._alloc),
 		_data(NULL),
@@ -96,7 +92,6 @@ public:
 		this->assign(x.begin(), x.end());
 	}
 
-	// TODO test implementation
 	vector& operator=(vector const& x)
 	{
 		if (&x != this)
@@ -104,7 +99,6 @@ public:
 		return *this;
 	}
 
-	// TODO test implementation
 	~vector()
 	{
 		this->clear();
@@ -167,7 +161,6 @@ public:
 		return this->_alloc.max_size();
 	}
 
-	// TODO test implementation
 	void resize(size_type n, value_type val = value_type())
 	{
 		size_type const size = this->size();
@@ -196,7 +189,6 @@ public:
 		return this->size() == 0;
 	}
 
-	// TODO test implementation
 	void reserve(size_type n)
 	{
 		if (this->capacity() >= n)
@@ -229,7 +221,6 @@ public:
 		return this->_data[n];
 	}
 
-	// TODO test implementation
 	reference at(size_type n)
 	{
 		if (n >= this->size())
@@ -237,7 +228,6 @@ public:
 		return this->_data[n];
 	}
 
-	// TODO test implementation
 	const_reference at(size_type n) const
 	{
 		if (n >= this->size())
@@ -268,7 +258,6 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test implementation
 	// TODO optimize with only 1 loop
 	template< class InputIterator >
 	void assign(InputIterator first, InputIterator last)
@@ -277,14 +266,12 @@ public:
 	}
 
 	// TODO add dispatcher
-	// TODO test implementation
 	// TODO optimize with only 1 loop
 	void assign(size_type n, value_type const& val)
 	{
 		this->__assign_fill(n, val);
 	}
 
-	// TODO test implementation
 	void push_back(value_type const& val)
 	{
 		size_type& size = this->_size;
@@ -294,7 +281,6 @@ public:
 		++size;
 	}
 
-	// TODO test implementation
 	void pop_back()
 	{
 		if (this->empty())
@@ -303,19 +289,16 @@ public:
 		this->get_allocator().destroy(this->_data + this->size());
 	}
 
-	// TODO test implementation
 	iterator insert(iterator position, value_type const& val)
 	{
 		return this->__insert_fill(position, 1, val);
 	}
 
-	// TODO test implementation
 	void insert(iterator position, size_type n, value_type const& val)
 	{
 		this->__insert_fill(position, n, val);
 	}
 
-	// TODO test implementation
 	// NOTE: memory usage might be high for this function to avoid
 	// inserting elements one by one
 	template< class InputIterator >
@@ -324,7 +307,6 @@ public:
 		this->__dispatch_insert(position, first, last, ft::is_integral<InputIterator>());
 	}
 
-	// TODO test implementation
 	iterator erase(iterator position)
 	{
 		return this->__erase(position - this->_data, 1);
@@ -334,13 +316,11 @@ public:
 	//     ^___^ del //
 	// [ 1 5 ]       //
 	//     ^  return //
-	// TODO test implementation
 	iterator erase(iterator first, iterator last)
 	{
 		return this->__erase(first - this->_data, last - first);
 	}
 
-	// TODO test implementation
 	void swap(vector& x)
 	{
 		// swap data pointers
@@ -360,7 +340,6 @@ public:
 		this->_capacity ^= x._capacity;
 	}
 
-	// TODO test implementation
 	void clear()
 	{
 		this->resize(0);
@@ -532,29 +511,21 @@ bool operator!=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(lhs == rhs);
 }
-
-// TODO test implementation
 template< class T, class Alloc >
 bool operator<(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
-
-// TODO test implementation
 template< class T, class Alloc >
 bool operator<=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(rhs < lhs);
 }
-
-// TODO test implementation
 template< class T, class Alloc >
 bool operator>(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return rhs < lhs;
 }
-
-// TODO test implementation
 template< class T, class Alloc >
 bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
