@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:24:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 21:14:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/11 23:13:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ struct tree
 	typedef typename allocator_type::size_type size_type;
 
 	public:
-	Alloc _alloc;
+	allocator_type _alloc;
 	node_type _nil_node;
 	node_type* _root;
 	node_type* _min;
