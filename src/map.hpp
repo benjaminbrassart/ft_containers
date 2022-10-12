@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:27:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 03:24:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,31 +70,31 @@ class map
 		{
 			return this->_comp(first, second);
 		}
-	}
+	};
 
 	private:
-	typedef ft::avl::tree< value_type, Compare, Alloc > tree_type;
+	typedef ft::avl::tree< value_type, value_compare, allocator_type > tree_type;
 
 	private:
-	ft::avl::tree< value_type, Compare, Alloc > _tree;
 	key_compare _kcomp;
 	value_compare _vcomp;
+	tree_type _tree;
 	allocator_type _alloc;
 
 	public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
-		_tree(),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
+		_tree(tree_type(comp, this->_vcomp)),
 		_alloc(alloc)
 	{
 	}
 
 	template< class InputIterator >
 	map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
-		_tree(),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
+		_tree(tree_type(comp, this->_vcomp)),
 		_alloc(alloc)
 	{
 		for (InputIterator it = first; it != last; ++it)
@@ -102,7 +102,7 @@ class map
 	}
 
 	map(map const& x) :
-		_tree(),
+		_tree(x._tree),
 		_kcomp(x._kcomp),
 		_vcomp(x._vcomp),
 		_alloc(x._alloc)
@@ -121,6 +121,8 @@ class map
 		if (this != &rhs)
 		{
 			this->clear();
+			this->_kcomp = rhs._kcomp;
+			this->_vcomp = rhs._vcomp;
 			for (iterator it = rhs.begin(); it != rhs.end(); ++it)
 				this->insert(*it);
 		}
@@ -187,29 +189,19 @@ class map
 	}
 
 	public:
-	// TODO provide implementation
-	// never throws exception, always add element (wtf?)
-	mapped_type& operator[](key_type const& key);
+	// https://legacy.cplusplus.com/reference/map/map/operator[]/
+	mapped_type& operator[](key_type const& key)
+	{
+		// this is incredibly ugly and i like it, thanks cplusplus.com
+		return (*((this->insert(ft::make_pair(key, mapped_type()))).first)).second;
+	}
 
 	public:
 	// TODO provide implementation
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-		// node_type* node = this->_root;
 
-		// while (node != NULL)
-		// {
-		// 	if (!this->key_comp()(k, node->_value))
-		// 		node = node->right;
-		// 	else if (!this->key_comp()(node->_value, k))
-		// 		node = node->left;
-		// 	else
-		// 	{
-		// 		node->value.second = val.second;
-		// 		return ft::pair<iterator, bool>(iterator(node), false);
-		// 	}
-		// }
-		// return iterator(node);
+
 		throw 0; // TODO
 	}
 
@@ -344,20 +336,20 @@ class map
 	}
 
 	private:
-	template< class _Alloc >
-	static node_type* insert(T const& value, node_type* node, _Alloc const& alloc)
-	{
-		if (node == NULL)
-			return alloc.construct(alloc.allocate(1), value);
-		if (value < node->value) // TODO use key_compare
-			node->left = insert(value, node->left, alloc);
-		else if (value > node->value) // TODO use key_compare
-			node->right = insert(value, node->right, alloc);
-		else
-			return node;
-		update_height(node);
-		return rebalance(node);
-	}
+	// template< class _Alloc >
+	// static node_type* insert(T const& value, node_type* node, _Alloc const& alloc)
+	// {
+	// 	if (node == NULL)
+	// 		return alloc.construct(alloc.allocate(1), value);
+	// 	if (value < node->value) // TODO use key_compare
+	// 		node->left = insert(value, node->left, alloc);
+	// 	else if (value > node->value) // TODO use key_compare
+	// 		node->right = insert(value, node->right, alloc);
+	// 	else
+	// 		return node;
+	// 	update_height(node);
+	// 	return rebalance(node);
+	// }
 
 	// static node_type* remove(T const& value, node_type* node)
 	// {
@@ -465,7 +457,7 @@ class map
 template< class Key, class T, class Compare, class Alloc >
 bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft:equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); // TODO use Compare object
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); // TODO use Compare object
 }
 
 template< class Key, class T, class Compare, class Alloc >
