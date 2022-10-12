@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:24:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/11 23:13:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 03:22:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft
 namespace avl {
 template<
 	class Pair,
-	class Compare,
+	class ValueCompare,
 	class Alloc
 >
 struct tree
@@ -28,7 +28,7 @@ struct tree
 	private:
 	typedef ft::avl::tree_node< Pair > node_type;
 	typedef Pair value_type;
-	typedef Compare comp_type;
+	typedef ValueCompare comp_type;
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::size_type size_type;
 
@@ -53,7 +53,7 @@ struct tree
 	{
 	}
 
-	tree(ft::avl::tree< Pair, Compare, Alloc > const& x) :
+	tree(ft::avl::tree< Pair, ValueCompare, Alloc > const& x) :
 		_alloc(x._alloc),
 		_nil_node(),
 		_root(NULL),
@@ -64,7 +64,7 @@ struct tree
 	{
 	}
 
-	tree& operator=(ft::avl::tree< Pair, Compare, Alloc > const& x)
+	tree& operator=(ft::avl::tree< Pair, ValueCompare, Alloc > const& x)
 	{
 		if (this != &x)
 		{
