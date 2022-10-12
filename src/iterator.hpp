@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/11 23:49:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:47:05 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,80 +25,6 @@ namespace ft
 	struct forward_iterator_tag : public input_iterator_tag {};
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-
-	/* --------------------------------------------------------------------- */
-
-	template< class T >
-	struct is_input_iterator : public false_type {};
-
-	template< >
-	struct is_input_iterator< input_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_input_iterator< forward_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_input_iterator< bidirectional_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_input_iterator< random_access_iterator_tag > : public true_type {};
-
-	template< class T >
-	struct is_input_iterator< T* > : public true_type {};
-
-	template< class T >
-	struct is_input_iterator< T const* > : public true_type {};
-
-	/* --------------------------------------------------------------------- */
-
-	template< class T >
-	struct is_forward_iterator : public false_type {};
-
-	template< >
-	struct is_forward_iterator< forward_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_forward_iterator< bidirectional_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_forward_iterator< random_access_iterator_tag > : public true_type {};
-
-	template< class T >
-	struct is_forward_iterator< T* > : public true_type {};
-
-	template< class T >
-	struct is_forward_iterator< T const* > : public true_type {};
-
-	/* --------------------------------------------------------------------- */
-
-	template< class T >
-	struct is_bidirectional_iterator : public false_type {};
-
-	template< >
-	struct is_bidirectional_iterator< bidirectional_iterator_tag > : public true_type {};
-
-	template< >
-	struct is_bidirectional_iterator< random_access_iterator_tag > : public true_type {};
-
-	template< class T >
-	struct is_bidirectional_iterator< T* > : public true_type {};
-
-	template< class T >
-	struct is_bidirectional_iterator< T const* > : public true_type {};
-
-	/* --------------------------------------------------------------------- */
-
-	template< class T >
-	struct is_random_access_iterator : public false_type {};
-
-	template< >
-	struct is_random_access_iterator< random_access_iterator_tag > : public true_type {};
-
-	template< class T >
-	struct is_random_access_iterator< T* > : public true_type {};
-
-	template< class T >
-	struct is_random_access_iterator< T const* > : public true_type {};
 
 	/* --------------------------------------------------------------------- */
 
