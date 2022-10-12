@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/11 23:50:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:12:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,8 @@ public:
 		return this->__erase(first - this->_data, last - first);
 	}
 
+	// https://legacy.cplusplus.com/reference/vector/vector/swap/?kw=vector%3A%3Aswap
+	// allocator may or may not be swapped as the specification says nothing about it
 	void swap(vector& x)
 	{
 		// swap data pointers
