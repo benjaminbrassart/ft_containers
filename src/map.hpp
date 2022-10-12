@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:08:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:16:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ class map
 		protected:
 		Compare _comp;
 
-		value_compare(Compare comp) : _comp(comp)
+		value_compare(Compare comp) :
+			_comp(comp)
 		{
 		}
 
