@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:00:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:46:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,23 +246,6 @@ namespace ft
 			++first2;
 		}
 		return first2 != last2;
-	}
-
-	template< class InputIterator >
-	typename ft::iterator_traits< InputIterator >::difference_type distance(InputIterator first, InputIterator last)
-	{
-		if (is_random_access_iterator< typename ft::iterator_traits< InputIterator >::iterator_category >::value)
-			return last - first;
-
-		typename ft::iterator_traits< InputIterator >::difference_type n = 0;
-		InputIterator it = first;
-
-		while (it != last)
-		{
-			++it;
-			++n;
-		}
-		return n;
 	}
 
 	template< class U, class V, class R >
