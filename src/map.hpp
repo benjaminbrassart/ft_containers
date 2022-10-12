@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 01:48:27 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:08:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ class map
 	typedef T mapped_type;
 	typedef ft::pair< key_type const, mapped_type > value_type;
 	typedef Compare key_compare;
-	typedef void *value_compare; // TODO
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::reference reference;
 	typedef typename allocator_type::const_reference const_reference;
@@ -52,6 +51,25 @@ class map
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 	typedef typename allocator_type::size_type size_type;
+
+	// https://legacy.cplusplus.com/reference/map/map/value_comp/
+	class value_compare : ft::binary_function< value_type, value_type, bool >
+	{
+		friend class map;
+
+		protected:
+		Compare _comp;
+
+		value_compare(Compare comp) : _comp(comp)
+		{
+		}
+
+		public:
+		bool operator()(value_type const& first, value_type const& second)
+		{
+			return this->_comp(first, second);
+		}
+	}
 
 	private:
 	typedef ft::avl::tree< value_type, Compare, Alloc > tree_type;
@@ -66,6 +84,7 @@ class map
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_tree(),
 		_kcomp(comp),
+		_vcomp(value_compare(comp)),
 		_alloc(alloc)
 	{
 	}
@@ -74,6 +93,7 @@ class map
 	map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_tree(),
 		_kcomp(comp),
+		_vcomp(value_compare(comp)),
 		_alloc(alloc)
 	{
 		for (InputIterator it = first; it != last; ++it)
@@ -83,6 +103,7 @@ class map
 	map(map const& x) :
 		_tree(),
 		_kcomp(x._kcomp),
+		_vcomp(x._vcomp),
 		_alloc(x._alloc)
 	{
 		for (iterator it = x.begin(); it != x.end(); ++it)
@@ -258,18 +279,16 @@ class map
 	// TODO test implementation
 	void clear()
 	{
-		this->_size = 0;
 		this->release(this->_root);
+		this->_size = 0;
 	}
 
 	public:
-	// TODO test implementation
 	key_compare key_comp() const
 	{
 		return this->_kcomp;
 	}
 
-	// TODO test implementation
 	value_compare value_comp() const
 	{
 		return this->_vcomp;
