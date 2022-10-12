@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 22:28:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:59:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,16 @@ namespace ft
 namespace avl
 {
 template< class Pair >
-class tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
+struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
 {
-	private:
 	typedef Pair* pointer;
 	typedef Pair const* const_pointer;
 	typedef Pair& reference;
 	typedef Pair const& const_reference;
 	typedef tree_node< Pair > node_type;
 
-	public:
 	node_type* _node;
 
-	public:
 	tree_iterator() :
 		_node(NULL)
 	{
