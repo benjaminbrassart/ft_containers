@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:16:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:27:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,26 +191,6 @@ class map
 	// never throws exception, always add element (wtf?)
 	mapped_type& operator[](key_type const& key);
 
-	// TODO provide implementation
-	mapped_type& at(key_type const& key)
-	{
-		const_iterator it = this->find(key);
-
-		if (it == this->end())
-			throw std::out_of_range(__PRETTY_FUNCTION__);
-		throw 0; // TODO
-	}
-
-	// TODO provide implementation
-	const mapped_type& at(key_type const& key) const
-	{
-		const_iterator it = this->find(key);
-
-		if (it == this->end())
-			throw std::out_of_range(__PRETTY_FUNCTION__);
-		throw 0; // TODO
-	}
-
 	public:
 	// TODO provide implementation
 	ft::pair< iterator, bool > insert(value_type const& val)
@@ -236,7 +216,6 @@ class map
 	// TODO provide implementation
 	iterator insert(iterator position, value_type const& val);
 
-	// TODO provide implementation
 	template< class InputIterator >
 	void insert(InputIterator first, InputIterator last)
 	{
