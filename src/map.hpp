@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 15:09:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:12:59 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ public:
 		_max(this->_nil),
 		_size(0)
 	{
-		for (InputIterator it = first; it != last; ++it)
-			this->insert(*it);
+		this->insert(first, last);
 	}
 
 	template<
@@ -123,8 +122,7 @@ public:
 		_max(this->_nil),
 		_size(0)
 	{
-		for (typename map< _Key, _T, _Compare, _Alloc >::iterator it = x.begin(); it != x.end(); ++it)
-			this->insert(*it);
+		this->insert(x.begin(), x.end());
 	}
 
 	~map()
@@ -145,8 +143,7 @@ public:
 			this->clear();
 			this->_kcomp = rhs._kcomp;
 			this->_vcomp = rhs._vcomp;
-			for (typename map< _Key, _T, _Compare, _Alloc >::iterator it = rhs.begin(); it != rhs.end(); ++it)
-				this->insert(*it);
+			this->insert(rhs.begin(), rhs.end());
 		}
 		return *this;
 	}
