@@ -1,6 +1,10 @@
 # ft_containers
 Homemade C++ containers
 
+# Important!
+
+If you intend to test this with any existing ft_containers tester, you will have to adjust __their__ include path.
+
 ---
 
 # Resources
