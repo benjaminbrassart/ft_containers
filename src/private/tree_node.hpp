@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 09:57:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:57:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ struct tree_node
 	ft::avl::tree_node< Pair >* right;
 	int height;
 
-	private:
+	public:
 	tree_node() :
 		parent(nullptr),
 		pair(),
