@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 12:06:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:27:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
 template<
 	class Key,
 	class T,
-	class Compare = less< Key >,
+	class Compare = std::less< Key >,
 	class Alloc = std::allocator< ft::avl::tree_node< ft::pair< Key const, T > > >
 >
 class map
@@ -38,9 +38,7 @@ class map
 	typedef ft::avl::tree_node< ft::pair< Key const, T > > node_type;
 
 	public:
-	/** The first template parameter */
 	typedef Key key_type;
-	/** The second template parameter */
 	typedef T mapped_type;
 	typedef ft::pair< key_type const, mapped_type > value_type;
 	typedef Compare key_compare;
@@ -57,26 +55,7 @@ class map
 	typedef typename allocator_type::size_type size_type;
 
 	public:
-	// https://legacy.cplusplus.com/reference/map/map/value_comp/
-	// TODO forward declare and put to the end of the class to improve readablity
-	class value_compare : ft::binary_function< value_type, value_type, bool >
-	{
-		friend class map;
-
-		protected:
-		Compare _comp;
-
-		value_compare(Compare comp) :
-			_comp(comp)
-		{
-		}
-
-		public:
-		bool operator()(value_type const& first, value_type const& second)
-		{
-			return this->_comp(first, second);
-		}
-	};
+	class value_compare;
 
 	private:
 	allocator_type _alloc;
@@ -412,6 +391,27 @@ class map
 		this->get_allocator().destroy(node);
 		this->get_allocator().deallocate(node, 1);
 	}
+
+	public:
+	// https://legacy.cplusplus.com/reference/map/map/value_comp/
+	class value_compare : public std::binary_function< value_type, value_type, bool >
+	{
+		friend class map;
+
+		private:
+		Compare _comp;
+
+		value_compare(Compare comp) :
+			_comp(comp)
+		{
+		}
+
+		public:
+		bool operator()(value_type const& x, value_type const& y)
+		{
+			return this->_comp(x.first, y.first);
+		}
+	};
 }; // class map
 
 template< class Key, class T, class Compare, class Alloc >
