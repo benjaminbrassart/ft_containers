@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 14:24:13 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:40:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,12 +267,27 @@ class map
 	// TODO test implementation
 	void swap(map& x)
 	{
-		// TODO swap root, min, max, size, nil
-		// swap trees
-		// tree_type x_tree = x._tree;
+		node_type* x_node;
 
-		// x._tree = this->_tree;
-		// this->_tree = x_tree;
+		x_node = x._root;
+		x._root = this->_root;
+		this->_root = x_node;
+
+		x_node = x._min;
+		x._min = this->_min;
+		this->_min = x_node;
+
+		x_node = x._max;
+		x._max = this->_max;
+		this->_max = x_node;
+
+		x_node = x._nil;
+		x._nil = this->_nil;
+		this->_nil = x_node;
+
+		x._size ^= this->_size;
+		this->_size ^= x._size;
+		x._size ^= this->_size;
 
 		key_compare x_kcomp = x._kcomp;
 
