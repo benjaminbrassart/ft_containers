@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 11:27:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:07:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ namespace ft
 {
 namespace avl
 {
-template< class Pair >
+template< class Pair, class Node >
 struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
 {
+	public:
 	typedef Pair* pointer;
 	typedef Pair const* const_pointer;
 	typedef Pair& reference;
 	typedef Pair const& const_reference;
-	typedef tree_node< Pair > node_type;
+	typedef Node node_type;
 
 	node_type* _node;
 
@@ -40,12 +41,12 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 	{
 	}
 
-	tree_iterator(tree_iterator< Pair > const& x) :
+	tree_iterator(tree_iterator< Pair, Node > const& x) :
 		_node(x._node)
 	{
 	}
 
-	tree_iterator& operator=(tree_iterator< Pair > const& x)
+	tree_iterator& operator=(tree_iterator< Pair, Node > const& x)
 	{
 		if (this != &x)
 			this->_node = x._node;
@@ -125,14 +126,14 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 	}
 };
 
-template< class Pair >
-bool operator==(tree_iterator< Pair > const& lhs, tree_iterator< Pair > const& rhs)
+template< class Pair, class Node >
+bool operator==(tree_iterator< Pair, Node > const& lhs, tree_iterator< Pair, Node > const& rhs)
 {
 	return rhs._node == lhs._node; // TODO check value instead?
 }
 
-template< class Pair >
-bool operator!=(tree_iterator< Pair > const& lhs, tree_iterator< Pair > const& rhs)
+template< class Pair, class Node >
+bool operator!=(tree_iterator< Pair, Node > const& lhs, tree_iterator< Pair, Node > const& rhs)
 {
 	return !(lhs == rhs);
 }

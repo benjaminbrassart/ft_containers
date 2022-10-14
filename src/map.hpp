@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 10:46:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:06:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ template<
 	class Key,
 	class T,
 	class Compare = less< Key >,
-	class Alloc = std::allocator< ft::avl::tree_node< ft::pair< Key, T > > >
+	class Alloc = std::allocator< ft::avl::tree_node< ft::pair< Key const, T > > >
 >
 class map
 {
+	private:
+	typedef ft::map< T, Compare, Alloc > self_type;
+	typedef ft::avl::tree_node< ft::pair< Key const, T > > node_type;
+
 	public:
 	/** The first template parameter */
 	typedef Key key_type;
@@ -45,8 +49,8 @@ class map
 	typedef typename allocator_type::const_reference const_reference;
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
-	typedef ft::avl::tree_iterator< value_type > iterator;
-	typedef ft::avl::tree_iterator< value_type > const const_iterator;
+	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
+	typedef ft::avl::tree_iterator< value_type const, node_type const > const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
@@ -75,14 +79,10 @@ class map
 	};
 
 	private:
-	typedef ft::map< T, Compare, Alloc > self_type;
-	typedef ft::avl::tree_node< value_type > node_type;
-
-	private:
 	allocator_type _alloc;
 	key_compare _kcomp;
 	value_compare _vcomp;
-	node_type _nil;
+	node_type* _nil;
 	node_type* _root;
 	node_type* _min;
 	node_type* _max;
@@ -93,10 +93,10 @@ class map
 		_alloc(alloc),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
-		_nil(),
-		_root(nullptr),
-		_min(nullptr),
-		_max(nullptr),
+		_nil(this->__make_nil()),
+		_root(this->_nil),
+		_min(this->_nil),
+		_max(this->_nil),
 		_size(0)
 	{
 	}
@@ -106,10 +106,10 @@ class map
 		_alloc(alloc),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
-		_nil(),
-		_root(nullptr),
-		_min(nullptr),
-		_max(nullptr),
+		_nil(this->__make_nil()),
+		_root(this->_nil),
+		_min(this->_nil),
+		_max(this->_nil),
 		_size(0)
 	{
 		for (InputIterator it = first; it != last; ++it)
@@ -120,10 +120,10 @@ class map
 		_alloc(x._alloc),
 		_kcomp(x._kcomp),
 		_vcomp(x._vcomp),
-		_nil(),
-		_root(nullptr),
-		_min(nullptr),
-		_max(nullptr),
+		_nil(this->__make_nil()),
+		_root(this->_nil),
+		_min(this->_nil),
+		_max(this->_nil),
 		_size(0)
 	{
 		for (iterator it = x.begin(); it != x.end(); ++it)
@@ -162,13 +162,13 @@ class map
 	// TODO test implementation
 	iterator end()
 	{
-		return iterator(&this->_nil);
+		return iterator(this->_nil);
 	}
 
 	// TODO test implementation
 	const_iterator end() const
 	{
-		return const_iterator(&this->_nil);
+		return const_iterator(this->_nil);
 	}
 
 	reverse_iterator rbegin()
@@ -218,6 +218,7 @@ class map
 	public:
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
+		(void)val;
 		TODO();
 	}
 
@@ -258,6 +259,11 @@ class map
 	// TODO test implementation
 	void erase(iterator first, iterator last)
 	{
+		if (first == this->begin() && last == this->end())
+		{
+			this->__avl_release(this->_root);
+			return;
+		}
 		for (iterator it = first; first != last; ++first)
 			this->erase(it);
 	}
@@ -301,38 +307,40 @@ class map
 	}
 
 	public:
+	// TODO test!
 	iterator find(key_type const& k)
 	{
-		// node_type* node = this->_root;
+		node_type* iter = this->_root;
 
-		// while (node != NULL)
-		// {
-		// 	if (!this->key_comp()(k, node->_value))
-		// 		node = node->right;
-		// 	else if (!this->key_comp()(node->_value, k))
-		// 		node = node->left;
-		// 	else
-		// 		break;
-		// }
-		// return iterator(node);
-		TODO();
+		while (!iter->is_nil())
+		{
+			if (!this->key_comp()(k, iter->pair.first))
+				iter = iter->right;
+			else if (!this->key_comp()(iter->pair.first, k))
+				iter = iter->left;
+			else
+				break;
+		}
+
+		return iterator(iter);
 	}
 
+	// TODO test!
 	const_iterator find(key_type const& k) const
 	{
-		// node_type* node = this->_root;
+		node_type* iter = this->_root;
 
-		// while (node != NULL)
-		// {
-		// 	if (!this->key_comp()(k, node->_value))
-		// 		node = node->right;
-		// 	else if (!this->key_comp()(node->_value, k))
-		// 		node = node->left;
-		// 	else
-		// 		break;
-		// }
-		// return iterator(node);
-		TODO();
+		while (!iter->is_nil())
+		{
+			if (!this->key_comp()(k, iter->pair.first))
+				iter = iter->right;
+			else if (!this->key_comp()(iter->pair.first, k))
+				iter = iter->left;
+			else
+				break;
+		}
+
+		return const_iterator(iter);
 	}
 
 	// TODO test implementation
@@ -345,31 +353,37 @@ class map
 
 	iterator lower_bound(key_type const& k)
 	{
+		(void)k;
 		TODO();
 	}
 
 	const_iterator lower_bound(key_type const& k) const
 	{
+		(void)k;
 		TODO();
 	}
 
 	iterator upper_bound(key_type const& k)
 	{
+		(void)k;
 		TODO();
 	}
 
 	const_iterator upper_bound(key_type const& k) const
 	{
+		(void)k;
 		TODO();
 	}
 
 	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const
 	{
+		(void)k;
 		TODO();
 	}
 
 	ft::pair< iterator, iterator > equal_range(key_type const& k)
 	{
+		(void)k;
 		TODO();
 	}
 
@@ -377,6 +391,26 @@ class map
 	allocator_type get_allocator() const
 	{
 		return this->_alloc;
+	}
+
+	private:
+	node_type* __make_nil() const
+	{
+		node_type* node = this->get_allocator().allocate(1);
+		node_type tmp;
+
+		this->get_allocator().construct(node, tmp);
+		return node;
+	}
+
+	void __avl_release(node_type* node)
+	{
+		if (node->is_nil())
+			return;
+		this->__avl_release(node->left);
+		this->__avl_release(node->right);
+		this->get_allocator().destroy(node);
+		this->get_allocator().deallocate(node, 1);
 	}
 }; // class map
 
