@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:24:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 08:46:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 09:50:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "private/tree_node.hpp"
 #include "utils.hpp"
+#include <algorithm>
 
 namespace ft
 {
