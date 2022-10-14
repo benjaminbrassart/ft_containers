@@ -52,6 +52,7 @@
                 "-Wall",
                 "-Wextra",
                 "-Wshadow",
+                "-std=c++98",
                 "-I${workspaceFolder}/containers_test/srcs",
                 "-I${workspaceFolder}/src",
                 "-g3",
