@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 12:27:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:28:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ template<
 	class Key,
 	class T,
 	class Compare = std::less< Key >,
-	class Alloc = std::allocator< ft::avl::tree_node< ft::pair< Key const, T > > >
+	class Alloc = std::allocator< ft::pair< Key const, T > >
 >
 class map
 {
 	private:
-	typedef ft::map< T, Compare, Alloc > self_type;
 	typedef ft::avl::tree_node< ft::pair< Key const, T > > node_type;
+
+	// https://alp.developpez.com/tutoriels/templaterebinding/
+	// https://cplusplus.com/reference/memory/allocator/rebind/
+	typedef typename Alloc::template rebind< node_type >::other node_allocator_type;
 
 	public:
 	typedef Key key_type;
@@ -59,6 +62,7 @@ class map
 
 	private:
 	allocator_type _alloc;
+	node_allocator_type _nodealloc;
 	key_compare _kcomp;
 	value_compare _vcomp;
 	node_type* _nil;
