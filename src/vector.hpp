@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:47:06 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 08:31:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ namespace ft
 {
 
 // TODO add documentation
+/**
+ * @tparam T the type of the stored objects
+ * @tparam Alloc the type of allocator object, defaults to std::allocator< T >
+ */
 template<
 	class T,
 	class Alloc = std::allocator< T >
@@ -56,6 +60,11 @@ private:
 /* ------------------------------------------------------------------------- */
 
 public:
+	/**
+	 * Create an empty vector
+	 *
+	 * @param alloc allocator object, defaults to allocator_type
+	 */
 	explicit vector(allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_data(NULL),
@@ -64,6 +73,13 @@ public:
 	{
 	}
 
+	/**
+	 * Create a vector of n elements
+	 *
+	 * @param n the number of elements to put in the vector
+	 * @param val the value of each element, defaults to a default-constructed value
+	 * @param alloc allocator object, defaults to allocator_type
+	 */
 	explicit vector(size_type n, value_type const& val = value_type(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_data(NULL),
@@ -73,6 +89,14 @@ public:
 		this->assign(n, val);
 	}
 
+	/**
+	 * Create a vector from a range of iterators
+	 *
+	 * @tparam InputIterator the type of iterator, must be at least an input iterator
+	 * @param first the beginning of the iterator range
+	 * @param last the end of the iterator range
+	 * @param alloc allocator object, defaults to allocator_type
+	 */
 	template< class InputIterator >
 	vector(InputIterator first, InputIterator last, allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
@@ -83,6 +107,11 @@ public:
 		this->assign(first, last);
 	}
 
+	/**
+	 * Create a vector by deep-copying another
+	 *
+	 * @param x the vector to copy
+	 */
 	vector(vector const& x) :
 		_alloc(x._alloc),
 		_data(NULL),
@@ -92,6 +121,11 @@ public:
 		this->assign(x.begin(), x.end());
 	}
 
+	/**
+	 * Copy another vector into the current vector
+	 *
+	 * @param x the vector to copy
+	 */
 	vector& operator=(vector const& x)
 	{
 		if (&x != this)
@@ -99,6 +133,9 @@ public:
 		return *this;
 	}
 
+	/**
+	 * Destroy the current vector and its internal allocated buffer
+	 */
 	~vector()
 	{
 		this->clear();
@@ -194,7 +231,7 @@ public:
 		if (this->capacity() >= n)
 			return ;
 
-		size_type new_capacity = n * 2;
+		size_type new_capacity = (n > 128 ? n : 128);
 		pointer new_data = this->_alloc.allocate(new_capacity);
 
 		for (size_type i = 0; i < this->size(); ++i)
@@ -309,10 +346,6 @@ public:
 		return this->__erase(position - this->_data, 1);
 	}
 
-	// [ 1 2 3 4 5 ] //
-	//     ^___^ del //
-	// [ 1 5 ]       //
-	//     ^  return //
 	iterator erase(iterator first, iterator last)
 	{
 		return this->__erase(first - this->_data, last - first);
