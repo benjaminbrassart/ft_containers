@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:45:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:11:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,21 +256,4 @@ namespace ft
 		}
 		return first2 != last2;
 	}
-
-	template< class U, class V, class R >
-	struct binary_function
-	{
-		typedef U first_argument_type;
-		typedef V second_argument_type;
-		typedef R result_type;
-	};
-
-	template< class T >
-	struct less : ft::binary_function< T, T, bool >
-	{
-		bool operator()(T const& x, T const& y)
-		{
-			return x < y;
-		}
-	};
 } // namespace ft
