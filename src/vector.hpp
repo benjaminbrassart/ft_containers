@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 08:31:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:08:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -565,6 +565,8 @@ bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 }
 
 } // namespace ft
+
+/* ------------------------------------------------------------------------- */
 
 namespace std
 {

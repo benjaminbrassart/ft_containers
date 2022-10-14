@@ -6,13 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 15:00:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:09:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "private/tree.hpp"
 #include "private/tree_node.hpp"
 #include "private/tree_iterator.hpp"
 
@@ -33,7 +32,10 @@ template<
 >
 class map
 {
-	private:
+
+/* ------------------------------------------------------------------------- */
+
+private:
 	typedef ft::avl::tree_node< ft::pair< Key const, T > > node_type;
 
 	// https://alp.developpez.com/tutoriels/templaterebinding/
@@ -41,7 +43,9 @@ class map
 	// keep the same allocator object, with a difference generic type
 	typedef typename Alloc::template rebind< node_type >::other node_allocator_type;
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	typedef Key key_type;
 	typedef T mapped_type;
 	typedef ft::pair< key_type const, mapped_type > value_type;
@@ -58,10 +62,11 @@ class map
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 	typedef typename allocator_type::size_type size_type;
 
-	public:
 	class value_compare;
 
-	private:
+/* ------------------------------------------------------------------------- */
+
+private:
 	allocator_type _alloc;
 	node_allocator_type _nodealloc;
 	key_compare _kcomp;
@@ -72,7 +77,9 @@ class map
 	node_type* _max;
 	size_type _size;
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_kcomp(comp),
@@ -144,7 +151,9 @@ class map
 		return *this;
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	iterator begin()
 	{
 		return iterator(this->_min);
@@ -187,7 +196,9 @@ class map
 		return const_reverse_iterator(this->begin());
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	bool empty() const
 	{
 		return this->size() == 0;
@@ -203,7 +214,9 @@ class map
 		return this->get_allocator().max_size();
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	// https://legacy.cplusplus.com/reference/map/map/operator[]/
 	// this is incredibly ugly and i love it, thanks cplusplus.com
 	mapped_type& operator[](key_type const& key)
@@ -211,7 +224,9 @@ class map
 		return (*((this->insert(ft::make_pair(key, mapped_type()))).first)).second;
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
 		(void)val;
@@ -313,7 +328,9 @@ class map
 		this->erase(this->begin(), this->end());
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	key_compare key_comp() const
 	{
 		return this->_kcomp;
@@ -324,7 +341,9 @@ class map
 		return this->_vcomp;
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	// TODO test!
 	iterator find(key_type const& k)
 	{
@@ -405,13 +424,17 @@ class map
 		TODO();
 	}
 
-	public:
+/* ------------------------------------------------------------------------- */
+
+public:
 	allocator_type get_allocator() const
 	{
 		return this->_alloc;
 	}
 
-	private:
+/* ------------------------------------------------------------------------- */
+
+private:
 	node_type* __make_nil()
 	{
 		node_type* node = this->_nodealloc.allocate(1);
@@ -431,13 +454,83 @@ class map
 		this->_nodealloc.deallocate(node, 1);
 	}
 
-	public:
+	node_type* __rotate_right(node_type* node)
+	{
+		node_type* left = node->left;
+		node_type* center = left->right;
+
+		left->right = node;
+		node->left = center;
+		this->__update_height(node);
+		this->__update_height(left);
+		return left;
+	}
+
+	node_type* __rotate_left(node_type* node)
+	{
+		node_type* right = node->right;
+		node_type* center = right->left;
+
+		right->left = node;
+		node->right = center;
+		this->__update_height(node);
+		this->__update_height(right);
+		return right;
+	}
+
+	void __update_height(node_type* node)
+	{
+		node->height = std::max(
+			node->left->height,
+			node->right->height
+		) + 1;
+	}
+
+	node_type* __rebalance(node_type* node)
+	{
+		int balance = node->get_balance();
+		int balance_next;
+
+		if (balance > 1)
+		{
+			balance_next = node->left->get_balance();
+			if (balance_next < 0)
+				node->left = this->__rotate_left(node->left);
+			return this->__rotate_right(node);
+		}
+		else if (balance < -1)
+		{
+			balance_next = node->right->get_balance();
+			if (balance_next > 0)
+				node->right = this->__rotate_right(node->right);
+			return __rotate_left(node);
+		}
+		return node;
+	}
+
+	bool __is_balanced(node_type* node)
+	{
+		int const balance = node->get_balance();
+
+		return balance >= -1 && balance <= 1;
+	}
+
+	bool __check_balance(node_type* node)
+	{
+		return (this->__is_balanced(node))
+			&& (this->__check_balance(node->left))
+			&& (this->__check_balance(node->right));
+	}
+
+/* ------------------------------------------------------------------------- */
+
+public:
 	// https://legacy.cplusplus.com/reference/map/map/value_comp/
 	class value_compare : public std::binary_function< value_type, value_type, bool >
 	{
 		friend class map;
 
-		private:
+	private:
 		Compare _comp;
 
 		value_compare(Compare comp) :
@@ -445,13 +538,15 @@ class map
 		{
 		}
 
-		public:
+	public:
 		bool operator()(value_type const& x, value_type const& y)
 		{
 			return this->_comp(x.first, y.first);
 		}
 	};
 }; // class map
+
+/* ------------------------------------------------------------------------- */
 
 template< class Key, class T, class Compare, class Alloc >
 bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
@@ -489,6 +584,8 @@ bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 	return !(lhs < rhs);
 }
 } // namespace ft
+
+/* ------------------------------------------------------------------------- */
 
 namespace std
 {
