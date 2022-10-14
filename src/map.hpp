@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 13:28:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:24:13 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class map
 
 	// https://alp.developpez.com/tutoriels/templaterebinding/
 	// https://cplusplus.com/reference/memory/allocator/rebind/
+	// keep the same allocator object, with a difference generic type
 	typedef typename Alloc::template rebind< node_type >::other node_allocator_type;
 
 	public:
@@ -99,17 +100,23 @@ class map
 			this->insert(*it);
 	}
 
-	map(map const& x) :
-		_alloc(x._alloc),
-		_kcomp(x._kcomp),
-		_vcomp(x._vcomp),
+	template<
+		class _Key,
+		class _T,
+		class _Compare,
+		class _Alloc
+	>
+	map(map< _Key, _T, _Compare, _Alloc > const& x) :
+		_alloc(x.get_allocator()),
+		_kcomp(x.key_comp()),
+		_vcomp(x.value_comp()),
 		_nil(this->__make_nil()),
 		_root(this->_nil),
 		_min(this->_nil),
 		_max(this->_nil),
 		_size(0)
 	{
-		for (iterator it = x.begin(); it != x.end(); ++it)
+		for (typename map< _Key, _T, _Compare, _Alloc >::iterator it = x.begin(); it != x.end(); ++it)
 			this->insert(*it);
 	}
 
@@ -118,14 +125,20 @@ class map
 		this->clear();
 	}
 
-	map& operator=(map const& rhs)
+	template<
+		class _Key,
+		class _T,
+		class _Compare,
+		class _Alloc
+	>
+	map& operator=(map< _Key, _T, _Compare, _Alloc > const& rhs)
 	{
 		if (this != &rhs)
 		{
 			this->clear();
 			this->_kcomp = rhs._kcomp;
 			this->_vcomp = rhs._vcomp;
-			for (iterator it = rhs.begin(); it != rhs.end(); ++it)
+			for (typename map< _Key, _T, _Compare, _Alloc >::iterator it = rhs.begin(); it != rhs.end(); ++it)
 				this->insert(*it);
 		}
 		return *this;
@@ -377,12 +390,12 @@ class map
 	}
 
 	private:
-	node_type* __make_nil() const
+	node_type* __make_nil()
 	{
-		node_type* node = this->get_allocator().allocate(1);
+		node_type* node = this->_nodealloc.allocate(1);
 		node_type tmp;
 
-		this->get_allocator().construct(node, tmp);
+		this->_nodealloc.construct(node, tmp);
 		return node;
 	}
 
@@ -392,8 +405,8 @@ class map
 			return;
 		this->__avl_release(node->left);
 		this->__avl_release(node->right);
-		this->get_allocator().destroy(node);
-		this->get_allocator().deallocate(node, 1);
+		this->_nodealloc.destroy(node);
+		this->_nodealloc.deallocate(node, 1);
 	}
 
 	public:

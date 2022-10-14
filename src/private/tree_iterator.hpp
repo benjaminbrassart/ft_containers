@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 12:07:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:21:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 	{
 	}
 
-	tree_iterator(node_type* node) :
+	template< class _Node >
+	tree_iterator(_Node* node) :
 		_node(node)
 	{
 	}
 
-	tree_iterator(tree_iterator< Pair, Node > const& x) :
+	template< class _Pair, class _Node >
+	tree_iterator(tree_iterator< _Pair, _Node > const& x) :
 		_node(x._node)
 	{
 	}
 
-	tree_iterator& operator=(tree_iterator< Pair, Node > const& x)
+	template< class _Pair, class _Node >
+	tree_iterator& operator=(tree_iterator< _Pair, _Node > const& x)
 	{
 		if (this != &x)
 			this->_node = x._node;
@@ -126,14 +129,20 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 	}
 };
 
-template< class Pair, class Node >
-bool operator==(tree_iterator< Pair, Node > const& lhs, tree_iterator< Pair, Node > const& rhs)
+template<
+	class Pair1, class Node1,
+	class Pair2, class Node2
+>
+bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return rhs._node == lhs._node; // TODO check value instead?
 }
 
-template< class Pair, class Node >
-bool operator!=(tree_iterator< Pair, Node > const& lhs, tree_iterator< Pair, Node > const& rhs)
+template<
+	class Pair1, class Node1,
+	class Pair2, class Node2
+>
+bool operator!=(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return !(lhs == rhs);
 }
