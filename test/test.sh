@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=2059,2310
 
 set -e
 
@@ -26,6 +27,7 @@ is_absolute() {
     esac
 }
 
+# shellcheck disable=
 if is_absolute "$0"; then
     REAL_WD="$(dirname "$0")"
 else
@@ -64,6 +66,7 @@ compile() {
         cflags="${cflags} -D STD"
     fi
 
+    # shellcheck disable=2086
     ${cc} ${cflags} "${INPUT}" -o "${OUTPUT}"
 }
 
@@ -166,7 +169,13 @@ DIFF_KO=0
 TITLE="${DIR_SRC}/${container}/title.txt"
 
 printf -- "${PURPLE}\n"
-[ -f "${TITLE}" ] && cat "${TITLE}" || upper "${container}"
+
+if [ -f "${TITLE}" ]; then
+    cat "${TITLE}"
+else
+    upper "${container}"
+fi
+
 printf -- "${RESET}\n"
 
 for test in ${TESTS}; do
