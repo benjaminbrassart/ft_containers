@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:12:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 07:47:06 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,15 +258,12 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO optimize with only 1 loop
 	template< class InputIterator >
 	void assign(InputIterator first, InputIterator last)
 	{
 		this->__dispatch_assign(first, last, ft::is_integral<InputIterator>());
 	}
 
-	// TODO add dispatcher
-	// TODO optimize with only 1 loop
 	void assign(size_type n, value_type const& val)
 	{
 		this->__assign_fill(n, val);
