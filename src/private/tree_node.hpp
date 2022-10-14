@@ -6,11 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 21:02:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 09:57:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "private/nullptr.hpp"
 
 namespace ft
 {
@@ -27,10 +29,10 @@ struct tree_node
 
 	private:
 	tree_node() :
-		parent(NULL),
+		parent(nullptr),
 		pair(),
-		left(NULL),
-		right(NULL),
+		left(nullptr),
+		right(nullptr),
 		height(0)
 	{
 	}
@@ -39,8 +41,8 @@ struct tree_node
 	tree_node(ft::avl::tree_node< Pair >* p_parent, Pair const& p_pair) :
 		parent(p_parent),
 		pair(p_pair),
-		left(NULL),
-		right(NULL),
+		left(nullptr),
+		right(nullptr),
 		height(1)
 	{
 	}
@@ -74,7 +76,7 @@ struct tree_node
 	public:
 	bool is_nil() const
 	{
-		return this->parent == NULL;
+		return this->parent == nullptr;
 	}
 
 	int get_balance() const
