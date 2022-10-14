@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:45:14 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 07:47:28 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,6 @@ class map
 	}
 
 	public:
-	// TODO test implementation
 	iterator find(key_type const& k)
 	{
 		// node_type* node = this->_root;
@@ -289,7 +288,6 @@ class map
 		TODO();
 	}
 
-	// TODO test implementation
 	const_iterator find(key_type const& k) const
 	{
 		// node_type* node = this->_root;
