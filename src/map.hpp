@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 03:24:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 07:45:14 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,16 +197,16 @@ class map
 	}
 
 	public:
-	// TODO provide implementation
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-
-
-		throw 0; // TODO
+		TODO();
 	}
 
-	// TODO provide implementation
-	iterator insert(iterator position, value_type const& val);
+	// TODO test implementation
+	iterator insert(iterator position, value_type const& val)
+	{
+		return this->insert(val).first;
+	}
 
 	template< class InputIterator >
 	void insert(InputIterator first, InputIterator last)
@@ -215,13 +215,17 @@ class map
 			this->insert(*it);
 	}
 
-	// TODO provide implementation
-	void erase(iterator position);
+	void erase(iterator position)
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	size_type erase(key_type const& k);
+	size_type erase(key_type const& k)
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
+	// TODO test implementation
 	void erase(iterator first, iterator last)
 	{
 		for (iterator it = first; first != last; ++first)
@@ -282,7 +286,7 @@ class map
 		// 		break;
 		// }
 		// return iterator(node);
-		throw 0; // TODO
+		TODO();
 	}
 
 	// TODO test implementation
@@ -300,7 +304,7 @@ class map
 		// 		break;
 		// }
 		// return iterator(node);
-		throw 0; // TODO
+		TODO();
 	}
 
 	// TODO test implementation
@@ -311,23 +315,35 @@ class map
 		return 1;
 	}
 
-	// TODO provide implementation
-	iterator lower_bound(key_type const& k);
+	iterator lower_bound(key_type const& k)
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	const_iterator lower_bound(key_type const& k) const;
+	const_iterator lower_bound(key_type const& k) const
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	iterator upper_bound(key_type const& k);
+	iterator upper_bound(key_type const& k)
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	const_iterator upper_bound(key_type const& k) const;
+	const_iterator upper_bound(key_type const& k) const
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const;
+	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const
+	{
+		TODO();
+	}
 
-	// TODO provide implementation
-	ft::pair< iterator, iterator > equal_range(key_type const& k);
+	ft::pair< iterator, iterator > equal_range(key_type const& k)
+	{
+		TODO();
+	}
 
 	public:
 	allocator_type get_allocator() const
