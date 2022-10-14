@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:54:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 07:57:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,9 @@ class map
 
 	public:
 	// https://legacy.cplusplus.com/reference/map/map/operator[]/
+	// this is incredibly ugly and i love it, thanks cplusplus.com
 	mapped_type& operator[](key_type const& key)
 	{
-		// this is incredibly ugly and i like it, thanks cplusplus.com
 		return (*((this->insert(ft::make_pair(key, mapped_type()))).first)).second;
 	}
 
@@ -217,12 +217,22 @@ class map
 
 	void erase(iterator position)
 	{
+		if (position == this->end())
+			return;
 		TODO();
 	}
 
+	// TODO test implementation
 	size_type erase(key_type const& k)
 	{
-		TODO();
+		iterator position = this->find(k);
+
+		if (position != this->end())
+		{
+			this->erase(position);
+			return 1;
+		}
+		return 0;
 	}
 
 	// TODO test implementation
@@ -255,8 +265,7 @@ class map
 	// TODO test implementation
 	void clear()
 	{
-		this->release(this->_root);
-		this->_size = 0;
+		this->erase(this->begin(), this->end());
 	}
 
 	public:
