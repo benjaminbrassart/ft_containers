@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 08:45:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:46:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ template<
 >
 class map
 {
-	private:
-	typedef map< T, Compare, Alloc > self_type;
 	public:
 	/** The first template parameter */
 	typedef Key key_type;
@@ -54,7 +52,9 @@ class map
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 	typedef typename allocator_type::size_type size_type;
 
+	public:
 	// https://legacy.cplusplus.com/reference/map/map/value_comp/
+	// TODO forward declare and put to the end of the class to improve readablity
 	class value_compare : ft::binary_function< value_type, value_type, bool >
 	{
 		friend class map;
@@ -75,39 +75,56 @@ class map
 	};
 
 	private:
-	typedef ft::avl::tree< self_type > tree_type;
+	typedef ft::map< T, Compare, Alloc > self_type;
+	typedef ft::avl::tree_node< value_type > node_type;
 
 	private:
+	allocator_type _alloc;
 	key_compare _kcomp;
 	value_compare _vcomp;
-	tree_type _tree;
-	allocator_type _alloc;
+	node_type _nil;
+	node_type* _root;
+	node_type* _min;
+	node_type* _max;
+	size_type _size;
 
 	public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
+		_alloc(alloc),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
-		_tree(tree_type(comp, this->_vcomp)),
-		_alloc(alloc)
+		_nil(),
+		_root(nullptr),
+		_min(nullptr),
+		_max(nullptr),
+		_size(0)
 	{
 	}
 
 	template< class InputIterator >
 	map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
+		_alloc(alloc),
 		_kcomp(comp),
 		_vcomp(value_compare(comp)),
-		_tree(tree_type(comp, this->_vcomp)),
-		_alloc(alloc)
+		_nil(),
+		_root(nullptr),
+		_min(nullptr),
+		_max(nullptr),
+		_size(0)
 	{
 		for (InputIterator it = first; it != last; ++it)
 			this->insert(*it);
 	}
 
 	map(map const& x) :
-		_tree(x._tree),
+		_alloc(x._alloc),
 		_kcomp(x._kcomp),
 		_vcomp(x._vcomp),
-		_alloc(x._alloc)
+		_nil(),
+		_root(nullptr),
+		_min(nullptr),
+		_max(nullptr),
+		_size(0)
 	{
 		for (iterator it = x.begin(); it != x.end(); ++it)
 			this->insert(*it);
@@ -134,24 +151,24 @@ class map
 	public:
 	iterator begin()
 	{
-		return iterator(this->_tree._min);
+		return iterator(this->_min);
 	}
 
 	const_iterator begin() const
 	{
-		return const_iterator(this->_tree._min);
+		return const_iterator(this->_min);
 	}
 
 	// TODO test implementation
 	iterator end()
 	{
-		return iterator(this->_tree._nil_node);
+		return iterator(&this->_nil);
 	}
 
 	// TODO test implementation
 	const_iterator end() const
 	{
-		return const_iterator(this->_tree._nil_node);
+		return const_iterator(&this->_nil);
 	}
 
 	reverse_iterator rbegin()
@@ -182,7 +199,7 @@ class map
 
 	size_type size() const
 	{
-		return this->_tree._size;
+		return this->_size;
 	}
 
 	size_type max_size() const
@@ -207,6 +224,7 @@ class map
 	// TODO test implementation
 	iterator insert(iterator position, value_type const& val)
 	{
+		(void)position;
 		return this->insert(val).first;
 	}
 
@@ -247,11 +265,12 @@ class map
 	// TODO test implementation
 	void swap(map& x)
 	{
+		// TODO swap root, min, max, size, nil
 		// swap trees
-		tree_type x_tree = x._tree;
+		// tree_type x_tree = x._tree;
 
-		x._tree = this->_tree;
-		this->_tree = x_tree;
+		// x._tree = this->_tree;
+		// this->_tree = x_tree;
 
 		key_compare x_kcomp = x._kcomp;
 
@@ -359,124 +378,6 @@ class map
 	{
 		return this->_alloc;
 	}
-
-	private:
-	// template< class _Alloc >
-	// static node_type* insert(T const& value, node_type* node, _Alloc const& alloc)
-	// {
-	// 	if (node == NULL)
-	// 		return alloc.construct(alloc.allocate(1), value);
-	// 	if (value < node->value) // TODO use key_compare
-	// 		node->left = insert(value, node->left, alloc);
-	// 	else if (value > node->value) // TODO use key_compare
-	// 		node->right = insert(value, node->right, alloc);
-	// 	else
-	// 		return node;
-	// 	update_height(node);
-	// 	return rebalance(node);
-	// }
-
-	// static node_type* remove(T const& value, node_type* node)
-	// {
-	// }
-
-	// static node_type* search(T const& value, node_type* node)
-	// {
-	// 	if (node == NULL)
-	// 		return NULL;
-	// 	if (value > node->value) // TODO use key_compare
-	// 		return search(value, node->right);
-	// 	if (value < node->value) // TODO use key_compare
-	// 		return search(value, node->left);
-	// 	return node;
-	// }
-
-	// static void update_height(node_type* node)
-	// {
-	// 	int h_left = get_height(node->left);
-	// 	int h_right = get_height(node->right);
-	// 	int h_max = (h_left > h_right) ? h_left : h_right;
-
-	// 	node->height = h_max + 1;
-	// }
-
-	// static node_type* rebalance(node_type* node)
-	// {
-	// 	int balance = get_balance(node);
-	// 	int balance_sub; // TODO remove
-
-	// 	if (balance > 1)
-	// 	{
-	// 		balance_sub = get_balance(node->left);
-	// 		if (balance_sub < 0)
-	// 			node->left = rotate_left(node->left);
-	// 		return rotate_right(node);
-	// 	}
-	// 	else if (balance < -1)
-	// 	{
-	// 		balance_sub = get_balance(node->right);
-	// 		if (balance_sub < 0)
-	// 			node->right = rotate_left(node->right);
-	// 		return rotate_left(node);
-	// 	}
-	// 	return node;
-	// }
-
-	// static node_type* rotate_right(node_type* node)
-	// {
-	// 	node_type* left = node->left;
-	// 	node_type* center = left->right;
-
-	// 	left->right = node;
-	// 	node->left = center;
-	// 	update_height(node);
-	// 	update_height(left);
-	// 	return left;
-	// }
-
-	// static node_type* rotate_left(node_type* node)
-	// {
-	// 	node_type* right = node->right;
-	// 	node_type* center = right->left;
-
-	// 	right->left = node;
-	// 	node->right = center;
-	// 	update_height(node);
-	// 	update_height(right);
-	// 	return right;
-	// }
-
-	// static int get_balance(node_type* node)
-	// {
-	// 	if (node == NULL)
-	// 		return 0;
-	// 	return get_height(node->left) - get_height(node->right);
-	// }
-
-	// static int get_height(node_type* node)
-	// {
-	// 	if (node == NULL)
-	// 		return 0;
-	// 	return node->height;
-	// }
-
-	// template< class _Alloc >
-	// static void release(node_type* node, _Alloc const& alloc)
-	// {
-	// 	if (node == NULL)
-	// 		return ;
-	// 	release(node->left);
-	// 	release(node->right);
-	// 	alloc.destroy(node);
-	// 	alloc.deallocate(node, 1);
-	// }
-
-	// static value_type& get_max(node_type* node)
-	// {
-	// 	if (node->right != NULL)
-	// 		return get_max(node->right);
-	// 	return node->value;
-	// }
 }; // class map
 
 template< class Key, class T, class Compare, class Alloc >
