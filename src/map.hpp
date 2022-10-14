@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:57:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 08:45:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ template<
 >
 class map
 {
+	private:
+	typedef map< T, Compare, Alloc > self_type;
 	public:
 	/** The first template parameter */
 	typedef Key key_type;
@@ -73,7 +75,7 @@ class map
 	};
 
 	private:
-	typedef ft::avl::tree< value_type, value_compare, allocator_type > tree_type;
+	typedef ft::avl::tree< self_type > tree_type;
 
 	private:
 	key_compare _kcomp;

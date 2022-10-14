@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:24:48 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 03:22:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 08:46:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@
 namespace ft
 {
 namespace avl {
-template<
-	class Pair,
-	class ValueCompare,
-	class Alloc
->
+template< class Map >
 struct tree
 {
 	private:
-	typedef ft::avl::tree_node< Pair > node_type;
-	typedef Pair value_type;
-	typedef ValueCompare comp_type;
-	typedef Alloc allocator_type;
-	typedef typename allocator_type::size_type size_type;
+	typedef Map map_type;
+	typedef typename map_type::value_type value_type;
+	typedef typename map_type::value_compare comp_type;
+	typedef typename map_type::allocator_type allocator_type;
+	typedef typename map_type::iterator iterator;
+	typedef typename map_type::const_iterator const_iterator;
+	typedef typename map_type::size_type size_type;
+	typedef ft::avl::tree_node< value_type > node_type;
 
 	public:
 	allocator_type _alloc;
@@ -45,45 +44,52 @@ struct tree
 	tree(allocator_type const& alloc, comp_type const& comp) :
 		_alloc(alloc),
 		_nil_node(),
-		_root(NULL),
-		_min(NULL),
-		_max(NULL),
+		_root(this->_nil_node),
+		_min(this->_nil_node),
+		_max(this->_nil_node),
 		_size(0),
 		_comp(comp)
 	{
 	}
 
-	tree(ft::avl::tree< Pair, ValueCompare, Alloc > const& x) :
+	tree(ft::avl::tree< Map > const& x) :
 		_alloc(x._alloc),
 		_nil_node(),
-		_root(NULL),
-		_min(NULL),
-		_max(NULL),
+		_root(this->_nil_node),
+		_min(this->_nil_node),
+		_max(this->_nil_node),
 		_size(0),
 		_comp(x._comp)
 	{
 	}
 
-	tree& operator=(ft::avl::tree< Pair, ValueCompare, Alloc > const& x)
+	tree& operator=(ft::avl::tree< Map > const& x)
 	{
 		if (this != &x)
 		{
+			this->__release(this->_root);
 			this->_alloc = x._alloc;
 			this->_comp = x._comp;
-			this->__udpdate_nil();
+			this->_root = this->_nil_node;
+			this->_min = this->_nil_node;
+			this->_max = this->_nil_node;
+			this->_size = 0;
+			// TODO put values
 		}
 		return *this;
 	}
 
 	~tree()
 	{
-		this->__delete_all(this->_root);
+		this->__release(this->_root);
 	}
 
 	public:
-	void insert(value_type const& value)
+	ft::pair< iterator, bool > insert(value_type const& value)
 	{
 		node_type* node = this->__make_node(value);
+
+
 	}
 
 	private:
@@ -91,16 +97,6 @@ struct tree
 	{
 		this->_nil_node.left = this->_min;
 		this->_nil_node.right = this->_max;
-	}
-
-	void __delete_all(node_type* node)
-	{
-		if (node->parent == NULL)
-			return;
-		__delete(node->right);
-		__delete(node->left);
-		this->_alloc.destroy(node);
-		this->_alloc.dealloc(node, 1);
 	}
 
 	node_type* __make_node(value_type const& value)
