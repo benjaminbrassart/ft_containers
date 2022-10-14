@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 07:47:28 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 07:54:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,7 +308,7 @@ class map
 	// TODO test implementation
 	size_type count(key_type const& k) const
 	{
-		if (this->find(k) == NULL)
+		if (this->find(k) == this->end())
 			return 0;
 		return 1;
 	}
