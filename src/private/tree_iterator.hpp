@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:59:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 06:34:45 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,28 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		return &this->_node->pair;
 	}
 
+	// TODO test this
+	// https://stackoverflow.com/questions/12684191/implementing-an-iterator-over-binary-or-arbitrary-tree-using-c-11/12684730#12684730
 	tree_iterator& operator++()
 	{
-		// TODO add binary tree logic
+		node_type* y;
 
-		if (this->_node->right->is_nil())
+		if (!this->_node->right->is_nil())
 		{
-			if (this->_node->parent->left == this)
+			this->_node = this->_node->right;
+			while (!this->_node->left->is_nil())
+				this->_node = this->_node->left;
+		}
+		else
+		{
+			y = this->_node->parent;
+			while (this->_node == y->right)
 			{
-				this->_node = this->_node->parent;
+				this->_node = y;
+				y = y->parent;
 			}
-			else
-			{
-
-			}
+			if (this->_node->right != y)
+				this->_node = y;
 		}
 		return *this;
 	}
