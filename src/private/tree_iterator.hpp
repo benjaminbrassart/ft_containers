@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 06:34:45 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:27:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,17 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		return this->_node->pair;
 	}
 
+	const_reference operator*() const
+	{
+		return this->_node->pair;
+	}
+
 	pointer operator->()
+	{
+		return &this->_node->pair;
+	}
+
+	const_pointer operator->() const
 	{
 		return &this->_node->pair;
 	}
