@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 23:48:53 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/08 05:55:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:14:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define NAMESPACE ft
 
 #endif
+
+using namespace NAMESPACE;
 
 # ifndef SEED
 #  define SEED 21U

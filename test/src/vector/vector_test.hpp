@@ -4,8 +4,6 @@
 
 #include HEADER_VECTOR
 
-#define vector NAMESPACE::vector
-
 template< class T, class Alloc >
 void print_vector(vector< T, Alloc > const& vec)
 {
