@@ -6,12 +6,13 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 13:13:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:36:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "private/avl_tree.hpp"
 #include "private/tree_node.hpp"
 #include "private/tree_iterator.hpp"
 
@@ -46,6 +47,8 @@ private:
 /* ------------------------------------------------------------------------- */
 
 public:
+	class value_compare;
+
 	typedef Key key_type;
 	typedef T mapped_type;
 	typedef ft::pair< key_type const, mapped_type > value_type;
@@ -62,20 +65,23 @@ public:
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 	typedef typename allocator_type::size_type size_type;
 
-	class value_compare;
+private:
+	typedef ft::avl::tree< value_type, value_compare, node_allocator_type > tree_type;
 
 /* ------------------------------------------------------------------------- */
 
 private:
 	allocator_type _alloc;
-	node_allocator_type _nodealloc;
 	key_compare _kcomp;
-	value_compare _vcomp;
-	node_type* _nil;
-	node_type* _root;
-	node_type* _min;
-	node_type* _max;
-	size_type _size;
+
+	// value_compare _vcomp;
+	// node_type* _nil;
+	// node_type* _root;
+	// node_type* _min;
+	// node_type* _max;
+	// size_type _size;
+
+	tree_type _tree;
 
 /* ------------------------------------------------------------------------- */
 
@@ -83,12 +89,12 @@ public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_kcomp(comp),
-		_vcomp(value_compare(comp)),
-		_nil(this->__make_nil()),
-		_root(this->_nil),
-		_min(this->_nil),
-		_max(this->_nil),
-		_size(0)
+		// _nil(this->__make_nil()),
+		// _root(this->_nil),
+		// _min(this->_nil),
+		// _max(this->_nil),
+		// _size(0)
+		_tree(value_compare(comp), node_allocator_type(alloc))
 	{
 	}
 
@@ -96,12 +102,13 @@ public:
 	map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_kcomp(comp),
-		_vcomp(value_compare(comp)),
-		_nil(this->__make_nil()),
-		_root(this->_nil),
-		_min(this->_nil),
-		_max(this->_nil),
-		_size(0)
+		// _vcomp(value_compare(comp)),
+		// _nil(this->__make_nil()),
+		// _root(this->_nil),
+		// _min(this->_nil),
+		// _max(this->_nil),
+		// _size(0)
+		_tree(value_compare(comp), node_allocator_type(alloc))
 	{
 		this->insert(first, last);
 	}
@@ -115,21 +122,18 @@ public:
 	map(map< _Key, _T, _Compare, _Alloc > const& x) :
 		_alloc(x.get_allocator()),
 		_kcomp(x.key_comp()),
-		_vcomp(x.value_comp()),
-		_nil(this->__make_nil()),
-		_root(this->_nil),
-		_min(this->_nil),
-		_max(this->_nil),
-		_size(0)
+		// _vcomp(x.value_comp()),
+		// _nil(this->__make_nil()),
+		// _root(this->_nil),
+		// _min(this->_nil),
+		// _max(this->_nil),
+		// _size(0)
+		_tree(value_compare(x._kcomp), node_allocator_type(x._alloc))
 	{
 		this->insert(x.begin(), x.end());
 	}
 
-	~map()
-	{
-		this->clear();
-	}
-
+	// TODO adapt for avl_tree class
 	template<
 		class _Key,
 		class _T,
@@ -148,27 +152,32 @@ public:
 		return *this;
 	}
 
+	~map()
+	{
+		this->clear();
+	}
+
 /* ------------------------------------------------------------------------- */
 
 public:
 	iterator begin()
 	{
-		return iterator(this->_min);
+		return iterator(this->_tree._min);
 	}
 
 	const_iterator begin() const
 	{
-		return const_iterator(this->_min);
+		return const_iterator(this->_tree._min);
 	}
 
 	iterator end()
 	{
-		return iterator(this->_nil);
+		return iterator(this->_tree._nil);
 	}
 
 	const_iterator end() const
 	{
-		return const_iterator(this->_nil);
+		return const_iterator(this->_tree._nil);
 	}
 
 	reverse_iterator rbegin()
@@ -201,12 +210,12 @@ public:
 
 	size_type size() const
 	{
-		return this->_size;
+		return this->_tree.size();
 	}
 
 	size_type max_size() const
 	{
-		return this->get_allocator().max_size();
+		return this->_tree.get_allocator().max_size();
 	}
 
 /* ------------------------------------------------------------------------- */
@@ -225,33 +234,33 @@ public:
 	// TODO test
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-		node_type* node = this->_root;
-		node_type* prev = this->_nil;
-		node_type* new_node;
+		// node_type* node = this->_root;
+		// node_type* prev = this->_nil;
+		// node_type* new_node;
 
-		while (!node->is_nil())
-		{
-			prev = node;
-			if (this->value_comp()(val, node->pair)) // should go to the left, e.g. is less than
-				node = node->left;
-			else if (this->value_comp()(node->pair, val)) // should go to the right, e.g. is greater than
-				node = node->right;
-			else // keys are considered equal, therefore no insertion and we return immediately
-				return ft::make_pair(iterator(node), false);
-		}
+		// while (!node->is_nil())
+		// {
+		// 	prev = node;
+		// 	if (this->value_comp()(val, node->pair)) // should go to the left, e.g. is less than
+		// 		node = node->left;
+		// 	else if (this->value_comp()(node->pair, val)) // should go to the right, e.g. is greater than
+		// 		node = node->right;
+		// 	else // keys are considered equal, therefore no insertion and we return immediately
+		// 		return ft::make_pair(iterator(node), false);
+		// }
 
-		new_node = this->__make_node(val);
+		// new_node = this->__make_node(val);
 
-		if (prev->is_nil()) // map is empty, replace root
-		{
-			this->_root = new_node;
-			this->_nil->left = this->_root;
-			this->_nil->right = this->_root;
-			this->_min = this->_root;
-			this->_max = this->_root;
-			++this->_size;
-			return ft::make_pair(iterator(this->_root), true);
-		}
+		// if (prev->is_nil()) // map is empty, replace root
+		// {
+		// 	this->_root = new_node;
+		// 	this->_nil->left = this->_root;
+		// 	this->_nil->right = this->_root;
+		// 	this->_min = this->_root;
+		// 	this->_max = this->_root;
+		// 	++this->_size;
+		// 	return ft::make_pair(iterator(this->_root), true);
+		// }
 
 		TODO();
 	}
@@ -289,59 +298,32 @@ public:
 		return 0;
 	}
 
-	// TODO test implementation
 	void erase(iterator first, iterator last)
 	{
-		if (first == this->begin() && last == this->end())
-		{
-			this->__avl_release(this->_root);
-			return;
-		}
-		for (iterator it = first; first != last; ++first)
-			this->erase(it);
+		// if (first == this->begin() && last == this->end())
+		// {
+		// 	this->__avl_release(this->_root);
+		// 	return;
+		// }
+		// for (iterator it = first; first != last; ++first)
+		// 	this->erase(it);
+		TODO();
 	}
 
 	// TODO test implementation
 	void swap(map& x)
 	{
-		node_type* x_node;
+		// swap tree
+		tree_type x_tree = x._tree;
 
-		// swap root
-		x_node = x._root;
-		x._root = this->_root;
-		this->_root = x_node;
-
-		// swap min
-		x_node = x._min;
-		x._min = this->_min;
-		this->_min = x_node;
-
-		// swap max
-		x_node = x._max;
-		x._max = this->_max;
-		this->_max = x_node;
-
-		// swap nil
-		x_node = x._nil;
-		x._nil = this->_nil;
-		this->_nil = x_node;
-
-		// swap size
-		x._size ^= this->_size;
-		this->_size ^= x._size;
-		x._size ^= this->_size;
+		x._tree = this->_tree;
+		this->_tree = x_tree;
 
 		// swap key_comp
 		key_compare x_kcomp = x._kcomp;
 
 		x._kcomp = this->_kcomp;
 		this->_kcomp = x_kcomp;
-
-		// swap value_comp
-		value_compare x_vcomp = x._vcomp;
-
-		x._vcomp = this->_vcomp;
-		this->_vcomp = x_vcomp;
 	}
 
 	// TODO test implementation
@@ -434,14 +416,12 @@ public:
 
 	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const
 	{
-		(void)k;
-		TODO();
+		return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
 	}
 
 	ft::pair< iterator, iterator > equal_range(key_type const& k)
 	{
-		(void)k;
-		TODO();
+		return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
 	}
 
 /* ------------------------------------------------------------------------- */
@@ -455,107 +435,107 @@ public:
 /* ------------------------------------------------------------------------- */
 
 private:
-	node_type* __make_nil()
-	{
-		node_type* node = this->_nodealloc.allocate(1);
-		node_type tmp;
+	// node_type* __make_nil()
+	// {
+	// 	node_type* node = this->_nodealloc.allocate(1);
+	// 	node_type tmp;
 
-		tmp.left = this->_nil;
-		tmp.right = this->_nil;
+	// 	tmp.left = this->_nil;
+	// 	tmp.right = this->_nil;
 
-		this->_nodealloc.construct(node, tmp);
-		return node;
-	}
+	// 	this->_nodealloc.construct(node, tmp);
+	// 	return node;
+	// }
 
-	node_type* __make_node(value_type const& value)
-	{
-		node_type* node = this->_nodealloc.allocate(1);
-		node_type tmp(this->_nil, value);
+	// node_type* __make_node(value_type const& value)
+	// {
+	// 	node_type* node = this->_nodealloc.allocate(1);
+	// 	node_type tmp(this->_nil, value);
 
-		tmp.left = this->_nil;
-		tmp.right = this->_nil;
+	// 	tmp.left = this->_nil;
+	// 	tmp.right = this->_nil;
 
-		this->_nodealloc.construct(node, tmp);
-		return node;
-	}
+	// 	this->_nodealloc.construct(node, tmp);
+	// 	return node;
+	// }
 
-	void __avl_release(node_type* node)
-	{
-		if (node->is_nil())
-			return;
-		this->__avl_release(node->left);
-		this->__avl_release(node->right);
-		this->_nodealloc.destroy(node);
-		this->_nodealloc.deallocate(node, 1);
-	}
+	// void __avl_release(node_type* node)
+	// {
+	// 	if (node->is_nil())
+	// 		return;
+	// 	this->__avl_release(node->left);
+	// 	this->__avl_release(node->right);
+	// 	this->_nodealloc.destroy(node);
+	// 	this->_nodealloc.deallocate(node, 1);
+	// }
 
-	node_type* __rotate_right(node_type* node)
-	{
-		node_type* left = node->left;
-		node_type* center = left->right;
+	// node_type* __rotate_right(node_type* node)
+	// {
+	// 	node_type* left = node->left;
+	// 	node_type* center = left->right;
 
-		left->right = node;
-		node->left = center;
-		this->__update_height(node);
-		this->__update_height(left);
-		return left;
-	}
+	// 	left->right = node;
+	// 	node->left = center;
+	// 	this->__update_height(node);
+	// 	this->__update_height(left);
+	// 	return left;
+	// }
 
-	node_type* __rotate_left(node_type* node)
-	{
-		node_type* right = node->right;
-		node_type* center = right->left;
+	// node_type* __rotate_left(node_type* node)
+	// {
+	// 	node_type* right = node->right;
+	// 	node_type* center = right->left;
 
-		right->left = node;
-		node->right = center;
-		this->__update_height(node);
-		this->__update_height(right);
-		return right;
-	}
+	// 	right->left = node;
+	// 	node->right = center;
+	// 	this->__update_height(node);
+	// 	this->__update_height(right);
+	// 	return right;
+	// }
 
-	void __update_height(node_type* node)
-	{
-		node->height = std::max(
-			node->left->height,
-			node->right->height
-		) + 1;
-	}
+	// void __update_height(node_type* node)
+	// {
+	// 	node->height = std::max(
+	// 		node->left->height,
+	// 		node->right->height
+	// 	) + 1;
+	// }
 
-	node_type* __rebalance(node_type* node)
-	{
-		int balance = node->get_balance();
-		int balance_next;
+	// node_type* __rebalance(node_type* node)
+	// {
+	// 	int balance = node->get_balance();
+	// 	int balance_next;
 
-		if (balance > 1)
-		{
-			balance_next = node->left->get_balance();
-			if (balance_next < 0)
-				node->left = this->__rotate_left(node->left);
-			return this->__rotate_right(node);
-		}
-		else if (balance < -1)
-		{
-			balance_next = node->right->get_balance();
-			if (balance_next > 0)
-				node->right = this->__rotate_right(node->right);
-			return __rotate_left(node);
-		}
-		return node;
-	}
+	// 	if (balance > 1)
+	// 	{
+	// 		balance_next = node->left->get_balance();
+	// 		if (balance_next < 0)
+	// 			node->left = this->__rotate_left(node->left);
+	// 		return this->__rotate_right(node);
+	// 	}
+	// 	else if (balance < -1)
+	// 	{
+	// 		balance_next = node->right->get_balance();
+	// 		if (balance_next > 0)
+	// 			node->right = this->__rotate_right(node->right);
+	// 		return __rotate_left(node);
+	// 	}
+	// 	return node;
+	// }
 
-	bool __is_balanced(node_type* node)
-	{
-		int const balance = node->get_balance();
+	// bool __is_balanced(node_type* node)
+	// {
+	// 	int const balance = node->get_balance();
 
-		return balance >= -1 && balance <= 1;
-	}
+	// 	return balance >= -1 && balance <= 1;
+	// }
 
-	bool __check_balance(node_type* node)
-	{
-		return (this->__is_balanced(node))
-			&& (this->__check_balance(node->left))
-			&& (this->__check_balance(node->right));
-	}
+	// bool __check_balance(node_type* node)
+	// {
+	// 	return (this->__is_balanced(node))
+	// 		&& (this->__check_balance(node->left))
+	// 		&& (this->__check_balance(node->right));
+	// }
 
 /* ------------------------------------------------------------------------- */
 
