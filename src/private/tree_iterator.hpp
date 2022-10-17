@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 11:19:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:32:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		}
 		else
 		{
-			while (!this->_node->parent->is_nil() && this->_node == this->_node->parent->right)
+			while (
+				// !this->_node->is_nil() && // test edge cases
+				!this->_node->parent->is_nil() &&
+				this->_node == this->_node->parent->right
+			)
 				this->_node = this->_node->parent;
 			this->_node = this->_node->parent;
 		}
@@ -118,9 +122,9 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		else
 		{
 			while (
-				!this->_node->is_nil()
-				&& !this->_node->parent->is_nil()
-				&& this->_node == this->_node->parent->left
+				!this->_node->is_nil() &&
+				!this->_node->parent->is_nil() &&
+				this->_node == this->_node->parent->left
 			)
 				this->_node = this->_node->parent;
 			this->_node = this->_node->parent;

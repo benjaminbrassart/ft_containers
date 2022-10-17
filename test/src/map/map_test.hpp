@@ -22,6 +22,6 @@ void print_map(map< Key, Value, Compare, Alloc > const& m)
 		<< "content: (reverse):" << '\n';
 
 	for (rit = m.rbegin(); rit != m.rend(); ++rit)
-		std::cout << "  [" << rit->first << "] = " << it->second << '\n';
+		std::cout << "  [" << rit->first << "] = " << rit->second << '\n';
 	std::cout << '\n';
 }
