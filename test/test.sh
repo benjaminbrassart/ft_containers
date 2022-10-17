@@ -12,6 +12,7 @@ DIR_SRC="src"
 DIR_BIN="bin"
 DIR_LOGS="logs"
 DIR_DIFF="diff"
+DIR_TITLES="titles"
 
 RESET="$(tput sgr0)"
 RED="$(tput setaf 1)"
@@ -166,7 +167,7 @@ TESTS="$(find "${DIR_SRC}/${container}" -mindepth 1 -maxdepth 1 -name '*.cpp' -e
 DIFF_OK=0
 DIFF_KO=0
 
-TITLE="${DIR_SRC}/${container}/title.txt"
+TITLE="${DIR_TITLES}/${container}.txt"
 
 printf -- "${PURPLE}\n"
 
