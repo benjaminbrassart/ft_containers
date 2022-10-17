@@ -4,6 +4,8 @@
 
 #include HEADER_MAP
 
+// Here is another reason why c++98 sucks,
+// you cannot use templates for typedefs
 #define map NAMESPACE::map
 
 template< class Key, class Value, class Compare, class Alloc >
