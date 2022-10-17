@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 14:21:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 08:18:28 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,29 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		return tmp;
 	}
 
+	// TODO test this
+	// same as above but reversed
 	tree_iterator& operator--()
 	{
-		// TODO add binary tree logic
+		node_type* y;
+
+		if (!this->_node->left->is_nil())
+		{
+			this->_node = this->_node->left;
+			while (!this->_node->right->is_nil())
+				this->_node = this->_node->right;
+		}
+		else
+		{
+			y = this->_node->parent;
+			while (this->_node == y->left)
+			{
+				this->_node = y;
+				y = y->parent;
+			}
+			if (this->_node->left != y)
+				this->_node = y;
+		}
 		return *this;
 	}
 
