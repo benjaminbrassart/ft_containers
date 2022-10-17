@@ -5,7 +5,7 @@
 #include HEADER_MAP
 
 template< class Key, class Value, class Compare, class Alloc >
-void print_vector(map< Key, Value, Compare, Alloc > const& m)
+void print_map(map< Key, Value, Compare, Alloc > const& m)
 {
 	typename map< Key, Value, Compare, Alloc >::const_iterator it;
 	typename map< Key, Value, Compare, Alloc >::const_reverse_iterator rit;
