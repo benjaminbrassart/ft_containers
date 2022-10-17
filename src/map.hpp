@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 11:27:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:01:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,15 +253,9 @@ public:
 			return ft::make_pair(iterator(this->_root), true);
 		}
 
-		// typical case for insertion
-		if (prev == this->_min)
-			this->_min = new_node;
-		if (prev == this->_max)
-			this->_max = new_node;
 		TODO();
 	}
 
-	// TODO optimize insertion if position is well placed
 	iterator insert(iterator position, value_type const& val)
 	{
 		(void)position;
@@ -381,8 +375,6 @@ public:
 		{
 			if (!this->key_comp()(k, iter->pair.first))
 				iter = iter->right;
-			else if (!this->key_comp()(iter->pair.first, k))
-				iter = iter->left;
 			else
 				break;
 		}
@@ -397,10 +389,10 @@ public:
 
 		while (!iter->is_nil())
 		{
-			if (!this->key_comp()(k, iter->pair.first))
-				iter = iter->right;
-			else if (!this->key_comp()(iter->pair.first, k))
+			if (this->key_comp()(k, iter->pair.first))
 				iter = iter->left;
+			else if (this->key_comp()(iter->pair.first, k))
+				iter = iter->right;
 			else
 				break;
 		}
