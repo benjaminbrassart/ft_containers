@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 12:08:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:06:56 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ namespace ft
 
 		pointer operator->() const
 		{
-			return &(this->operator*());
+			return &**this;
 		}
 
 		reference operator[](difference_type n) const
