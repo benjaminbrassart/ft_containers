@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 11:32:09 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:09:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft
 namespace avl
 {
 template< class Pair, class Node >
-struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair >
+struct tree_iterator : public ft::iterator< std::bidirectional_iterator_tag, Pair >
 {
 	public:
 	typedef Pair* pointer;
@@ -93,7 +93,7 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		else
 		{
 			while (
-				// !this->_node->is_nil() && // test edge cases
+				// !this->_node->is_nil() &&       // test edge cases
 				!this->_node->parent->is_nil() &&
 				this->_node == this->_node->parent->right
 			)
@@ -147,7 +147,7 @@ template<
 >
 bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
-	return rhs._node == lhs._node; // TODO check value instead?
+	return rhs._node == lhs._node;
 }
 
 template<

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/12 02:47:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:08:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,10 @@
 #include "utils.hpp"
 
 #include <cstddef>
+#include <iterator>
 
 namespace ft
 {
-	/* --------------------------------------------------------------------- */
-
-	struct input_iterator_tag {};
-	struct output_iterator_tag {};
-	struct forward_iterator_tag : public input_iterator_tag {};
-	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-
 	/* --------------------------------------------------------------------- */
 
 	template<
@@ -63,7 +56,7 @@ namespace ft
 		typedef T value_type;
 		typedef T* pointer;
 		typedef T& reference;
-		typedef random_access_iterator_tag iterator_category;
+		typedef std::random_access_iterator_tag iterator_category;
 	}; // struct iterator_traits
 
 	template< class T >
@@ -73,7 +66,7 @@ namespace ft
 		typedef T value_type;
 		typedef T const* pointer;
 		typedef T const& reference;
-		typedef random_access_iterator_tag iterator_category;
+		typedef std::random_access_iterator_tag iterator_category;
 	}; // struct iterator_traits
 
 	/* --------------------------------------------------------------------- */
