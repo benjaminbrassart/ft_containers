@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 23:48:53 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 09:14:38 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:24:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,16 @@
 
 #endif
 
-using namespace NAMESPACE;
-
 # ifndef SEED
 #  define SEED 21U
 # endif
+
+namespace NAMESPACE {};
+using namespace NAMESPACE;
 
 #define DESCRIBE(Body) \
 int main() { \
 srand(SEED); \
 std::cout << "Test: " << __FILE__ << '\n' << '\n'; \
 Body; \
-} \
+}
