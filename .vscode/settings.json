@@ -9,4 +9,5 @@
 		"editor.semanticHighlighting.enabled": true,
 		"editor.rulers": [],
 	},
+	"git.repositoryScanMaxDepth": 0
 }
