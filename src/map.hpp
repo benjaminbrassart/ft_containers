@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 15:12:59 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:12:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,11 @@ public:
 		return const_iterator(this->_min);
 	}
 
-	// TODO test implementation
 	iterator end()
 	{
 		return iterator(this->_nil);
 	}
 
-	// TODO test implementation
 	const_iterator end() const
 	{
 		return const_iterator(this->_nil);
@@ -224,13 +222,32 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
+	// TODO test
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-		(void)val;
+		node_type* node = this->_root;
+		node_type* prev = this->_nil;
+
+		while (!node->is_nil())
+		{
+			prev = node;
+			if (this->value_comp()(val, node->pair)) // should go to the left, e.g. is less than
+				node = node->left;
+			else if (this->value_comp()(node->pair, val)) // should go to the right, e.g. is greater than
+				node = node->right;
+			else // keys are considered equal, therefore no insertion and we return immediately
+				return ft::make_pair(iterator(node), false);
+		}
+		if (prev->is_nil()) // root is nil, replace it
+		{
+			this->_root = this->__make_node(val);
+			++this->_size;
+			return ft::make_pair(this->begin(), true);
+		}
 		TODO();
 	}
 
-	// TODO test implementation
+	// TODO optimize insertion if position is well placed
 	iterator insert(iterator position, value_type const& val)
 	{
 		(void)position;
@@ -436,6 +453,21 @@ private:
 	{
 		node_type* node = this->_nodealloc.allocate(1);
 		node_type tmp;
+
+		tmp.left = this->_nil;
+		tmp.right = this->_nil;
+
+		this->_nodealloc.construct(node, tmp);
+		return node;
+	}
+
+	node_type* __make_node(value_type const& value)
+	{
+		node_type* node = this->_nodealloc.allocate(1);
+		node_type tmp(this->_nil, value);
+
+		tmp.left = this->_nil;
+		tmp.right = this->_nil;
 
 		this->_nodealloc.construct(node, tmp);
 		return node;
