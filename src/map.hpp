@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 09:12:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:27:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ public:
 	{
 		node_type* node = this->_root;
 		node_type* prev = this->_nil;
+		node_type* new_node;
 
 		while (!node->is_nil())
 		{
@@ -238,12 +239,25 @@ public:
 			else // keys are considered equal, therefore no insertion and we return immediately
 				return ft::make_pair(iterator(node), false);
 		}
-		if (prev->is_nil()) // root is nil, replace it
+
+		new_node = this->__make_node(val);
+
+		if (prev->is_nil()) // map is empty, replace root
 		{
-			this->_root = this->__make_node(val);
+			this->_root = new_node;
+			this->_nil->left = this->_root;
+			this->_nil->right = this->_root;
+			this->_min = this->_root;
+			this->_max = this->_root;
 			++this->_size;
-			return ft::make_pair(this->begin(), true);
+			return ft::make_pair(iterator(this->_root), true);
 		}
+
+		// typical case for insertion
+		if (prev == this->_min)
+			this->_min = new_node;
+		if (prev == this->_max)
+			this->_max = new_node;
 		TODO();
 	}
 

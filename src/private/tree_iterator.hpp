@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 10:30:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:19:38 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,22 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 	}
 
 	// https://stackoverflow.com/a/12684730
+	// https://stackoverflow.com/a/9601027
 	tree_iterator& operator++()
 	{
-		TODO();
+		if (!this->_node->right->is_nil())
+		{
+			this->_node = this->_node->right;
+			while (!this->_node->left->is_nil())
+				this->_node = this->_node->left;
+		}
+		else
+		{
+			while (!this->_node->parent->is_nil() && this->_node == this->_node->parent->right)
+				this->_node = this->_node->parent;
+			this->_node = this->_node->parent;
+		}
+		return *this;
 	}
 
 	tree_iterator operator++(int)
@@ -94,10 +107,25 @@ struct tree_iterator : public ft::iterator< ft::bidirectional_iterator_tag, Pair
 		return tmp;
 	}
 
-	// same as above but reversed
 	tree_iterator& operator--()
 	{
-		TODO();
+		if (!this->_node->left->is_nil())
+		{
+			this->_node = this->_node->left;
+			while (!this->_node->right->is_nil())
+				this->_node = this->_node->right;
+		}
+		else
+		{
+			while (
+				!this->_node->is_nil()
+				&& !this->_node->parent->is_nil()
+				&& this->_node == this->_node->parent->left
+			)
+				this->_node = this->_node->parent;
+			this->_node = this->_node->parent;
+		}
+		return *this;
 	}
 
 	tree_iterator operator--(int)
