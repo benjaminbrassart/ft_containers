@@ -216,7 +216,7 @@ for test in ${TESTS}; do
         DIFF_OK="$(echo "${DIFF_OK}" + 1 | bc)"
     else
         printf -- "${RED}[KO]"
-        DIFF_OK="$(echo "${DIFF_KO}" + 1 | bc)"
+        DIFF_KO="$(echo "${DIFF_KO}" + 1 | bc)"
     fi
 
     printf -- "${RESET}\n"
