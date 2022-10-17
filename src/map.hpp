@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 12:01:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:13:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,14 +366,15 @@ public:
 /* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test!
 	iterator find(key_type const& k)
 	{
 		node_type* iter = this->_root;
 
 		while (!iter->is_nil())
 		{
-			if (!this->key_comp()(k, iter->pair.first))
+			if (this->key_comp()(k, iter->pair.first))
+				iter = iter->left;
+			else if (this->key_comp()(iter->pair.first, k))
 				iter = iter->right;
 			else
 				break;
@@ -382,7 +383,6 @@ public:
 		return iterator(iter);
 	}
 
-	// TODO test!
 	const_iterator find(key_type const& k) const
 	{
 		node_type* iter = this->_root;
