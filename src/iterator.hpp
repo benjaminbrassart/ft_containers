@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:31:15 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ namespace ft
 {
 /* --------------------------------------------------------------------- */
 
-template<
-	class Category,
-	class T,
-	class Distance = std::ptrdiff_t,
-	class Pointer = T*,
-	class Reference = T& >
+template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
 struct iterator
 {
 	typedef Category iterator_category;
@@ -71,12 +66,12 @@ struct iterator_traits< T const* >
 /* --------------------------------------------------------------------- */
 
 template< class Iterator >
-struct reverse_iterator : public iterator<
-							  typename iterator_traits< Iterator >::iterator_category,
-							  typename iterator_traits< Iterator >::value_type,
-							  typename iterator_traits< Iterator >::difference_type,
-							  typename iterator_traits< Iterator >::pointer,
-							  typename iterator_traits< Iterator >::reference >
+struct reverse_iterator :
+	public iterator< typename iterator_traits< Iterator >::iterator_category,
+	typename iterator_traits< Iterator >::value_type,
+	typename iterator_traits< Iterator >::difference_type,
+	typename iterator_traits< Iterator >::pointer,
+	typename iterator_traits< Iterator >::reference >
 {
 public:
 	typedef Iterator iterator_type;
@@ -179,6 +174,8 @@ public:
 	}
 }; // struct reverse_iterator
 
+/* --------------------------------------------------------------------- */
+
 template< class Iterator1, class Iterator2 >
 bool operator==(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 {
@@ -216,13 +213,15 @@ bool operator>=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iter
 }
 
 template< class Iterator >
-reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it)
+reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n,
+reverse_iterator< Iterator > const& rev_it)
 {
 	return rev_it + n;
 }
 
 template< class Iterator1, class Iterator2 >
-typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
+typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs,
+reverse_iterator< Iterator2 > const& rhs)
 {
 	return rhs.base() - lhs.base();
 }

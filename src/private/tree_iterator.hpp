@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:45:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ public:
 		else
 		{
 			while (
-				// !this->_node->is_nil() &&       // test edge cases
+				// !this->_node->is_nil() &&       // TODO test edge cases
 				!this->_node->parent->is_nil() &&
 				this->_node == this->_node->parent->right
 			)
