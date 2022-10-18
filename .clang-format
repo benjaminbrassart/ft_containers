@@ -24,6 +24,7 @@ QualifierOrder:
 PackConstructorInitializers: Never
 BinPackParameters: false
 AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveAssignments: None
 AlignConsecutiveMacros: true
 
 # Spacing
@@ -56,6 +57,7 @@ BraceWrapping:
   SplitEmptyRecord: true
   SplitEmptyNamespace: false
 BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
 EmptyLineBeforeAccessModifier: LogicalBlock
@@ -70,6 +72,7 @@ SortIncludes: CaseSensitive
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
+ContinuationIndentWidth: 0
 
-ColumnLimit: 0
+ColumnLimit: 150
 ReflowComments: false
