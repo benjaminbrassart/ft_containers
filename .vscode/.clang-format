@@ -1,0 +1,67 @@
+IndentWidth: 4
+AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+
+AlignEscapedNewlines: true
+AlignOperands: false
+AlignTrailingComments: false
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: Yes
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeWhile: true
+  IndentBraces: true
+
+SplitEmptyFunction: true
+SplitEmptyRecord: true
+SplitEmptyNamespace: false
+BreakConstructorInitializers: AfterColon
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 0
+EmptyLineBeforeAccessModifier: LogicalBlock
+FixNamespaceComments: true
+InsertBraces: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+NamespaceIndentation: None
+PPIndentWidth: 1
+PackConstructorInitializers: Never
+PointerAlignment: Left
+ReferenceAlignment: Left
+QualifierAlignment: Custom
+QualifierOrder:
+  - static
+  - inline
+  - volatile
+  - const
+  - type
+  - restrict
+  - constexpr
+RequiresClausePosition: OwnLine
+SeparateDefinitionBlocks: Always
+ShortNamespaceLines: 0
+SortIncludes: CaseSensitive
+SortUsingDeclarations: true
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
