@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 13:23:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 
 #include <stdint.h>
 #include <typeinfo>
+
+#define TRUE_TYPE(Constant, Type)           \
+ template<>                                 \
+ struct Constant< Type > : public true_type \
+ {                                          \
+ };
 
 #define TODO() throw ft::wip_exception()
 
@@ -53,7 +59,7 @@ struct integral_constant
 {
 	static T const value = v;
 	typedef T value_type;
-	typedef integral_constant< T, v > type;
+	typedef ft::integral_constant< T, v > type;
 
 	operator T()
 	{
@@ -61,78 +67,30 @@ struct integral_constant
 	}
 }; // struct integral_constant
 
-typedef integral_constant< bool, true > true_type;
-typedef integral_constant< bool, false > false_type;
+typedef ft::integral_constant< bool, true > true_type;
+typedef ft::integral_constant< bool, false > false_type;
 
 template< class T >
-struct is_integral : public false_type
+struct is_integral : public ft::false_type
 {
 };
 
-template<>
-struct is_integral< bool > : public true_type
+template< class T >
+struct is_integral< T const > : public ft::is_integral< T >
 {
 };
 
-template<>
-struct is_integral< char > : public true_type
-{
-};
-
-template<>
-struct is_integral< wchar_t > : public true_type
-{
-};
-
-template<>
-struct is_integral< signed char > : public true_type
-{
-};
-
-template<>
-struct is_integral< short int > : public true_type
-{
-};
-
-template<>
-struct is_integral< int > : public true_type
-{
-};
-
-template<>
-struct is_integral< long int > : public true_type
-{
-};
-
-template<>
-struct is_integral< long long int > : public true_type
-{
-};
-
-template<>
-struct is_integral< unsigned char > : public true_type
-{
-};
-
-template<>
-struct is_integral< unsigned short int > : public true_type
-{
-};
-
-template<>
-struct is_integral< unsigned int > : public true_type
-{
-};
-
-template<>
-struct is_integral< unsigned long int > : public true_type
-{
-};
-
-template<>
-struct is_integral< unsigned long long int > : public true_type
-{
-};
+TRUE_TYPE(is_integral, bool);
+TRUE_TYPE(is_integral, char);
+TRUE_TYPE(is_integral, wchar_t);
+TRUE_TYPE(is_integral, signed char);
+TRUE_TYPE(is_integral, short int);
+TRUE_TYPE(is_integral, int);
+TRUE_TYPE(is_integral, long int);
+TRUE_TYPE(is_integral, unsigned char);
+TRUE_TYPE(is_integral, unsigned short int);
+TRUE_TYPE(is_integral, unsigned int);
+TRUE_TYPE(is_integral, unsigned long int);
 
 template< class T1, class T2 >
 struct pair
@@ -175,43 +133,43 @@ struct pair
 }; // struct pair
 
 template< class T1, class T2 >
-bool operator==(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator==(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
 template< class T1, class T2 >
-bool operator!=(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator!=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return !(lhs == rhs);
 }
 
 template< class T1, class T2 >
-bool operator<(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator<(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
 }
 
 template< class T1, class T2 >
-bool operator<=(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator<=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return !(rhs < lhs);
 }
 
 template< class T1, class T2 >
-bool operator>(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator>(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return rhs < lhs;
 }
 
 template< class T1, class T2 >
-bool operator>=(pair< T1, T2 > const& lhs, pair< T1, T2 > const& rhs)
+bool operator>=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 {
 	return !(lhs < rhs);
 }
 
 template< class T1, class T2 >
-void swap(pair< T1, T2 >& x, pair< T1, T2 >& y)
+void swap(ft::pair< T1, T2 >& x, ft::pair< T1, T2 >& y)
 {
 	x.swap(y);
 }
@@ -222,9 +180,7 @@ pair< T1, T2 > make_pair(T1 x, T2 y)
 	return pair< T1, T2 >(x, y);
 }
 
-template<
-	class InputIterator1,
-	class InputIterator2 >
+template< class InputIterator1, class InputIterator2 >
 bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
 {
 	while (first1 != last1)
@@ -237,11 +193,12 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, I
 	return first2 != last2;
 }
 
-template<
-	class InputIterator1,
-	class InputIterator2,
-	class BinaryPredicate >
-bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred)
+template< class InputIterator1, class InputIterator2, class BinaryPredicate >
+bool equal(InputIterator1 first1,
+InputIterator1 last1,
+InputIterator2 first2,
+InputIterator2 last2,
+BinaryPredicate pred)
 {
 	while (first1 != last1)
 	{
@@ -253,9 +210,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, I
 	return first2 != last2;
 }
 
-template<
-	class InputIterator1,
-	class InputIterator2 >
+template< class InputIterator1, class InputIterator2 >
 bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
 {
 	while (first1 != last1)
@@ -270,11 +225,12 @@ bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputI
 	return first2 != last2;
 }
 
-template<
-	class InputIterator1,
-	class InputIterator2,
-	class BinaryPredicate >
-bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred)
+template< class InputIterator1, class InputIterator2, class BinaryPredicate >
+bool lexicographical_compare(InputIterator1 first1,
+InputIterator1 last1,
+InputIterator2 first2,
+InputIterator2 last2,
+BinaryPredicate pred)
 {
 	while (first1 != last1)
 	{
