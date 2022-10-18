@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:16:03 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@
 
 namespace ft
 {
-template<
-	class Key,
-	class T,
-	class Compare = std::less< Key >,
-	class Alloc = std::allocator< ft::pair< const Key, T > > >
+template< class Key, class T, class Compare = std::less< Key >, class Alloc = std::allocator< ft::pair< const Key, T > > >
 class map
 {
 	/* ------------------------------------------------------------------------- */
@@ -71,14 +67,6 @@ private:
 private:
 	allocator_type _alloc;
 	key_compare _kcomp;
-
-	// value_compare _vcomp;
-	// node_type* _nil;
-	// node_type* _root;
-	// node_type* _min;
-	// node_type* _max;
-	// size_type _size;
-
 	tree_type _tree;
 
 	/* ------------------------------------------------------------------------- */
@@ -87,11 +75,6 @@ public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_kcomp(comp),
-		// _nil(this->__make_nil()),
-		// _root(this->_nil),
-		// _min(this->_nil),
-		// _max(this->_nil),
-		// _size(0)
 		_tree(value_compare(comp), node_allocator_type(alloc))
 	{
 	}
@@ -100,42 +83,21 @@ public:
 	map(InputIterator first, InputIterator last, key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
 		_alloc(alloc),
 		_kcomp(comp),
-		// _vcomp(value_compare(comp)),
-		// _nil(this->__make_nil()),
-		// _root(this->_nil),
-		// _min(this->_nil),
-		// _max(this->_nil),
-		// _size(0)
 		_tree(value_compare(comp), node_allocator_type(alloc))
 	{
 		this->insert(first, last);
 	}
 
-	template<
-		class _Key,
-		class _T,
-		class _Compare,
-		class _Alloc >
+	template< class _Key, class _T, class _Compare, class _Alloc >
 	map(map< _Key, _T, _Compare, _Alloc > const& x) :
 		_alloc(x.get_allocator()),
 		_kcomp(x.key_comp()),
-		// _vcomp(x.value_comp()),
-		// _nil(this->__make_nil()),
-		// _root(this->_nil),
-		// _min(this->_nil),
-		// _max(this->_nil),
-		// _size(0)
 		_tree(value_compare(x._kcomp), node_allocator_type(x._alloc))
 	{
 		this->insert(x.begin(), x.end());
 	}
 
-	// TODO adapt for avl_tree class
-	template<
-		class _Key,
-		class _T,
-		class _Compare,
-		class _Alloc >
+	template< class _Key, class _T, class _Compare, class _Alloc >
 	map& operator=(map< _Key, _T, _Compare, _Alloc > const& rhs)
 	{
 		if (this != &rhs)
@@ -230,35 +192,7 @@ public:
 	// TODO test
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-		// node_type* node = this->_root;
-		// node_type* prev = this->_nil;
-		// node_type* new_node;
-
-		// while (!node->is_nil())
-		// {
-		// 	prev = node;
-		// 	if (this->value_comp()(val, node->pair)) // should go to the left, e.g. is less than
-		// 		node = node->left;
-		// 	else if (this->value_comp()(node->pair, val)) // should go to the right, e.g. is greater than
-		// 		node = node->right;
-		// 	else // keys are considered equal, therefore no insertion and we return immediately
-		// 		return ft::make_pair(iterator(node), false);
-		// }
-
-		// new_node = this->__make_node(val);
-
-		// if (prev->is_nil()) // map is empty, replace root
-		// {
-		// 	this->_root = new_node;
-		// 	this->_nil->left = this->_root;
-		// 	this->_nil->right = this->_root;
-		// 	this->_min = this->_root;
-		// 	this->_max = this->_root;
-		// 	++this->_size;
-		// 	return ft::make_pair(iterator(this->_root), true);
-		// }
-
-		TODO();
+		return this->_tree.insert(val);
 	}
 
 	iterator insert(iterator position, value_type const& val)
@@ -325,7 +259,7 @@ public:
 	// TODO test implementation
 	void clear()
 	{
-		this->erase(this->begin(), this->end());
+		this->_tree.clear();
 	}
 
 	/* ------------------------------------------------------------------------- */
@@ -427,111 +361,6 @@ public:
 	{
 		return this->_alloc;
 	}
-
-	/* ------------------------------------------------------------------------- */
-
-private:
-	// node_type* __make_nil()
-	// {
-	// 	node_type* node = this->_nodealloc.allocate(1);
-	// 	node_type tmp;
-
-	// 	tmp.left = this->_nil;
-	// 	tmp.right = this->_nil;
-
-	// 	this->_nodealloc.construct(node, tmp);
-	// 	return node;
-	// }
-
-	// node_type* __make_node(value_type const& value)
-	// {
-	// 	node_type* node = this->_nodealloc.allocate(1);
-	// 	node_type tmp(this->_nil, value);
-
-	// 	tmp.left = this->_nil;
-	// 	tmp.right = this->_nil;
-
-	// 	this->_nodealloc.construct(node, tmp);
-	// 	return node;
-	// }
-
-	// void __avl_release(node_type* node)
-	// {
-	// 	if (node->is_nil())
-	// 		return;
-	// 	this->__avl_release(node->left);
-	// 	this->__avl_release(node->right);
-	// 	this->_nodealloc.destroy(node);
-	// 	this->_nodealloc.deallocate(node, 1);
-	// }
-
-	// node_type* __rotate_right(node_type* node)
-	// {
-	// 	node_type* left = node->left;
-	// 	node_type* center = left->right;
-
-	// 	left->right = node;
-	// 	node->left = center;
-	// 	this->__update_height(node);
-	// 	this->__update_height(left);
-	// 	return left;
-	// }
-
-	// node_type* __rotate_left(node_type* node)
-	// {
-	// 	node_type* right = node->right;
-	// 	node_type* center = right->left;
-
-	// 	right->left = node;
-	// 	node->right = center;
-	// 	this->__update_height(node);
-	// 	this->__update_height(right);
-	// 	return right;
-	// }
-
-	// void __update_height(node_type* node)
-	// {
-	// 	node->height = std::max(
-	// 		node->left->height,
-	// 		node->right->height
-	// 	) + 1;
-	// }
-
-	// node_type* __rebalance(node_type* node)
-	// {
-	// 	int balance = node->get_balance();
-	// 	int balance_next;
-
-	// 	if (balance > 1)
-	// 	{
-	// 		balance_next = node->left->get_balance();
-	// 		if (balance_next < 0)
-	// 			node->left = this->__rotate_left(node->left);
-	// 		return this->__rotate_right(node);
-	// 	}
-	// 	else if (balance < -1)
-	// 	{
-	// 		balance_next = node->right->get_balance();
-	// 		if (balance_next > 0)
-	// 			node->right = this->__rotate_right(node->right);
-	// 		return __rotate_left(node);
-	// 	}
-	// 	return node;
-	// }
-
-	// bool __is_balanced(node_type* node)
-	// {
-	// 	int const balance = node->get_balance();
-
-	// 	return balance >= -1 && balance <= 1;
-	// }
-
-	// bool __check_balance(node_type* node)
-	// {
-	// 	return (this->__is_balanced(node))
-	// 		&& (this->__check_balance(node->left))
-	// 		&& (this->__check_balance(node->right));
-	// }
 
 	/* ------------------------------------------------------------------------- */
 
