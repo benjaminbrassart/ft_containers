@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 15:01:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct tree_node
 	ft::avl::tree_node< Pair >* right;
 	int height;
 
-	public:
+public:
 	tree_node() :
 		parent(0),
 		pair(),
@@ -35,7 +35,7 @@ struct tree_node
 	{
 	}
 
-	public:
+public:
 	tree_node(ft::avl::tree_node< Pair >* p_parent, Pair const& p_pair) :
 		parent(p_parent),
 		pair(p_pair),
@@ -71,7 +71,7 @@ struct tree_node
 	{
 	}
 
-	public:
+public:
 	bool is_nil() const
 	{
 		return this->parent == 0;

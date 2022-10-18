@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:46:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/07 21:51:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ namespace ft
 template< class T, class Container = ft::vector< T > >
 class stack
 {
-	public:
+public:
 	typedef Container container_type;
 	typedef typename container_type::value_type value_type;
 	typedef typename container_type::size_type size_type;
 
-	public:
+public:
 	container_type c;
 
-	public:
+public:
 	stack(container_type const& container = container_type()) :
 		c(container)
 	{
@@ -49,7 +49,7 @@ class stack
 	{
 	}
 
-	public:
+public:
 	value_type& top()
 	{
 		return this->c.back();

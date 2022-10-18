@@ -6,15 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 14:36:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "private/avl_tree.hpp"
-#include "private/tree_node.hpp"
 #include "private/tree_iterator.hpp"
+#include "private/tree_node.hpp"
 
 #include "iterator.hpp"
 #include "utils.hpp"
@@ -29,29 +29,27 @@ template<
 	class Key,
 	class T,
 	class Compare = std::less< Key >,
-	class Alloc = std::allocator< ft::pair< Key const, T > >
->
+	class Alloc = std::allocator< ft::pair< const Key, T > > >
 class map
 {
-
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 private:
-	typedef ft::avl::tree_node< ft::pair< Key const, T > > node_type;
+	typedef ft::avl::tree_node< ft::pair< const Key, T > > node_type;
 
 	// https://alp.developpez.com/tutoriels/templaterebinding/
 	// https://cplusplus.com/reference/memory/allocator/rebind/
 	// keep the same allocator object, with a difference generic type
 	typedef typename Alloc::template rebind< node_type >::other node_allocator_type;
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	class value_compare;
 
 	typedef Key key_type;
 	typedef T mapped_type;
-	typedef ft::pair< key_type const, mapped_type > value_type;
+	typedef ft::pair< const key_type, mapped_type > value_type;
 	typedef Compare key_compare;
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::reference reference;
@@ -59,7 +57,7 @@ public:
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
 	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
-	typedef ft::avl::tree_iterator< value_type const, node_type const > const_iterator;
+	typedef ft::avl::tree_iterator< const value_type, node_type const > const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
@@ -68,7 +66,7 @@ public:
 private:
 	typedef ft::avl::tree< value_type, value_compare, node_allocator_type > tree_type;
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 private:
 	allocator_type _alloc;
@@ -83,7 +81,7 @@ private:
 
 	tree_type _tree;
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	explicit map(key_compare const& comp = key_compare(), allocator_type const& alloc = allocator_type()) :
@@ -117,8 +115,7 @@ public:
 		class _Key,
 		class _T,
 		class _Compare,
-		class _Alloc
-	>
+		class _Alloc >
 	map(map< _Key, _T, _Compare, _Alloc > const& x) :
 		_alloc(x.get_allocator()),
 		_kcomp(x.key_comp()),
@@ -138,8 +135,7 @@ public:
 		class _Key,
 		class _T,
 		class _Compare,
-		class _Alloc
-	>
+		class _Alloc >
 	map& operator=(map< _Key, _T, _Compare, _Alloc > const& rhs)
 	{
 		if (this != &rhs)
@@ -157,7 +153,7 @@ public:
 		this->clear();
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	iterator begin()
@@ -200,7 +196,7 @@ public:
 		return const_reverse_iterator(this->begin());
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	bool empty() const
@@ -218,7 +214,7 @@ public:
 		return this->_tree.get_allocator().max_size();
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	// https://legacy.cplusplus.com/reference/map/map/operator[]/
@@ -228,7 +224,7 @@ public:
 		return (*((this->insert(ft::make_pair(key, mapped_type()))).first)).second;
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	// TODO test
@@ -332,7 +328,7 @@ public:
 		this->erase(this->begin(), this->end());
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	key_compare key_comp() const
@@ -345,7 +341,7 @@ public:
 		return this->_vcomp;
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	iterator find(key_type const& k)
@@ -424,7 +420,7 @@ public:
 		return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	allocator_type get_allocator() const
@@ -432,7 +428,7 @@ public:
 		return this->_alloc;
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 private:
 	// node_type* __make_nil()
@@ -537,7 +533,7 @@ private:
 	// 		&& (this->__check_balance(node->right));
 	// }
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	// https://legacy.cplusplus.com/reference/map/map/value_comp/

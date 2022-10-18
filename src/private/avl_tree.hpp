@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 17:08:58 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:47 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ namespace avl
 template<
 	class Value,
 	class Compare,
-	class Alloc
->
+	class Alloc >
 class tree
 {
 private:
@@ -83,8 +82,8 @@ public:
 		return *this;
 	}
 
-	~tree(){
-
+	~tree()
+	{
 	}
 
 public:
@@ -125,7 +124,6 @@ public:
 	}
 
 private:
-
 };
 
 } // namespace avl

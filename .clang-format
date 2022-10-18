@@ -1,16 +1,36 @@
 IndentWidth: 4
-AlignAfterOpenBracket: BlockIndent
-AlignConsecutiveMacros:
-  Enabled: true
-  AcrossEmptyLines: false
-  AcrossComments: false
+TabWidth: 4
+UseTab: Always
+Standard: c++03
 
-
+# Alignment / packing
+AccessModifierOffset: -4
 AlignEscapedNewlines: true
-AlignOperands: false
+AlignOperands: DontAlign
 AlignTrailingComments: false
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
+PointerAlignment: Left
+ReferenceAlignment: Left
+QualifierAlignment: Custom
+QualifierOrder:
+  - static
+  - inline
+  - volatile
+  - type
+  - const
+  - restrict
+  - constexpr
+PackConstructorInitializers: Never
+BinPackParameters: false
+AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveMacros: true
+
+# Spacing
+SpaceAfterTemplateKeyword: false
+SpacesInAngles: Always
+
+# Breaking / wrapping
 AllowShortBlocksOnASingleLine: false
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
@@ -18,7 +38,6 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: Yes
-
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
@@ -32,36 +51,25 @@ BraceWrapping:
   BeforeCatch: true
   BeforeElse: true
   BeforeWhile: true
-  IndentBraces: true
-
-SplitEmptyFunction: true
-SplitEmptyRecord: true
-SplitEmptyNamespace: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: false
 BreakConstructorInitializers: AfterColon
 CompactNamespaces: false
-ConstructorInitializerIndentWidth: 0
+ConstructorInitializerIndentWidth: 4
 EmptyLineBeforeAccessModifier: LogicalBlock
+
 FixNamespaceComments: true
-InsertBraces: false
 KeepEmptyLinesAtTheStartOfBlocks: false
 NamespaceIndentation: None
 PPIndentWidth: 1
-PackConstructorInitializers: Never
-PointerAlignment: Left
-ReferenceAlignment: Left
-QualifierAlignment: Custom
-QualifierOrder:
-  - static
-  - inline
-  - volatile
-  - const
-  - type
-  - restrict
-  - constexpr
-RequiresClausePosition: OwnLine
 SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 0
 SortIncludes: CaseSensitive
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
+
+ColumnLimit: 0
+ReflowComments: false

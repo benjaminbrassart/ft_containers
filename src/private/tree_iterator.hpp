@@ -6,14 +6,14 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/17 12:09:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "private/tree_node.hpp"
 #include "iterator.hpp"
+#include "private/tree_node.hpp"
 
 namespace ft
 {
@@ -22,7 +22,7 @@ namespace avl
 template< class Pair, class Node >
 struct tree_iterator : public ft::iterator< std::bidirectional_iterator_tag, Pair >
 {
-	public:
+public:
 	typedef Pair* pointer;
 	typedef Pair const* const_pointer;
 	typedef Pair& reference;
@@ -142,18 +142,20 @@ struct tree_iterator : public ft::iterator< std::bidirectional_iterator_tag, Pai
 };
 
 template<
-	class Pair1, class Node1,
-	class Pair2, class Node2
->
+	class Pair1,
+	class Node1,
+	class Pair2,
+	class Node2 >
 bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return rhs._node == lhs._node;
 }
 
 template<
-	class Pair1, class Node1,
-	class Pair2, class Node2
->
+	class Pair1,
+	class Node1,
+	class Pair2,
+	class Node2 >
 bool operator!=(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return !(lhs == rhs);

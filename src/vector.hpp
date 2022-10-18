@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/14 15:08:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ namespace ft
  */
 template<
 	class T,
-	class Alloc = std::allocator< T >
->
+	class Alloc = std::allocator< T > >
 class vector
 {
-
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	typedef T value_type;
@@ -49,7 +47,7 @@ public:
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
 	typedef typename allocator_type::size_type size_type;
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 private:
 	allocator_type _alloc;
@@ -57,7 +55,7 @@ private:
 	size_type _size;
 	size_type _capacity;
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	/**
@@ -142,7 +140,7 @@ public:
 		this->_alloc.deallocate(this->_data, this->capacity());
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	iterator begin()
@@ -185,7 +183,7 @@ public:
 		return const_reverse_iterator(this->begin());
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	size_type size() const
@@ -200,7 +198,7 @@ public:
 
 	void resize(size_type n, value_type val = value_type())
 	{
-		size_type const size = this->size();
+		const size_type size = this->size();
 
 		this->reserve(n);
 		if (n > size)
@@ -229,7 +227,7 @@ public:
 	void reserve(size_type n)
 	{
 		if (this->capacity() >= n)
-			return ;
+			return;
 
 		size_type new_capacity = (n > 128 ? n : 128);
 		pointer new_data = this->_alloc.allocate(new_capacity);
@@ -245,7 +243,7 @@ public:
 		this->_capacity = new_capacity;
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	reference operator[](size_type n)
@@ -292,13 +290,13 @@ public:
 		return *(this->rbegin());
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	template< class InputIterator >
 	void assign(InputIterator first, InputIterator last)
 	{
-		this->__dispatch_assign(first, last, ft::is_integral<InputIterator>());
+		this->__dispatch_assign(first, last, ft::is_integral< InputIterator >());
 	}
 
 	void assign(size_type n, value_type const& val)
@@ -318,7 +316,7 @@ public:
 	void pop_back()
 	{
 		if (this->empty())
-			return ;
+			return;
 		--this->_size;
 		this->get_allocator().destroy(this->_data + this->size());
 	}
@@ -338,7 +336,7 @@ public:
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
-		this->__dispatch_insert(position, first, last, ft::is_integral<InputIterator>());
+		this->__dispatch_insert(position, first, last, ft::is_integral< InputIterator >());
 	}
 
 	iterator erase(iterator position)
@@ -377,7 +375,7 @@ public:
 		this->resize(0);
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 public:
 	allocator_type get_allocator() const
@@ -385,7 +383,7 @@ public:
 		return this->_alloc;
 	}
 
-/* ------------------------------------------------------------------------- */
+	/* ------------------------------------------------------------------------- */
 
 private:
 	iterator __move_right(iterator position, size_type n)
@@ -393,7 +391,7 @@ private:
 		if (n == 0)
 			return position;
 
-		size_type const offset = (position - this->begin());
+		const size_type offset = (position - this->begin());
 		iterator p;
 		size_type i;
 
@@ -433,7 +431,7 @@ private:
 		}
 		if (position == this->end())
 		{
-			size_type const start_size = this->size();
+			const size_type start_size = this->size();
 
 			for (size_type i = 0; i < n; ++i)
 				this->push_back(val);
@@ -457,7 +455,7 @@ private:
 		{
 			for (InputIterator it = first; it != last; ++it)
 				this->push_back(*it);
-			return ;
+			return;
 		}
 
 		vector< T, Alloc > v;
@@ -465,8 +463,8 @@ private:
 		for (InputIterator it = first; it != last; ++it)
 			v.push_back(*it);
 
-		size_type const size = v.size();
-		size_type const offset = position - this->begin();
+		const size_type size = v.size();
+		const size_type offset = position - this->begin();
 
 		this->__move_right(position, size);
 
@@ -517,7 +515,7 @@ private:
 
 	iterator __erase(size_type index, size_type width)
 	{
-		size_type const elems = this->size();
+		const size_type elems = this->size();
 
 		for (size_type i = index; i < (elems - width); ++i)
 		{
@@ -543,21 +541,25 @@ bool operator!=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(lhs == rhs);
 }
+
 template< class T, class Alloc >
 bool operator<(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
+
 template< class T, class Alloc >
 bool operator<=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return !(rhs < lhs);
 }
+
 template< class T, class Alloc >
 bool operator>(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
 	return rhs < lhs;
 }
+
 template< class T, class Alloc >
 bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
