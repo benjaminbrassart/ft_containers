@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:05:26 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ namespace avl
 template< class Pair >
 struct tree_node
 {
+	/* --------------------------------------------------------------------- */
+
 	ft::avl::tree_node< Pair >* parent;
 	Pair pair;
 	ft::avl::tree_node< Pair >* left;
 	ft::avl::tree_node< Pair >* right;
 	int height;
+
+	/* --------------------------------------------------------------------- */
 
 public:
 	tree_node() :
@@ -34,6 +38,8 @@ public:
 		height(0)
 	{
 	}
+
+	/* --------------------------------------------------------------------- */
 
 public:
 	tree_node(ft::avl::tree_node< Pair >* p_parent, Pair const& p_pair) :
@@ -71,6 +77,8 @@ public:
 	{
 	}
 
+	/* --------------------------------------------------------------------- */
+
 public:
 	bool is_nil() const
 	{
@@ -79,6 +87,8 @@ public:
 
 	int get_balance() const
 	{
+		if (this->is_nil())
+			return 0;
 		return this->left.height - this->right.height;
 	}
 };
