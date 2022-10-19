@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 15:18:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:20:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include "private/tree_iterator.hpp"
 #include "private/tree_node.hpp"
+
+#include <algorithm>
 
 namespace ft
 {
@@ -38,9 +40,9 @@ private:
 private:
 	allocator_type _alloc;
 	node_type* _nil;
-	node_type* _root;
 	node_type* _min;
 	node_type* _max;
+	node_type* _root;
 	value_compare _comp;
 	size_type _size;
 
@@ -49,41 +51,36 @@ private:
 public:
 	tree(value_compare const& comp, allocator_type const& alloc) :
 		_alloc(alloc),
-		_nil(),
-		_root(),
-		_min(),
-		_max(),
+		_nil(this->__make_nil()),
+		_min(this->_nil),
+		_max(this->_nil),
+		_root(this->_nil),
 		_comp(comp),
 		_size(0)
 	{
 	}
 
-	// ? deep copy
 	template< class _Value, class _Compare, class _Alloc >
 	tree(tree< _Value, _Compare, _Alloc > const& x) :
-		_alloc(x._alloc),
-		_nil(x._nil),
-		_root(x._root),
-		_min(x._min),
-		_max(x._max),
-		_comp(x._comp),
-		_size(x._size)
+		_alloc(),
+		_nil(),
+		_min(),
+		_max(),
+		_root(),
+		_comp(),
+		_size()
 	{
+		*this = x;
 	}
 
-	// ? deep copy
 	template< class _Value, class _Compare, class _Alloc >
 	tree& operator=(tree< _Value, _Compare, _Alloc > const& x)
 	{
 		if (&this != &x)
 		{
 			this->_alloc = x._alloc;
-			this->_nil = x._nil;
-			this->_root = x._root;
-			this->_min = x._min;
-			this->_max = x._max;
-			this->_comp = x._comp;
-			this->_size = x._size;
+			this->_nil = this->__make_nil();
+			this->_root = this->__deep_copy(*this, x._root, this->_nil);
 		}
 		return *this;
 	}
@@ -97,22 +94,22 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 public:
-	node_type* nil()
+	node_type* nil() const
 	{
 		return this->_nil;
 	}
 
-	node_type* root()
+	node_type* root() const
 	{
 		return this->_root;
 	}
 
-	node_type* min()
+	node_type* min() const
 	{
 		return this->_min;
 	}
 
-	node_type* max()
+	node_type* max() const
 	{
 		return this->_max;
 	}
@@ -122,7 +119,7 @@ public:
 		return this->_comp;
 	}
 
-	size_type size()
+	size_type size() const
 	{
 		return this->_size;
 	}
@@ -135,13 +132,34 @@ public:
 		node_type* node;
 		bool inserted;
 
-		node = this->__insert(val, inserted);
+		node = this->__insert(val, this->_root, inserted);
+		if (inserted)
+		{
+			if (this->_root->is_nil())
+				this->_root = node;
+			if (this->_min->is_nil() || this->_comp(val, this->_min->pair))
+				this->_min = node;
+			if (this->_max->is_nil() || this->_comp(this->_max->pair, val))
+				this->_max = node;
+			this->__update_nil();
+		}
 		return ft::make_pair(iterator(node), inserted);
 	}
 
 	void clear()
 	{
 		this->__release(this->_root);
+	}
+
+	template< class _Value, class _Compare, class _Alloc >
+	void swap(tree< _Value, _Compare, _Alloc >& x)
+	{
+		std::swap(this->_comp, x._comp);
+		std::swap(this->_root, x._root);
+		std::swap(this->_min, x._min);
+		std::swap(this->_max, x._max);
+		std::swap(this->_size, x._size);
+		std::swap(this->_alloc, x._alloc);
 	}
 
 	/* ------------------------------------------------------------------------- */
@@ -155,6 +173,22 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 private:
+	node_type* __deep_copy(tree& tree, node_type const* node, node_type* parent)
+	{
+		node_type* new_node;
+
+		if (node->is_nil())
+			return tree.nil();
+
+		new_node = this->__make_node(node->pair);
+
+		new_node->left = this->__deep_copy(tree, node->left, new_node);
+		new_node->right = this->__deep_copy(tree, node->right, new_node);
+		new_node->parent = parent;
+		new_node->height = node->height;
+		return new_node;
+	}
+
 	node_type* __make_nil()
 	{
 		node_type* node = this->get_allocator().allocate(1);
@@ -185,27 +219,17 @@ private:
 		this->get_allocator().deallocate(node, 1);
 	}
 
-	node_type* __search(key_type const& key, node_type* node)
-	{
-		if (node->is_nul())
-			return node;
-		if (this->comp()(value, node->pair))
-			return this->__search(key, node->left);
-		if (this->comp()(node->pair, value))
-			return this->__search(key, node->right);
-		return node;
-	}
-
 	node_type* __insert(value_type const& value, node_type* node, bool& inserted)
 	{
 		if (node->is_nil())
 		{
+			++this->_size;
 			inserted = true;
 			return this->__make_node(value);
 		}
-		if (this->comp()(value, node->pair))
+		if (this->_comp(value, node->pair))
 			node->left = this->__insert(value, node->left, inserted);
-		else if (this->comp()(node->pair, value))
+		else if (this->_comp(node->pair, value))
 			node->right = this->__insert(value, node->right, inserted);
 		else
 		{
@@ -242,12 +266,11 @@ private:
 
 	void __update_height(node_type* node)
 	{
-		int height_max;
+		int height_max = node->left->height;
 
-		height_max = node->left->height;
 		if (node->right->height > height_max)
 			height_max = node->right->height;
-		node->height = max_height + 1;
+		node->height = height_max + 1;
 	}
 
 	node_type* __rebalance(node_type* node)
@@ -313,6 +336,12 @@ private:
 	bool __check_balance(node_type* node)
 	{
 		return this->__is_balanced(node) && this->__is_balanced(node->left) && this->__is_balanced(node->right);
+	}
+
+	void __update_nil()
+	{
+		this->_nil->left = this->_min;
+		this->_nil->right = this->_max;
 	}
 
 	static int __abs(int a)

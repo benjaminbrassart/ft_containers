@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 11:53:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:14:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ public:
 	map(map< _Key, _T, _Compare, _Alloc > const& x) :
 		_alloc(x.get_allocator()),
 		_kcomp(x.key_comp()),
-		_tree(value_compare(x._kcomp), node_allocator_type(x._alloc))
+		_tree(x._tree)
 	{
-		this->insert(x.begin(), x.end());
 	}
 
 	template< class _Key, class _T, class _Compare, class _Alloc >
@@ -102,17 +101,16 @@ public:
 	{
 		if (this != &rhs)
 		{
-			this->clear();
 			this->_kcomp = rhs._kcomp;
 			this->_vcomp = rhs._vcomp;
-			this->insert(rhs.begin(), rhs.end());
+			this->_tree = rhs._tree;
 		}
 		return *this;
 	}
 
 	~map()
 	{
-		this->clear();
+		// do NOT clear here, everything is allocated on the stack!
 	}
 
 	/* ------------------------------------------------------------------------- */
@@ -120,22 +118,22 @@ public:
 public:
 	iterator begin()
 	{
-		return iterator(this->_tree._min);
+		return iterator(this->_tree.min());
 	}
 
 	const_iterator begin() const
 	{
-		return const_iterator(this->_tree._min);
+		return const_iterator(this->_tree.min());
 	}
 
 	iterator end()
 	{
-		return iterator(this->_tree._nil);
+		return iterator(this->_tree.nil());
 	}
 
 	const_iterator end() const
 	{
-		return const_iterator(this->_tree._nil);
+		return const_iterator(this->_tree.nil());
 	}
 
 	reverse_iterator rbegin()
@@ -230,6 +228,8 @@ public:
 
 	void erase(iterator first, iterator last)
 	{
+		(void)first;
+		(void)last;
 		// if (first == this->begin() && last == this->end())
 		// {
 		// 	this->__avl_release(this->_root);
@@ -263,7 +263,7 @@ public:
 
 	value_compare value_comp() const
 	{
-		return this->_vcomp;
+		return this->_tree.comp();
 	}
 
 	/* ------------------------------------------------------------------------- */
@@ -271,7 +271,7 @@ public:
 public:
 	iterator find(key_type const& k)
 	{
-		node_type* iter = this->_root;
+		node_type* iter = this->_tree.root();
 
 		while (!iter->is_nil())
 		{
@@ -288,7 +288,7 @@ public:
 
 	const_iterator find(key_type const& k) const
 	{
-		node_type* iter = this->_root;
+		node_type* iter = this->_tree.root();
 
 		while (!iter->is_nil())
 		{
@@ -382,7 +382,7 @@ public:
 template< class Key, class T, class Compare, class Alloc >
 bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), this->value_comp()));
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 
 template< class Key, class T, class Compare, class Alloc >
@@ -394,7 +394,7 @@ bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 template< class Key, class T, class Compare, class Alloc >
 bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), this->value_comp());
+	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template< class Key, class T, class Compare, class Alloc >

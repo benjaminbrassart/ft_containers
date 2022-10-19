@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 10:48:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:12:32 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,16 @@ public:
 	{
 		if (this->is_nil())
 			return 0;
-		return this->left.height - this->right.height;
+		return this->left->height - this->right->height;
+	}
+
+	void swap(tree_node& x)
+	{
+		std::swap(this->parent, x.parent);
+		std::swap(this->pair, x.pair);
+		std::swap(this->left, x.left);
+		std::swap(this->right, x.right);
+		std::swap(this->height, x.height);
 	}
 };
 } // namespace avl

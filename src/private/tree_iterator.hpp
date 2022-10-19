@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:45:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:08:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@ namespace avl
 template< class Pair, class Node >
 struct tree_iterator : public ft::iterator< std::bidirectional_iterator_tag, Pair >
 {
+private:
+	typedef Node node_type;
+
 public:
 	typedef Pair* pointer;
 	typedef Pair const* const_pointer;
 	typedef Pair& reference;
 	typedef Pair const& const_reference;
-	typedef Node node_type;
 
+private:
 	node_type* _node;
 
+public:
 	tree_iterator() :
 		_node(NULL)
 	{
@@ -93,9 +97,8 @@ public:
 		else
 		{
 			while (
-				// !this->_node->is_nil() &&       // TODO test edge cases
-				!this->_node->parent->is_nil() &&
-				this->_node == this->_node->parent->right
+			// !this->_node->is_nil() &&       // TODO test edge cases
+			!this->_node->parent->is_nil() && this->_node == this->_node->parent->right
 			)
 				this->_node = this->_node->parent;
 			this->_node = this->_node->parent;
@@ -121,11 +124,7 @@ public:
 		}
 		else
 		{
-			while (
-				!this->_node->is_nil() &&
-				!this->_node->parent->is_nil() &&
-				this->_node == this->_node->parent->left
-			)
+			while (!this->_node->is_nil() && !this->_node->parent->is_nil() && this->_node == this->_node->parent->left)
 				this->_node = this->_node->parent;
 			this->_node = this->_node->parent;
 		}
@@ -139,23 +138,18 @@ public:
 		--*this;
 		return tmp;
 	}
+
+	template< class Pair1, class Node1, class Pair2, class Node2 >
+	friend bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs);
 };
 
-template<
-	class Pair1,
-	class Node1,
-	class Pair2,
-	class Node2 >
+template< class Pair1, class Node1, class Pair2, class Node2 >
 bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return rhs._node == lhs._node;
 }
 
-template<
-	class Pair1,
-	class Node1,
-	class Pair2,
-	class Node2 >
+template< class Pair1, class Node1, class Pair2, class Node2 >
 bool operator!=(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
 	return !(lhs == rhs);

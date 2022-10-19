@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 11:48:00 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:56:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,12 +164,6 @@ bool operator>=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
 }
 
 template< class T1, class T2 >
-void swap(ft::pair< T1, T2 >& x, ft::pair< T1, T2 >& y)
-{
-	x.swap(y);
-}
-
-template< class T1, class T2 >
 pair< T1, T2 > make_pair(T1 x, T2 y)
 {
 	return pair< T1, T2 >(x, y);
@@ -231,3 +225,12 @@ bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputI
 	return first2 != last2;
 }
 } // namespace ft
+
+namespace std
+{
+template< class T1, class T2 >
+void swap(ft::pair< T1, T2 >& x, ft::pair< T1, T2 >& y)
+{
+	x.swap(y);
+}
+} // namespace std

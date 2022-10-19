@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 05:12:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 12:31:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:11:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ struct iterator_traits< T const* >
 
 template< class Iterator >
 struct reverse_iterator :
-	public iterator< typename iterator_traits< Iterator >::iterator_category,
+	public iterator<
+	typename iterator_traits< Iterator >::iterator_category,
 	typename iterator_traits< Iterator >::value_type,
 	typename iterator_traits< Iterator >::difference_type,
 	typename iterator_traits< Iterator >::pointer,
@@ -90,7 +91,8 @@ public:
 	{
 	}
 
-	explicit reverse_iterator(iterator_type it) :
+	template< class Iter >
+	explicit reverse_iterator(Iter it) :
 		_base(it)
 	{
 	}
@@ -213,15 +215,13 @@ bool operator>=(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iter
 }
 
 template< class Iterator >
-reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n,
-reverse_iterator< Iterator > const& rev_it)
+reverse_iterator< Iterator > operator+(typename reverse_iterator< Iterator >::difference_type n, reverse_iterator< Iterator > const& rev_it)
 {
 	return rev_it + n;
 }
 
 template< class Iterator1, class Iterator2 >
-typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs,
-reverse_iterator< Iterator2 > const& rhs)
+typename reverse_iterator< Iterator1 >::difference_type operator-(reverse_iterator< Iterator1 > const& lhs, reverse_iterator< Iterator2 > const& rhs)
 {
 	return rhs.base() - lhs.base();
 }
