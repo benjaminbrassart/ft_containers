@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:20:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 13:27:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:02:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ struct enable_if_integer : public ft::enable_if< std::numeric_limits< T >::is_in
 
 int main()
 {
-	enable_if_integral< wchar_t const >::type c(L'é');
-	enable_if_integer< wchar_t const >::type d(L'ë');
+	enable_if_integral< char >::type c(L'c');
+	enable_if_integer< char >::type d(L'd');
 
 	std::cout << "c: " << c << '\n' << "d: " << d << '\n';
 }

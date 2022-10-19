@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 13:20:32 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 16:33:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,20 @@ public:
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
 		node_type* node;
-		bool inserted;
+		node_type* inserted_node;
 
-		node = this->__insert(val, this->_root, inserted);
-		if (inserted)
+		inserted_node = 0;
+		node = this->__insert(val, this->_root, inserted_node);
+		this->_root = node;
+		if (inserted_node != 0)
 		{
-			if (this->_root->is_nil())
-				this->_root = node;
 			if (this->_min->is_nil() || this->_comp(val, this->_min->pair))
-				this->_min = node;
+				this->_min = inserted_node;
 			if (this->_max->is_nil() || this->_comp(this->_max->pair, val))
-				this->_max = node;
+				this->_max = inserted_node;
 			this->__update_nil();
 		}
-		return ft::make_pair(iterator(node), inserted);
+		return ft::make_pair(iterator(inserted_node), inserted_node != 0);
 	}
 
 	void clear()
@@ -219,21 +219,21 @@ private:
 		this->get_allocator().deallocate(node, 1);
 	}
 
-	node_type* __insert(value_type const& value, node_type* node, bool& inserted)
+	node_type* __insert(value_type const& value, node_type* node, node_type*& inserted_node)
 	{
 		if (node->is_nil())
 		{
 			++this->_size;
-			inserted = true;
-			return this->__make_node(value);
+			inserted_node = this->__make_node(value);
+			return inserted_node;
 		}
 		if (this->_comp(value, node->pair))
-			node->left = this->__insert(value, node->left, inserted);
+			node->left = this->__insert(value, node->left, inserted_node);
 		else if (this->_comp(node->pair, value))
-			node->right = this->__insert(value, node->right, inserted);
+			node->right = this->__insert(value, node->right, inserted_node);
 		else
 		{
-			inserted = false;
+			inserted_node = 0;
 			return node;
 		}
 		this->__update_height(node);
@@ -295,20 +295,31 @@ private:
 		return node;
 	}
 
+	// TODO update parent
 	node_type* __rotate_right(node_type* node)
 	{
+		node_type* parent = node->parent;
 		node_type* left = node->left;
 		node_type* center = left->right;
 
 		left->right = node;
+		left->left = node;
+
+		node->parent = left;
 		node->left = center;
+
+		if (!center->is_nil())
+			center->parent = node;
+
 		this->__update_height(node);
 		this->__update_height(left);
 		return left;
 	}
 
+	// TODO update parent
 	node_type* __rotate_left(node_type* node)
 	{
+		node_type* parent = node->parent;
 		node_type* right = node->right;
 		node_type* center = right->left;
 
