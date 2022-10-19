@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 10:04:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:49:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ namespace ft
  * @tparam T the type of the stored objects
  * @tparam Alloc the type of allocator object, defaults to std::allocator< T >
  */
-template<
-	class T,
-	class Alloc = std::allocator< T > >
+template< class T, class Alloc = std::allocator< T > >
 class vector
 {
 	/* ------------------------------------------------------------------------- */
@@ -353,21 +351,9 @@ public:
 	// allocator may or may not be swapped as the specification says nothing about it
 	void swap(vector& x)
 	{
-		// swap data pointers
-		pointer x_data = x._data;
-
-		x._data = this->_data;
-		this->_data = x_data;
-
-		// swap sizes
-		this->_size ^= x._size;
-		x._size ^= this->_size;
-		this->_size ^= x._size;
-
-		// swap capacities
-		this->_capacity ^= x._capacity;
-		x._capacity ^= this->_capacity;
-		this->_capacity ^= x._capacity;
+		std::swap(this->_data, x._data);
+		std::swap(this->_size, x._size);
+		std::swap(this->_capacity, x._capacity);
 	}
 
 	void clear()

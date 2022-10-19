@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 15:16:03 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:53:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,17 +243,8 @@ public:
 	// TODO test implementation
 	void swap(map& x)
 	{
-		// swap tree
-		tree_type x_tree = x._tree;
-
-		x._tree = this->_tree;
-		this->_tree = x_tree;
-
-		// swap key_comp
-		key_compare x_kcomp = x._kcomp;
-
-		x._kcomp = this->_kcomp;
-		this->_kcomp = x_kcomp;
+		this->_tree.swap(x._tree);
+		std::swap(this->_kcomp, x._kcomp);
 	}
 
 	// TODO test implementation
@@ -391,7 +382,7 @@ public:
 template< class Key, class T, class Compare, class Alloc >
 bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); // TODO use Compare object
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), this->value_comp()));
 }
 
 template< class Key, class T, class Compare, class Alloc >
@@ -403,7 +394,7 @@ bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 template< class Key, class T, class Compare, class Alloc >
 bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); // TODO use Compare object
+	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), this->value_comp());
 }
 
 template< class Key, class T, class Compare, class Alloc >

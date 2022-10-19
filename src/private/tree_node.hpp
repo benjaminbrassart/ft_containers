@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 12:05:26 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 10:48:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ public:
 	{
 	}
 
+	// TODO deep copy
 	tree_node(ft::avl::tree_node< Pair > const& x) :
 		parent(x.parent),
 		pair(x.pair),
@@ -60,6 +61,7 @@ public:
 	{
 	}
 
+	// TODO deep copy
 	tree_node& operator=(ft::avl::tree_node< Pair > const& x)
 	{
 		if (&x != this)

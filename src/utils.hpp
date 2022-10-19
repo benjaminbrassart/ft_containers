@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/18 13:23:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/19 11:48:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,8 @@ struct pair
 
 	void swap(pair& pr)
 	{
-		first_type a = pr.first;
-		second_type b = pr.second;
-
-		pr.first = this->first;
-		pr.second = this->second;
-		this->first = a;
-		this->second = b;
+		std::swap(this->first, pr.first);
+		std::swap(this->second, pr.second);
 	}
 }; // struct pair
 
@@ -194,11 +189,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, I
 }
 
 template< class InputIterator1, class InputIterator2, class BinaryPredicate >
-bool equal(InputIterator1 first1,
-InputIterator1 last1,
-InputIterator2 first2,
-InputIterator2 last2,
-BinaryPredicate pred)
+bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred)
 {
 	while (first1 != last1)
 	{
@@ -226,11 +217,7 @@ bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputI
 }
 
 template< class InputIterator1, class InputIterator2, class BinaryPredicate >
-bool lexicographical_compare(InputIterator1 first1,
-InputIterator1 last1,
-InputIterator2 first2,
-InputIterator2 last2,
-BinaryPredicate pred)
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, BinaryPredicate pred)
 {
 	while (first1 != last1)
 	{
