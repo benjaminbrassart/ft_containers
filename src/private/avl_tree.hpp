@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/20 12:11:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:21:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 private:
+	// TODO update new tree's min and max
 	node_type* __deep_copy(tree& tree, node_type const* node, node_type* parent)
 	{
 		node_type* new_node;
@@ -296,7 +297,6 @@ private:
 		return node;
 	}
 
-	// TODO update parent
 	node_type* __rotate_right(node_type* node)
 	{
 		node_type* left = node->left;
@@ -316,7 +316,6 @@ private:
 		return left;
 	}
 
-	// TODO update parent
 	node_type* __rotate_left(node_type* node)
 	{
 		node_type* right = node->right;
