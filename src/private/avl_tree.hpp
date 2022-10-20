@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 16:33:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:11:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ public:
 		node_type* inserted_node;
 
 		inserted_node = 0;
-		node = this->__insert(val, this->_root, inserted_node);
+		node = this->__insert(val, this->_nil, this->_root, inserted_node);
 		this->_root = node;
 		if (inserted_node != 0)
 		{
@@ -219,18 +219,19 @@ private:
 		this->get_allocator().deallocate(node, 1);
 	}
 
-	node_type* __insert(value_type const& value, node_type* node, node_type*& inserted_node)
+	node_type* __insert(value_type const& value, node_type* parent, node_type* node, node_type*& inserted_node)
 	{
 		if (node->is_nil())
 		{
 			++this->_size;
 			inserted_node = this->__make_node(value);
+			inserted_node->parent = parent;
 			return inserted_node;
 		}
 		if (this->_comp(value, node->pair))
-			node->left = this->__insert(value, node->left, inserted_node);
+			node->left = this->__insert(value, node, node->left, inserted_node);
 		else if (this->_comp(node->pair, value))
-			node->right = this->__insert(value, node->right, inserted_node);
+			node->right = this->__insert(value, node, node->right, inserted_node);
 		else
 		{
 			inserted_node = 0;
@@ -298,18 +299,17 @@ private:
 	// TODO update parent
 	node_type* __rotate_right(node_type* node)
 	{
-		node_type* parent = node->parent;
 		node_type* left = node->left;
 		node_type* center = left->right;
 
-		left->right = node;
-		left->left = node;
-
-		node->parent = left;
 		node->left = center;
+		left->right = node;
 
 		if (!center->is_nil())
 			center->parent = node;
+
+		left->parent = node->parent;
+		node->parent = left;
 
 		this->__update_height(node);
 		this->__update_height(left);
@@ -319,12 +319,18 @@ private:
 	// TODO update parent
 	node_type* __rotate_left(node_type* node)
 	{
-		node_type* parent = node->parent;
 		node_type* right = node->right;
 		node_type* center = right->left;
 
-		right->left = node;
 		node->right = center;
+		right->left = node;
+
+		if (!center->is_nil())
+			center->parent = node;
+
+		right->parent = node->parent;
+		node->parent = right;
+
 		this->__update_height(node);
 		this->__update_height(right);
 		return right;
