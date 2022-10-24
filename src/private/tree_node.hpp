@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 16:44:47 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/24 18:41:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,18 @@ public:
 		std::swap(this->height, x.height);
 	}
 };
+
+template< class P1, class P2 >
+bool operator==(ft::avl::tree_node< P1 > const& lhs, ft::avl::tree_node< P2 > const& rhs)
+{
+	return &lhs == &rhs;
+}
+
+template< class P1, class P2 >
+bool operator!=(ft::avl::tree_node< P1 > const& lhs, ft::avl::tree_node< P2 > const& rhs)
+{
+	return !(lhs == rhs);
+}
+
 } // namespace avl
 } // namespace ft

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 11:56:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/20 20:21:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,38 +127,38 @@ struct pair
 	}
 }; // struct pair
 
-template< class T1, class T2 >
-bool operator==(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator==(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
-template< class T1, class T2 >
-bool operator!=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator!=(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template< class T1, class T2 >
-bool operator<(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator<(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
 }
 
-template< class T1, class T2 >
-bool operator<=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator<=(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return !(rhs < lhs);
 }
 
-template< class T1, class T2 >
-bool operator>(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator>(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return rhs < lhs;
 }
 
-template< class T1, class T2 >
-bool operator>=(ft::pair< T1, T2 > const& lhs, ft::pair< T1, T2 > const& rhs)
+template< class P1T1, class P1T2, class P2T1, class P2T2 >
+bool operator>=(ft::pair< P1T1, P1T2 > const& lhs, ft::pair< P2T1, P2T2 > const& rhs)
 {
 	return !(lhs < rhs);
 }

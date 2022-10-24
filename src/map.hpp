@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 13:14:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/24 18:59:20 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ public:
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
 	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
-	typedef ft::avl::tree_iterator< const value_type, node_type const > const_iterator;
+	typedef ft::avl::tree_iterator< value_type const, node_type > const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
