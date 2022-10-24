@@ -1,3 +1,4 @@
+// #define STD
 #include "map_test.hpp"
 
 int main()
@@ -36,11 +37,24 @@ int main()
 	// std::cout << '\n';
 
 	map< int, char > m3;
+	map< int, char >::const_iterator it;
 
-	m3.insert(make_pair('9', '9'));
-	m3.insert(make_pair('8', '8'));
-	m3.insert(make_pair('7', '7'));
-	// m3.insert(make_pair('6', '6'));
+	std::cout << m3.insert(make_pair('9', '9')).second << '\n';
+	std::cout << m3.insert(make_pair('8', '8')).second << '\n';
+	// std::cout << m3.insert(make_pair('7', '7')).second << '\n';
+	// std::cout << m3.insert(make_pair('6', '6')).second << '\n';
+	// std::cout << m3.insert(make_pair('5', '5')).second << '\n';
+	// std::cout << m3.insert(make_pair('4', '4')).second << '\n';
+	// std::cout << m3.insert(make_pair('3', '3')).second << '\n';
+	// std::cout << m3.insert(make_pair('2', '2')).second << '\n';
+	// std::cout << m3.insert(make_pair('1', '1')).second << '\n';
+	// std::cout << m3.insert(make_pair('0', '0')).second << '\n';
+	// std::cout << m3.insert(make_pair('a', 'a')).second << '\n';
+	// std::cout << m3.insert(make_pair('b', 'b')).second << '\n';
+	// std::cout << m3.insert(make_pair('c', 'c')).second << '\n';
 
-	print_map(m3);
+	for (it = m3.begin(); it != m3.end(); ++it)
+		std::cout << it->first << ": " << it->second << '\n';
+
+	// print_map(m3);
 };
