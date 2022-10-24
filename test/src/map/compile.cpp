@@ -37,7 +37,7 @@ int main()
 	// std::cout << '\n';
 
 	map< int, char > m3;
-	map< int, char >::const_iterator it;
+	// map< int, char >::const_iterator it;
 
 	std::cout << m3.insert(make_pair('9', '9')).second << '\n';
 	std::cout << m3.insert(make_pair('8', '8')).second << '\n';
@@ -53,8 +53,5 @@ int main()
 	// std::cout << m3.insert(make_pair('b', 'b')).second << '\n';
 	// std::cout << m3.insert(make_pair('c', 'c')).second << '\n';
 
-	for (it = m3.begin(); it != m3.end(); ++it)
-		std::cout << it->first << ": " << it->second << '\n';
-
-	// print_map(m3);
+	print_map(m3);
 };
