@@ -10,18 +10,14 @@ void print_map(map< Key, Value, Compare, Alloc > const& m)
 	typename map< Key, Value, Compare, Alloc >::const_iterator it;
 	typename map< Key, Value, Compare, Alloc >::const_reverse_iterator rit;
 
-	std::cout
-		<< "size: " << m.size() << '\n'
-		<< "content:" << '\n';
+	std::cout << "size: " << m.size() << '\n' << "content:" << '\n';
 
 	for (it = m.begin(); it != m.end(); ++it)
 		std::cout << "  [" << it->first << "] = " << it->second << '\n';
 
-	std::cout
-		<< '\n'
-		<< "content: (reverse):" << '\n';
+	std::cout << '\n' << "content: (reverse):" << '\n';
 
-	for (rit = m.rbegin(); rit != m.rend(); ++rit)
+	for (rit = m.begin(); rit != m.rend(); rit++)
 		std::cout << "  [" << rit->first << "] = " << rit->second << '\n';
 	std::cout << '\n';
 }
