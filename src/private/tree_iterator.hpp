@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/24 19:25:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:26:46 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,15 +141,12 @@ public:
 		--*this;
 		return tmp;
 	}
-
-	template< class Pair1, class Node1, class Pair2, class Node2 >
-	friend bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs);
 };
 
 template< class Pair1, class Node1, class Pair2, class Node2 >
 bool operator==(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, Node2 > const& rhs)
 {
-	return rhs._node == lhs._node;
+	return rhs.base() == lhs.base();
 }
 
 template< class Pair1, class Node1, class Pair2, class Node2 >

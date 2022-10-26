@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/20 12:21:35 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:33:39 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,8 +356,8 @@ private:
 
 	void __update_nil()
 	{
-		this->_nil->left = this->_min;
-		this->_nil->right = this->_max;
+		this->_nil->left = this->_max;
+		this->_nil->right = this->_min;
 	}
 
 	static int __abs(int a)
