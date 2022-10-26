@@ -37,21 +37,30 @@ int main()
 	// std::cout << '\n';
 
 	map< int, char > m3;
-	// map< int, char >::const_iterator it;
+	map< int, char >::const_iterator it;
 
 	std::cout << m3.insert(make_pair('9', '9')).second << '\n';
 	std::cout << m3.insert(make_pair('8', '8')).second << '\n';
-	// std::cout << m3.insert(make_pair('7', '7')).second << '\n';
-	// std::cout << m3.insert(make_pair('6', '6')).second << '\n';
-	// std::cout << m3.insert(make_pair('5', '5')).second << '\n';
-	// std::cout << m3.insert(make_pair('4', '4')).second << '\n';
-	// std::cout << m3.insert(make_pair('3', '3')).second << '\n';
-	// std::cout << m3.insert(make_pair('2', '2')).second << '\n';
-	// std::cout << m3.insert(make_pair('1', '1')).second << '\n';
-	// std::cout << m3.insert(make_pair('0', '0')).second << '\n';
-	// std::cout << m3.insert(make_pair('a', 'a')).second << '\n';
-	// std::cout << m3.insert(make_pair('b', 'b')).second << '\n';
-	// std::cout << m3.insert(make_pair('c', 'c')).second << '\n';
+	std::cout << m3.insert(make_pair('7', '7')).second << '\n';
+	std::cout << m3.insert(make_pair('6', '6')).second << '\n';
+	std::cout << m3.insert(make_pair('5', '5')).second << '\n';
+	std::cout << m3.insert(make_pair('4', '4')).second << '\n';
+	std::cout << m3.insert(make_pair('3', '3')).second << '\n';
+	std::cout << m3.insert(make_pair('2', '2')).second << '\n';
+	std::cout << m3.insert(make_pair('1', '1')).second << '\n';
+	std::cout << m3.insert(make_pair('0', '0')).second << '\n';
+	std::cout << m3.insert(make_pair('a', 'a')).second << '\n';
+	std::cout << m3.insert(make_pair('b', 'b')).second << '\n';
+	std::cout << m3.insert(make_pair('c', 'c')).second << '\n';
+
+	// it = m3.end();
+
+	// do
+	// {
+	// 	--it;
+	// 	std::cout << it->first << ": " << it->second << '\n';
+	// }
+	// while (it != m3.end());
 
 	print_map(m3);
 };
