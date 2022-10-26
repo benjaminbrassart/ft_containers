@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/26 21:33:39 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/26 22:17:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ public:
 		return this->_max;
 	}
 
-	value_compare const& comp()
+	value_compare const& comp() const
 	{
 		return this->_comp;
 	}
@@ -165,7 +165,7 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 public:
-	allocator_type get_allocator()
+	allocator_type get_allocator() const
 	{
 		return this->_alloc;
 	}

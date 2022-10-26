@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/24 18:59:20 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/26 22:52:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ public:
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
 	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
-	typedef ft::avl::tree_iterator< value_type const, node_type > const_iterator;
+	typedef ft::avl::tree_iterator< value_type const, node_type const > const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
@@ -187,7 +187,6 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 public:
-	// TODO test
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
 		return this->_tree.insert(val);
@@ -213,7 +212,6 @@ public:
 		TODO();
 	}
 
-	// TODO test implementation
 	size_type erase(key_type const& k)
 	{
 		iterator position = this->find(k);
@@ -240,14 +238,12 @@ public:
 		TODO();
 	}
 
-	// TODO test implementation
 	void swap(map& x)
 	{
 		this->_tree.swap(x._tree);
 		std::swap(this->_kcomp, x._kcomp);
 	}
 
-	// TODO test implementation
 	void clear()
 	{
 		this->_tree.clear();
@@ -303,12 +299,9 @@ public:
 		return const_iterator(iter);
 	}
 
-	// TODO test implementation
 	size_type count(key_type const& k) const
 	{
-		if (this->find(k) == this->end())
-			return 0;
-		return 1;
+		return (this->find(k) == this->end()) ? 0 : 1;
 	}
 
 	iterator lower_bound(key_type const& k)
