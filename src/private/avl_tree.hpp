@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/26 22:17:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 01:22:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,8 +259,12 @@ private:
 				return node->left;
 
 			// has 2 children
-			node->pair = this->max()->pair; // swap pointers instead
+
+			// TODO wtf is that???
+			node = this->max();
+			node->pair = this->max()->pair;
 			node->left = this->__remove(node->pair, node->left);
+			// all of it!
 		}
 		this->__update_height(node);
 		return this->__rebalance(node);
