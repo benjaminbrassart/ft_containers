@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 03:51:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 04:01:16 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,19 +129,21 @@ public:
 	{
 		node_type* node;
 		node_type* inserted_node;
+		node_type* found_node;
 
 		inserted_node = 0;
-		node = this->__insert(val, this->_nil, this->_root, inserted_node);
+		node = this->__insert(val, this->_nil, this->_root, inserted_node, found_node);
 		this->_root = node;
-		if (inserted_node != 0)
+		if (inserted_node != 0) // insertion happened
 		{
 			if (this->_min->is_nil() || this->_comp(val, this->_min->pair))
 				this->_min = inserted_node;
 			if (this->_max->is_nil() || this->_comp(this->_max->pair, val))
 				this->_max = inserted_node;
 			this->__update_nil();
+			return ft::make_pair(iterator(inserted_node), true);
 		}
-		return ft::make_pair(iterator(inserted_node), inserted_node != 0);
+		return ft::make_pair(iterator(found_node), false);
 	}
 
 	void clear()
@@ -228,7 +230,7 @@ private:
 		this->get_allocator().deallocate(node, 1);
 	}
 
-	node_type* __insert(value_type const& value, node_type* parent, node_type* node, node_type*& inserted_node)
+	node_type* __insert(value_type const& value, node_type* parent, node_type* node, node_type*& inserted_node, node_type*& found_node)
 	{
 		if (node->is_nil())
 		{
@@ -238,12 +240,13 @@ private:
 			return inserted_node;
 		}
 		if (this->_comp(value, node->pair))
-			node->left = this->__insert(value, node, node->left, inserted_node);
+			node->left = this->__insert(value, node, node->left, inserted_node, found_node);
 		else if (this->_comp(node->pair, value))
-			node->right = this->__insert(value, node, node->right, inserted_node);
+			node->right = this->__insert(value, node, node->right, inserted_node, found_node);
 		else
 		{
 			inserted_node = 0;
+			found_node = node;
 			return node;
 		}
 		this->__update_height(node);
