@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 03:35:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 03:51:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ private:
 private:
 	allocator_type _alloc;
 	node_type* _nil;
+	node_type* _root;
 	node_type* _min;
 	node_type* _max;
-	node_type* _root;
 	value_compare _comp;
 	size_type _size;
 
@@ -52,25 +52,24 @@ public:
 	tree(value_compare const& comp, allocator_type const& alloc) :
 		_alloc(alloc),
 		_nil(this->__make_nil()),
+		_root(this->_nil),
 		_min(this->_nil),
 		_max(this->_nil),
-		_root(this->_nil),
 		_comp(comp),
 		_size(0)
 	{
 	}
 
-	template< class _Value, class _Compare, class _Alloc >
-	tree(tree< _Value, _Compare, _Alloc > const& x) :
-		_alloc(),
-		_nil(),
-		_min(),
-		_max(),
-		_root(),
-		_comp(),
-		_size()
+	tree(tree const& x) :
+		_alloc(x._alloc),
+		_nil(this->__make_nil()),
+		_root(this->_nil),
+		_min(this->_nil),
+		_max(this->_nil),
+		_comp(x._comp),
+		_size(x._size)
 	{
-		*this = x;
+		this->_root = this->__deep_copy(x, x._root, this->_nil);
 	}
 
 	tree& operator=(tree const& x)
@@ -79,6 +78,7 @@ public:
 		{
 			this->clear();
 			this->_root = this->__deep_copy(x, x._root, this->_nil);
+			this->_size = x._size;
 		}
 		return *this;
 	}

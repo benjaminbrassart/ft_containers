@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 03:34:30 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 03:51:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ public:
 		this->insert(first, last);
 	}
 
-	template< class _Key, class _T, class _Compare, class _Alloc >
-	map(map< _Key, _T, _Compare, _Alloc > const& x) :
+	map(map const& x) :
 		_alloc(x.get_allocator()),
 		_kcomp(x.key_comp()),
 		_tree(x._tree)
@@ -353,7 +352,7 @@ public:
 	{
 		friend class map;
 
-	private:
+	protected:
 		Compare _comp;
 
 		value_compare(Compare comp) :
