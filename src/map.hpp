@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:24:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:30:25 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,36 +265,12 @@ public:
 public:
 	iterator find(key_type const& k)
 	{
-		node_type* iter = this->_tree.root();
-
-		while (!iter->is_nil())
-		{
-			if (this->key_comp()(k, iter->pair.first))
-				iter = iter->left;
-			else if (this->key_comp()(iter->pair.first, k))
-				iter = iter->right;
-			else
-				break;
-		}
-
-		return iterator(iter);
+		return this->__find< iterator >(k);
 	}
 
 	const_iterator find(key_type const& k) const
 	{
-		node_type* iter = this->_tree.root();
-
-		while (!iter->is_nil())
-		{
-			if (this->key_comp()(k, iter->pair.first))
-				iter = iter->left;
-			else if (this->key_comp()(iter->pair.first, k))
-				iter = iter->right;
-			else
-				break;
-		}
-
-		return const_iterator(iter);
+		return this->__find< const_iterator >(k);
 	}
 
 	size_type count(key_type const& k) const
@@ -343,6 +319,23 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 private:
+	template< class Iterator >
+	Iterator __find(key_type const& k) const
+	{
+		node_type* iter = this->_tree.root();
+
+		while (!iter->is_nil())
+		{
+			if (this->key_comp()(k, iter->pair.first))
+				iter = iter->left;
+			else if (this->key_comp()(iter->pair.first, k))
+				iter = iter->right;
+			else
+				break;
+		}
+		return Iterator(iter);
+	}
+
 	template< class Iterator >
 	Iterator __find_bound(key_type const& k, bool is_lower) const
 	{
