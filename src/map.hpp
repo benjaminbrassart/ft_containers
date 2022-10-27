@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:52:07 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:59:28 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ public:
 	{
 		if (position == this->end())
 			return;
-		TODO();
+		this->_tree.remove(position->base());
 	}
 
 	size_type erase(key_type const& k)
@@ -225,16 +225,16 @@ public:
 
 	void erase(iterator first, iterator last)
 	{
-		(void)first;
-		(void)last;
-		// if (first == this->begin() && last == this->end())
-		// {
-		// 	this->__avl_release(this->_root);
-		// 	return;
-		// }
-		// for (iterator it = first; first != last; ++first)
-		// 	this->erase(it);
-		TODO();
+		if (first == this->begin() && last == this->end())
+		{
+			// special case, trying to erase the whole container,
+			// so do not bother rotating nodes
+			this->clear();
+			return;
+		}
+
+		for (iterator it = first; it != last; ++it)
+			this->erase(it);
 	}
 
 	void swap(map& x)

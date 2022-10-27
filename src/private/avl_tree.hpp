@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 04:01:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 06:03:09 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,11 @@ public:
 			return ft::make_pair(iterator(inserted_node), true);
 		}
 		return ft::make_pair(iterator(found_node), false);
+	}
+
+	// TODO implement
+	void remove(node_type* node)
+	{
 	}
 
 	void clear()
