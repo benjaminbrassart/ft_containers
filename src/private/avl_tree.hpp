@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 02:15:49 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 03:35:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,12 @@ public:
 		*this = x;
 	}
 
-	template< class _Value, class _Compare, class _Alloc >
-	tree& operator=(tree< _Value, _Compare, _Alloc > const& x)
+	tree& operator=(tree const& x)
 	{
-		if (&this != &x)
+		if (this != &x)
 		{
-			this->_alloc = x._alloc;
-			this->_nil = this->__make_nil();
-			this->_root = this->__deep_copy(*this, x._root, this->_nil);
+			this->clear();
+			this->_root = this->__deep_copy(x, x._root, this->_nil);
 		}
 		return *this;
 	}
@@ -149,6 +147,11 @@ public:
 	void clear()
 	{
 		this->__release(this->_root);
+		this->_size = 0;
+		this->_root = this->_nil;
+		this->_min = this->_root;
+		this->_max = this->_root;
+		this->__update_nil();
 	}
 
 	template< class _Value, class _Compare, class _Alloc >
@@ -174,18 +177,22 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 private:
-	// TODO update new tree's min and max
-	node_type* __deep_copy(tree& tree, node_type const* node, node_type* parent)
+	template< class _Value, class _Compare, class _Alloc >
+	node_type* __deep_copy(tree< _Value, _Compare, _Alloc > const& origin, node_type const* node, node_type* parent)
 	{
 		node_type* new_node;
 
 		if (node->is_nil())
-			return tree.nil();
+			return this->nil();
 
 		new_node = this->__make_node(node->pair);
 
-		new_node->left = this->__deep_copy(tree, node->left, new_node);
-		new_node->right = this->__deep_copy(tree, node->right, new_node);
+		new_node->left = this->__deep_copy(origin, node->left, new_node);
+		if (node->left == origin.min()) // TODO test if this works
+			this->_min = new_node->left;
+		new_node->right = this->__deep_copy(origin, node->right, new_node);
+		if (node->right == origin.max()) // TODO test if this works
+			this->_max = new_node->right;
 		new_node->parent = parent;
 		new_node->height = node->height;
 		return new_node;

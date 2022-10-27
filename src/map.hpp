@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/26 22:52:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 03:34:30 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,17 @@ public:
 	{
 	}
 
-	template< class _Key, class _T, class _Compare, class _Alloc >
-	map& operator=(map< _Key, _T, _Compare, _Alloc > const& rhs)
+	map& operator=(map const& rhs)
 	{
 		if (this != &rhs)
 		{
 			this->_kcomp = rhs._kcomp;
-			this->_vcomp = rhs._vcomp;
 			this->_tree = rhs._tree;
 		}
 		return *this;
 	}
 
+public:
 	~map()
 	{
 		// do NOT clear here, everything is allocated on the stack!
