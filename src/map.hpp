@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:48:52 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:52:07 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ public:
 		return this->_tree.insert(val);
 	}
 
+	// TODO make use of position for optimization
 	iterator insert(iterator position, value_type const& val)
 	{
 		(void)position;
