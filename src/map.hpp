@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:22:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:24:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,82 +304,22 @@ public:
 
 	iterator lower_bound(key_type const& k)
 	{
-		node_type* node;
-		node_type* slow;
-
-		node = this->_tree.root();
-		slow = this->_tree.nil();
-		while (!node->is_nil())
-		{
-			if (!this->key_comp()(node->pair.first, k))
-			{
-				slow = node;
-				node = node->left;
-			}
-			else
-				node = node->right;
-		}
-		return iterator(slow);
+		return this->__find_bound< iterator >(k, true);
 	}
 
 	const_iterator lower_bound(key_type const& k) const
 	{
-		node_type* node;
-		node_type* slow;
-
-		node = this->_tree.root();
-		slow = this->_tree.nil();
-		while (!node->is_nil())
-		{
-			if (!this->key_comp()(node->pair.first, k))
-			{
-				slow = node;
-				node = node->left;
-			}
-			else
-				node = node->right;
-		}
-		return const_iterator(slow);
+		return this->__find_bound< const_iterator >(k, true);
 	}
 
 	iterator upper_bound(key_type const& k)
 	{
-		node_type* node;
-		node_type* slow;
-
-		node = this->_tree.root();
-		slow = this->_tree.nil();
-		while (!node->is_nil())
-		{
-			if (this->key_comp()(k, node->pair.first))
-			{
-				slow = node;
-				node = node->left;
-			}
-			else
-				node = node->right;
-		}
-		return iterator(slow);
+		return this->__find_bound< iterator >(k, false);
 	}
 
 	const_iterator upper_bound(key_type const& k) const
 	{
-		node_type* node;
-		node_type* slow;
-
-		node = this->_tree.root();
-		slow = this->_tree.nil();
-		while (!node->is_nil())
-		{
-			if (this->key_comp()(k, node->pair.first))
-			{
-				slow = node;
-				node = node->left;
-			}
-			else
-				node = node->right;
-		}
-		return const_iterator(slow);
+		return this->__find_bound< const_iterator >(k, false);
 	}
 
 	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const
@@ -398,6 +338,30 @@ public:
 	allocator_type get_allocator() const
 	{
 		return this->_alloc;
+	}
+
+	/* ------------------------------------------------------------------------- */
+
+private:
+	template< class Iterator >
+	Iterator __find_bound(key_type const& k, bool is_lower) const
+	{
+		node_type* node;
+		node_type* slow;
+
+		node = this->_tree.root();
+		slow = this->_tree.nil();
+		while (!node->is_nil())
+		{
+			if ((is_lower) ? !this->key_comp()(node->pair.first, k) : (this->key_comp()(k, node->pair.first)))
+			{
+				slow = node;
+				node = node->left;
+			}
+			else
+				node = node->right;
+		}
+		return Iterator(slow);
 	}
 
 	/* ------------------------------------------------------------------------- */
