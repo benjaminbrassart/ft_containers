@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 01:22:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 02:15:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ public:
 		std::swap(this->_max, x._max);
 		std::swap(this->_size, x._size);
 		std::swap(this->_alloc, x._alloc);
+		std::swap(this->_nil, x._nil);
 	}
 
 	/* ------------------------------------------------------------------------- */
