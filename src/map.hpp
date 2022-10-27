@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:30:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:48:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,7 +346,7 @@ private:
 		slow = this->_tree.nil();
 		while (!node->is_nil())
 		{
-			if ((is_lower) ? !this->key_comp()(node->pair.first, k) : (this->key_comp()(k, node->pair.first)))
+			if ((is_lower) ? (!this->key_comp()(node->pair.first, k)) : (this->key_comp()(k, node->pair.first)))
 			{
 				slow = node;
 				node = node->left;
