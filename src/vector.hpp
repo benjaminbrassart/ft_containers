@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/19 11:49:25 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 04:14:42 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -519,7 +519,7 @@ private:
 template< class T, class Alloc >
 bool operator==(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 {
-	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), lhs.end()));
+	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template< class T, class Alloc >

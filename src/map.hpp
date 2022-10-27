@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 03:51:37 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 04:14:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,7 @@ public:
 template< class Key, class T, class Compare, class Alloc >
 bool operator==(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return (&lhs == &rhs) || (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	return (&lhs == &rhs) || ((lhs.size() == rhs.size()) && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template< class Key, class T, class Compare, class Alloc >
@@ -385,7 +385,7 @@ bool operator!=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 template< class Key, class T, class Compare, class Alloc >
 bool operator<(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, Alloc > const& rhs)
 {
-	return &lhs == &rhs || ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template< class Key, class T, class Compare, class Alloc >
