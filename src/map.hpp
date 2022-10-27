@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 04:14:29 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/27 05:22:29 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,26 +304,82 @@ public:
 
 	iterator lower_bound(key_type const& k)
 	{
-		(void)k;
-		TODO();
+		node_type* node;
+		node_type* slow;
+
+		node = this->_tree.root();
+		slow = this->_tree.nil();
+		while (!node->is_nil())
+		{
+			if (!this->key_comp()(node->pair.first, k))
+			{
+				slow = node;
+				node = node->left;
+			}
+			else
+				node = node->right;
+		}
+		return iterator(slow);
 	}
 
 	const_iterator lower_bound(key_type const& k) const
 	{
-		(void)k;
-		TODO();
+		node_type* node;
+		node_type* slow;
+
+		node = this->_tree.root();
+		slow = this->_tree.nil();
+		while (!node->is_nil())
+		{
+			if (!this->key_comp()(node->pair.first, k))
+			{
+				slow = node;
+				node = node->left;
+			}
+			else
+				node = node->right;
+		}
+		return const_iterator(slow);
 	}
 
 	iterator upper_bound(key_type const& k)
 	{
-		(void)k;
-		TODO();
+		node_type* node;
+		node_type* slow;
+
+		node = this->_tree.root();
+		slow = this->_tree.nil();
+		while (!node->is_nil())
+		{
+			if (this->key_comp()(k, node->pair.first))
+			{
+				slow = node;
+				node = node->left;
+			}
+			else
+				node = node->right;
+		}
+		return iterator(slow);
 	}
 
 	const_iterator upper_bound(key_type const& k) const
 	{
-		(void)k;
-		TODO();
+		node_type* node;
+		node_type* slow;
+
+		node = this->_tree.root();
+		slow = this->_tree.nil();
+		while (!node->is_nil())
+		{
+			if (this->key_comp()(k, node->pair.first))
+			{
+				slow = node;
+				node = node->left;
+			}
+			else
+				node = node->right;
+		}
+		return const_iterator(slow);
 	}
 
 	ft::pair< const_iterator, const_iterator > equal_range(key_type const& k) const
