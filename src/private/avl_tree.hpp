@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/28 07:17:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/28 08:13:04 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ public:
 
 	void remove(node_type* node)
 	{
-		// TODO does not work
+		// TODO kinda work
 		node_type* parent = node->parent;
 		node_type** node_ptr;
 
