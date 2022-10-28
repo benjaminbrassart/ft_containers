@@ -1,0 +1,6 @@
+COLOR_RESET = $(shell tput sgr0)
+COLOR_RED = $(shell tput setaf 1)
+COLOR_GREEN = $(shell tput setaf 2)
+COLOR_YELLOW = $(shell tput setaf 3)
+COLOR_BLUE = $(shell tput setaf 4)
+COLOR_PURPLE = $(shell tput setaf 5)
