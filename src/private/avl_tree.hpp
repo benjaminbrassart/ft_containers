@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/28 08:13:04 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/28 08:52:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,19 +148,22 @@ public:
 
 	void remove(node_type* node)
 	{
-		// TODO kinda work
-		node_type* parent = node->parent;
+		// TODO kinda work, bad rotations between test [1] and [2]
+		node_type*& parent = node->parent;
 		node_type** node_ptr;
 
-		node_ptr = (node == parent->left) ? &parent->left : &parent->right;
+		if (node == parent->left)
+			node_ptr = &parent->left;
+		else
+			node_ptr = &parent->right;
 
 		--this->_size;
 		*node_ptr = this->__remove(node);
 
 		if (node == this->_max)
-			this->_max = parent;
+			this->_max = (--iterator(node)).base();
 		if (node == this->_min)
-			this->_min = parent;
+			this->_min = (++iterator(node)).base();
 		if (node == this->_root)
 			this->_root = *node_ptr;
 		this->__update_nil();
@@ -276,9 +279,15 @@ private:
 	{
 		// 0 or 1 child
 		if (node->left->is_nil())
+		{
+			node->right->parent = node->parent;
 			return node->right;
+		}
 		else if (node->right->is_nil())
+		{
+			node->left->parent = node->parent;
 			return node->left;
+		}
 
 		// 2 children
 		node_type* node_max = node->left;
