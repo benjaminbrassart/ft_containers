@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 05:59:28 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/28 03:30:05 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ public:
 	{
 		if (position == this->end())
 			return;
-		this->_tree.remove(position->base());
+		this->_tree.remove(position.base());
 	}
 
 	size_type erase(key_type const& k)

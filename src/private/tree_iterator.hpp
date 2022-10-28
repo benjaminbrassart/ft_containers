@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/26 21:26:46 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/28 03:24:01 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ public:
 	}
 
 	template< class _Node >
-	tree_iterator(_Node* node) :
+	explicit tree_iterator(_Node* node) :
 		_node(node)
 	{
 	}
