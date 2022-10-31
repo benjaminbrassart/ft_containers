@@ -6,18 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/28 03:24:01 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:05:31 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "iterator.hpp"
-#include "private/tree_node.hpp"
 
 namespace ft
-{
-namespace avl
 {
 template< class Pair, class Node >
 struct tree_iterator : public ft::iterator< std::bidirectional_iterator_tag, Pair >
@@ -154,5 +151,4 @@ bool operator!=(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, 
 {
 	return !(lhs == rhs);
 }
-} // namespace avl
 } // namespace ft

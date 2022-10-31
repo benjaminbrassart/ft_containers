@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 13:45:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:28:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ private:
 	typedef ft::avl::tree_node< value_type > node_type;
 	typedef Alloc allocator_type;
 	typedef typename allocator_type::size_type size_type;
-	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
+	typedef ft::tree_iterator< value_type, node_type > iterator;
 
 	/* ------------------------------------------------------------------------- */
 

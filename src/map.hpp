@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/28 03:30:05 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:28:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ public:
 	typedef typename allocator_type::const_reference const_reference;
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
-	typedef ft::avl::tree_iterator< value_type, node_type > iterator;
-	typedef ft::avl::tree_iterator< value_type const, node_type const > const_iterator;
+	typedef ft::tree_iterator< value_type, node_type > iterator;
+	typedef ft::tree_iterator< value_type const, node_type const > const_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef typename ft::iterator_traits< iterator >::difference_type difference_type;
@@ -227,8 +227,8 @@ public:
 	{
 		if (first == this->begin() && last == this->end())
 		{
-			// special case, trying to erase the whole container,
-			// so do not bother rotating nodes
+			// special case: trying to erase the whole container,
+			// do not bother rotating nodes
 			this->clear();
 			return;
 		}
