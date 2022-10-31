@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 15:28:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:44:02 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ public:
 
 	void remove(node_type* node)
 	{
-		// TODO kinda work, bad rotations between erase.cpp [1] and [2]
 		node_type*& parent = node->parent;
 		node_type** node_ptr;
 

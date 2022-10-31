@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 20:35:08 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 21:04:05 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -505,13 +505,17 @@ private:
 	{
 		const size_type elems = this->size();
 
-		for (size_type i = index; i < (elems - width); ++i)
+		// TODO fix double free
+		// TODO separer range et position
+		// for (size_type i = index; i < (elems - width); ++i)
+		for (size_type i = 0; i < width; ++i)
 		{
-			this->get_allocator().destroy(this->_data + i);
-			this->get_allocator().construct(this->_data + i, this->_data[i + width]);
-			this->get_allocator().destroy(this->_data + i + width);
+			this->get_allocator().destroy(this->_data + index + i);
+			this->get_allocator().construct(this->_data + index + i, this->_data[index + i + width]);
+			this->get_allocator().destroy(this->_data + index + i + width);
 		}
 		this->_size -= width;
+		this->__move_left(this->_data + index, elems - index - width);
 		return this->_data + index;
 	}
 }; // class vector

@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 15:28:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:04:33 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,16 @@ public:
 			return;
 		}
 
-		for (iterator it = first; it != last; ++it)
+		iterator it = first;
+		iterator fast;
+
+		while (it != last)
+		{
+			fast = it;
+			++fast;
 			this->erase(it);
+			it = fast;
+		}
 	}
 
 	void swap(map& x)
