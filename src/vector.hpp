@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 04:14:42 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/10/31 20:35:08 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,8 @@ public:
 
 	void reserve(size_type n)
 	{
+		if (n > this->max_size())
+			throw std::length_error(__PRETTY_FUNCTION__);
 		if (this->capacity() >= n)
 			return;
 
