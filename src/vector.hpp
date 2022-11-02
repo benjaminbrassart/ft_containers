@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/02 18:20:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 00:33:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,8 @@ public:
 		if (this->capacity() >= n)
 			return;
 
-		size_type new_capacity = (n > 128 ? n : 128);
-		pointer new_data = this->_alloc.allocate(new_capacity);
+		new_capacity = (n > 128 ? n : 128);
+		new_data = this->_alloc.allocate(new_capacity);
 
 		for (size_type i = 0; i < this->size(); ++i)
 		{
@@ -398,16 +398,19 @@ private:
 		return p;
 	}
 
-	iterator __move_left(iterator position, size_type n)
+	iterator __move_left(iterator position, size_type n, size_type offset)
 	{
-		if (n == 0)
+		size_type i;
+
+		if (n == 0 || offset == 0)
 			return position;
 
-		for (size_type i = 0; i < n; ++i)
+		for (i = 0; i < offset; ++i)
 		{
-			this->get_allocator().construct(position + i, *(position + i + n));
-			this->get_allocator().destroy(position + i + n);
+			this->get_allocator().construct(position + i, *(position + n + i));
+			this->get_allocator().destroy(position + n + i);
 		}
+
 		return position - n;
 	}
 
@@ -449,7 +452,7 @@ private:
 			return;
 		}
 
-		vector< T, Alloc > v;
+		ft::vector< T, Alloc > v;
 
 		for (InputIterator it = first; it != last; ++it)
 			v.push_back(*it);
@@ -507,13 +510,11 @@ private:
 	iterator __erase(size_type index, size_type width)
 	{
 		size_type const elems = this->size();
+		size_type i;
 
-		// TODO fix double free
-		// TODO separer range et position
-		// for (size_type i = index; i < (elems - width); ++i)
-		for (size_type i = 0; i < width; ++i)
+		for (i = 0; i < width; ++i)
 			this->get_allocator().destroy(this->_data + index + i);
-		this->__move_left(this->_data + index + width, elems - width);
+		this->__move_left(this->_data + index, width, elems - width - index);
 		this->_size -= width;
 		return this->_data + index;
 	}
@@ -561,11 +562,11 @@ bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 
 /* ------------------------------------------------------------------------- */
 
-namespace std
+namespace ft
 {
 template< class T, class Alloc >
 void swap(ft::vector< T, Alloc >& x, ft::vector< T, Alloc >& y)
 {
 	x.swap(y);
 }
-} // namespace std
+} // namespace ft
