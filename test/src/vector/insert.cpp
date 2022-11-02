@@ -1,7 +1,8 @@
 #include "vector_test.hpp"
 
-DESCRIBE({
-	vector<std::string> v;
+int main()
+{
+	vector< std::string > v;
 
 	v.assign(100000000, "AAAAA");
 
@@ -11,7 +12,7 @@ DESCRIBE({
 
 	std::cout << v.size() << std::endl;
 
-	vector<std::string> v2;
+	vector< std::string > v2;
 
 	std::cout << v.size() << std::endl;
 
@@ -22,4 +23,4 @@ DESCRIBE({
 	v2.insert(v.begin() + 333, v.begin(), v.end());
 
 	std::cout << v.size() << std::endl;
-});
+}

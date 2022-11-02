@@ -1,7 +1,8 @@
 #include "vector_test.hpp"
 
-DESCRIBE({
-	vector<int> v;
+int main()
+{
+	vector< int > v;
 
 	std::cout << v.size() << '\n';
 
@@ -16,4 +17,4 @@ DESCRIBE({
 	v.clear();
 
 	std::cout << v.size() << '\n';
-});
+}

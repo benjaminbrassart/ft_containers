@@ -1,9 +1,10 @@
 #include "vector_test.hpp"
 
-DESCRIBE({
+int main()
+{
 	std::cout << std::boolalpha;
 
-	vector<int> v;
+	vector< int > v;
 
 	print_vector(v);
 	std::cout << v.empty() << '\n';
@@ -14,4 +15,4 @@ DESCRIBE({
 	std::cout << v.empty() << '\n';
 
 	std::cout << std::noboolalpha;
-});
+}

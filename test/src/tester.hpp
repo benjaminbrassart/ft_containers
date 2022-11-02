@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 23:48:53 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/28 01:23:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 00:53:34 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
+#include <string>
+
+namespace ft
+{
+template< class T >
+std::string to_string(T const& obj)
+{
+	std::stringstream ss;
+
+	ss << obj;
+	return ss.str();
+}
+} // namespace ft
+
+using std::cerr;
+using std::cout;
 
 #ifdef STD
 
@@ -36,11 +53,6 @@
 #ifndef SEED
 #define SEED 21U
 #endif
-
-namespace NAMESPACE
-{};
-
-using namespace NAMESPACE;
 
 #define DESCRIBE(Body)                               \
  int main()                                          \

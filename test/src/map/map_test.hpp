@@ -4,6 +4,9 @@
 
 #include HEADER_MAP
 
+using NAMESPACE::make_pair;
+using NAMESPACE::map;
+
 template< class Key, class Value, class Compare, class Alloc >
 void print_map(map< Key, Value, Compare, Alloc > const& m)
 {
