@@ -1,3 +1,7 @@
+*
+!/**/
+!*.*
+
 /ft_containers
 *.o
 *.d
@@ -5,3 +9,4 @@
 !/_tree
 /containers_test
 /monkey_tester
+/logs
