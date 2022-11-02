@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 19:44:02 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/02 19:28:53 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,9 @@ public:
 		node_type*& parent = node->parent;
 		node_type** node_ptr;
 
-		if (node == parent->left)
+		if (node == this->_root)
+			node_ptr = &this->_root;
+		else if (node == parent->left)
 			node_ptr = &parent->left;
 		else
 			node_ptr = &parent->right;
@@ -163,8 +165,6 @@ public:
 			this->_max = (--iterator(node)).base();
 		if (node == this->_min)
 			this->_min = (++iterator(node)).base();
-		if (node == this->_root)
-			this->_root = *node_ptr;
 		this->__update_nil();
 		this->__delete_node(node);
 	}
