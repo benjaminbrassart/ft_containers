@@ -1,7 +1,7 @@
 #!/bin/sh
 
 abort() {
-    printf -- "Aborted: %sAborted\n" "$1" >&2
+    printf -- "Aborted: %s\n" "$1" >&2
     exit 1
 }
 
