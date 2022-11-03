@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/02 19:28:53 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 08:58:55 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ public:
 		this->__delete_node(this->_nil);
 	}
 
+public:
 	/* ------------------------------------------------------------------------- */
 
 public:
@@ -148,25 +149,83 @@ public:
 
 	void remove(node_type* node)
 	{
-		node_type*& parent = node->parent;
+		node_type* parent = node->parent;
 		node_type** node_ptr;
+		node_type* replacement_node;
+		node_type* subtree;
+		node_type* node_it;
 
-		if (node == this->_root)
+		if (parent->is_nil())
 			node_ptr = &this->_root;
 		else if (node == parent->left)
 			node_ptr = &parent->left;
 		else
 			node_ptr = &parent->right;
 
-		--this->_size;
-		*node_ptr = this->__remove(node);
+		// 0 or 1 child
+		if (node->left->is_nil())
+		{
+			if (!node->right->is_nil())
+				node->right->parent = node->parent;
+			replacement_node = node->right;
+		}
+		else if (node->right->is_nil())
+		{
+			if (!node->left->is_nil())
+				node->left->parent = node->parent;
+			replacement_node = node->left;
+		}
+		else
+		{
+			// 2 children
+			subtree = node->left;
+			replacement_node = subtree;
+
+			// find max node in left subtree
+			while (!replacement_node->right->is_nil())
+				replacement_node = replacement_node->right;
+
+			// move it to the current node
+			replacement_node->right = node->right;
+			if (!replacement_node->right->is_nil())
+				replacement_node->right->parent = replacement_node;
+			if (replacement_node != node->left)
+			{
+				replacement_node->parent->right = replacement_node->left;
+				if (!replacement_node->left->is_nil())
+					replacement_node->left->parent = replacement_node->parent;
+				replacement_node->left = node->left;
+				if (!replacement_node->left->is_nil())
+					replacement_node->left->parent = replacement_node;
+			}
+			replacement_node->parent = node->parent;
+
+			this->__update_height(replacement_node);
+			this->__update_height(replacement_node->parent);
+		}
 
 		if (node == this->_max)
 			this->_max = (--iterator(node)).base();
 		if (node == this->_min)
 			this->_min = (++iterator(node)).base();
 		this->__update_nil();
+
+		*node_ptr = replacement_node;
+
+		node_it = replacement_node;
+
+		while (!node_it->is_nil())
+		{
+			this->__update_height(node_it);
+			node_it = node_it->parent;
+		}
+
+		this->__update_height(parent);
+		this->__update_height(replacement_node);
+		this->__update_height(node->parent);
+		// this->_root = this->__rebalance(this->_root);
 		this->__delete_node(node);
+		--this->_size;
 	}
 
 	void clear()
@@ -274,78 +333,14 @@ private:
 		return this->__rebalance(node);
 	}
 
-	node_type* __remove(node_type* node)
-	{
-		// 0 or 1 child
-		if (node->left->is_nil())
-		{
-			if (!node->right->is_nil())
-				node->right->parent = node->parent;
-			return node->right;
-		}
-		else if (node->right->is_nil())
-		{
-			if (!node->left->is_nil())
-				node->left->parent = node->parent;
-			return node->left;
-		}
-
-		// 2 children
-		node_type* node_max = node->left;
-
-		// find max node in left subtree
-		while (!node_max->right->is_nil())
-			node_max = node_max->right;
-
-		// node_max->left->parent = node_max->parent; // pas bon
-		// node_max->parent->right = node_max->left; // pas bon
-
-		// this->__update_height(node_max->left);
-		// node_max->left = this->__rebalance(node_max->left);
-
-		// move it to the current node
-		node_max->right = node->right;
-		node_max->parent = node->parent;
-		if (!node->right->is_nil())
-			node->right->parent = node_max;
-
-		this->__update_height(node_max);
-		return this->__rebalance(node_max);
-
-		// see here https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
-	}
-
-	// node_type* __remove(value_type const& value, node_type* node)
-	// {
-	// 	if (node->is_nil())
-	// 		return node;
-	// 	if (this->comp()(value, node->pair))
-	// 		node->left = this->__remove(value, node->left);
-	// 	else if (this->comp()(node->pair, value))
-	// 		node->right = this->__remove(value, node->right);
-	// 	else
-	// 	{
-	// 		// has 0 or 1 child
-	// 		if (node->left->is_nil())
-	// 			return node->right;
-	// 		else if (this->right->is_nil())
-	// 			return node->left;
-
-	// 		// has 2 children
-
-	// 		// TODO wtf is that???
-	// 		node = this->max();
-	// 		node->pair = this->max()->pair;
-	// 		node->left = this->__remove(node->pair, node->left);
-	// 		// all of it!
-	// 	}
-	// 	this->__update_height(node);
-	// 	return this->__rebalance(node);
-	// }
-
 	void __update_height(node_type* node)
 	{
-		int height_max = node->left->height;
+		int height_max;
+
+		if (node->is_nil())
+			return;
+
+		height_max = node->left->height;
 
 		if (node->right->height > height_max)
 			height_max = node->right->height;

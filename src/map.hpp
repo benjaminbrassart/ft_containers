@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 19:04:33 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 08:56:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,12 @@ public:
 	~map()
 	{
 		// do NOT clear here, everything is allocated on the stack!
+	}
+
+public:
+	void check_integrity() const
+	{
+		this->_tree.check_integrity();
 	}
 
 	/* ------------------------------------------------------------------------- */
@@ -215,12 +221,10 @@ public:
 	{
 		iterator position = this->find(k);
 
-		if (position != this->end())
-		{
-			this->erase(position);
-			return 1;
-		}
-		return 0;
+		if (position == this->end())
+			return 0;
+		this->erase(position);
+		return 1;
 	}
 
 	void erase(iterator first, iterator last)
@@ -431,11 +435,11 @@ bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 
 /* ------------------------------------------------------------------------- */
 
-namespace std
+namespace ft
 {
 template< class Key, class T, class Compare, class Alloc >
 void swap(ft::map< Key, T, Compare, Alloc >& lhs, ft::map< Key, T, Compare, Alloc >& rhs)
 {
 	lhs.swap(rhs);
 }
-} // namespace std
+} // namespace ft
