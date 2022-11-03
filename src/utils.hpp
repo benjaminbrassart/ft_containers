@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 02:28:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 09:53:22 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,8 @@
  {                                          \
  }
 
-#define TODO() throw ft::wip_exception()
-
 namespace ft
 {
-// TODO remove once finished :)
-struct wip_exception : public std::exception
-{
-	virtual ~wip_exception() throw()
-	{
-	}
-
-	char const* what() const throw()
-	{
-		return "Not implemented yet";
-	}
-};
-
 template< class Iterator >
 struct iterator_traits;
 
