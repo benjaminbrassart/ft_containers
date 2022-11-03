@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 08:56:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 09:43:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,6 @@ public:
 	~map()
 	{
 		// do NOT clear here, everything is allocated on the stack!
-	}
-
-public:
-	void check_integrity() const
-	{
-		this->_tree.check_integrity();
 	}
 
 	/* ------------------------------------------------------------------------- */
