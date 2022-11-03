@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/27 04:13:56 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 02:28:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 #include "iterator.hpp"
 
+#include <algorithm>
 #include <stdint.h>
-#include <typeinfo>
 
 #define TRUE_TYPE(Constant, Type)           \
  template<>                                 \
  struct Constant< Type > : public true_type \
  {                                          \
- };
+ }
 
 #define TODO() throw ft::wip_exception()
 
