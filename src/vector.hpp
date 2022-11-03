@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 00:33:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 01:40:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,15 +224,19 @@ public:
 
 	void reserve(size_type n)
 	{
-		size_type new_capacity;
 		pointer new_data;
+		size_type new_capacity;
 
 		if (n > this->max_size())
 			throw std::length_error(__PRETTY_FUNCTION__);
 		if (this->capacity() >= n)
 			return;
 
-		new_capacity = (n > 128 ? n : 128);
+		new_capacity = n;
+
+		if (new_capacity / 2 < this->capacity())
+			new_capacity = this->capacity() * 2;
+
 		new_data = this->_alloc.allocate(new_capacity);
 
 		for (size_type i = 0; i < this->size(); ++i)
@@ -352,7 +356,7 @@ public:
 		return this->__erase(first - this->_data, last - first);
 	}
 
-	// https://legacy.cplusplus.com/reference/vector/vector/swap/?kw=vector%3A%3Aswap
+	// https://legacy.cplusplus.com/reference/vector/vector/swap/
 	// allocator may or may not be swapped as the specification says nothing about it
 	void swap(vector& x)
 	{
@@ -464,6 +468,7 @@ private:
 
 		for (size_type i = 0; i < size; ++i)
 			this->get_allocator().construct(this->begin() + offset + i, v[i]);
+
 		this->_size += size;
 	}
 
