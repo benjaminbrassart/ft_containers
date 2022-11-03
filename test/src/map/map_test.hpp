@@ -9,19 +9,19 @@ using NAMESPACE::map;
 using NAMESPACE::pair;
 
 template< class Key, class Value, class Compare, class Alloc >
-void print_map(map< Key, Value, Compare, Alloc > const& m)
+void print_map(map< Key, Value, Compare, Alloc > const& m, std::ostream& stream = std::cout)
 {
 	typename map< Key, Value, Compare, Alloc >::const_iterator it;
 	typename map< Key, Value, Compare, Alloc >::const_reverse_iterator rit;
 
-	std::cout << "size: " << m.size() << '\n' << "content:" << '\n';
+	stream << "size: " << m.size() << '\n' << "content:" << '\n';
 
 	for (it = m.begin(); it != m.end(); ++it)
-		std::cout << "  [" << it->first << "] = " << it->second << '\n';
+		stream << "  [" << it->first << "] = " << it->second << '\n';
 
-	std::cout << '\n' << "content: (reverse):" << '\n';
+	stream << '\n' << "content: (reverse):" << '\n';
 
 	for (rit = m.rbegin(); rit != m.rend(); rit++)
-		std::cout << "  [" << rit->first << "] = " << rit->second << '\n';
-	std::cout << '\n';
+		stream << "  [" << rit->first << "] = " << rit->second << '\n';
+	stream << '\n';
 }

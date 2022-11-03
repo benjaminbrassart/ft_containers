@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 23:48:53 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 00:57:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:06:00 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+
+#define SEPARATOR "==============================="
+
+using std::cerr;
+using std::cout;
 
 namespace ft
 {
@@ -27,10 +32,12 @@ std::string to_string(T const& obj)
 	ss << obj;
 	return ss.str();
 }
-} // namespace ft
 
-using std::cerr;
-using std::cout;
+void separator(std::ostream& stream = std::cout)
+{
+	stream << "\n\n" << SEPARATOR << "\n\n\n";
+}
+} // namespace ft
 
 #ifdef STD
 
