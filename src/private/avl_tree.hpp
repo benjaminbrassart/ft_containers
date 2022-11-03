@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 08:58:55 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/03 09:48:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ public:
 		_comp(comp),
 		_size(0)
 	{
+		this->__update_nil();
 	}
 
 	tree(tree const& x) :
@@ -70,6 +71,7 @@ public:
 		_size(x._size)
 	{
 		this->_root = this->__deep_copy(x, x._root, this->_nil);
+		this->__update_nil();
 	}
 
 	tree& operator=(tree const& x)
@@ -79,6 +81,7 @@ public:
 			this->clear();
 			this->_root = this->__deep_copy(x, x._root, this->_nil);
 			this->_size = x._size;
+			this->__update_nil();
 		}
 		return *this;
 	}
@@ -269,12 +272,14 @@ private:
 
 		new_node = this->__make_node(node->pair);
 
+		if (node == origin.min())
+			this->_min = new_node;
+		if (node == origin.max())
+			this->_max = new_node;
+		if (node == origin.root())
+			this->_root = new_node;
 		new_node->left = this->__deep_copy(origin, node->left, new_node);
-		if (node->left == origin.min())
-			this->_min = new_node->left;
 		new_node->right = this->__deep_copy(origin, node->right, new_node);
-		if (node->right == origin.max())
-			this->_max = new_node->right;
 		new_node->parent = parent;
 		new_node->height = node->height;
 		return new_node;
