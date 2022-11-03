@@ -6,6 +6,7 @@
 
 using NAMESPACE::make_pair;
 using NAMESPACE::map;
+using NAMESPACE::pair;
 
 template< class Key, class Value, class Compare, class Alloc >
 void print_map(map< Key, Value, Compare, Alloc > const& m)
