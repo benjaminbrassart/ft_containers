@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 22:31:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:41:24 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ public:
 		return ft::make_pair(iterator(found_node), false);
 	}
 
-	// TODO check if rebalancing is effectively happening
 	void remove(node_type* node)
 	{
 		node_type* parent = node->parent;
@@ -242,11 +241,8 @@ public:
 			node_it = parent;
 		}
 
-		// this->_root = this->__rebalance(this->_root);
 		this->__delete_node(node);
 		--this->_size;
-
-		// TODO rebalance replacement_node
 	}
 
 	void clear()
