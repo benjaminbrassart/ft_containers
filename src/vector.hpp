@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:21:17 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:27:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -585,13 +585,10 @@ bool operator>=(vector< T, Alloc > const& lhs, vector< T, Alloc > const& rhs)
 
 /* ------------------------------------------------------------------------- */
 
-namespace ft
-{
 template< class T, class Alloc >
 void swap(ft::vector< T, Alloc >& x, ft::vector< T, Alloc >& y)
 {
 	x.swap(y);
 }
-} // namespace ft
 
 #endif // VECTOR_HPP
