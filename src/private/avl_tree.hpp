@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:34:40 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:31:57 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,17 +217,31 @@ public:
 
 		*node_ptr = replacement_node;
 
-		node_it = replacement_node;
+		node_type* rebalanced_node;
+
+		if (replacement_node->is_nil())
+			node_it = node->parent;
+		else
+			node_it = replacement_node;
 
 		while (!node_it->is_nil())
 		{
+			parent = node_it->parent;
+
+			if (parent->is_nil())
+				node_ptr = &this->_root;
+			else if (node_it == parent->left)
+				node_ptr = &parent->left;
+			else
+				node_ptr = &parent->right;
+
 			this->__update_height(node_it);
-			node_it = node_it->parent;
+			rebalanced_node = this->__rebalance(node_it);
+			if (rebalanced_node != replacement_node)
+				*node_ptr = rebalanced_node;
+			node_it = parent;
 		}
 
-		this->__update_height(parent);
-		this->__update_height(replacement_node);
-		this->__update_height(node->parent);
 		// this->_root = this->__rebalance(this->_root);
 		this->__delete_node(node);
 		--this->_size;
