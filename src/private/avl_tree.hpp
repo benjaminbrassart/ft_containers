@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:25:12 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:34:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,8 @@ public:
 		// this->_root = this->__rebalance(this->_root);
 		this->__delete_node(node);
 		--this->_size;
+
+		// TODO rebalance replacement_node
 	}
 
 	void clear()
