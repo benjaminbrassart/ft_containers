@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:23:25 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:23:16 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:11:35 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,6 @@ public:
 	bool is_nil() const
 	{
 		return this->parent == 0;
-	}
-
-	bool is_root() const
-	{
-		return !this->is_nil() && this->parent->is_nil();
 	}
 
 	int get_balance() const
