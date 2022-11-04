@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 22:37:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:43:18 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,7 @@ private:
 		return p;
 	}
 
+	// TODO fix performance issue when container is empty
 	template< class InputIterator >
 	void __insert_range(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag const)
 	{
