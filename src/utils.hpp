@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:21:48 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:25:40 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,6 @@ struct pair
 		first(a),
 		second(b)
 	{
-	}
-
-	void swap(pair& pr)
-	{
-		std::swap(this->first, pr.first);
-		std::swap(this->second, pr.second);
 	}
 }; // struct pair
 
