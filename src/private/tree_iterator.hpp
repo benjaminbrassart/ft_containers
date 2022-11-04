@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:42:08 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/10/31 15:05:31 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:23:10 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef TREE_ITERATOR_HPP
+#define TREE_ITERATOR_HPP
 
 #include "iterator.hpp"
 
@@ -152,3 +153,5 @@ bool operator!=(tree_iterator< Pair1, Node1 > const& lhs, tree_iterator< Pair2, 
 	return !(lhs == rhs);
 }
 } // namespace ft
+
+#endif // TREE_ITERATOR_HPP

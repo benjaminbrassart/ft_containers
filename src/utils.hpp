@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:49:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 09:53:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:21:48 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include "iterator.hpp"
 
@@ -211,11 +212,4 @@ bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputI
 }
 } // namespace ft
 
-namespace std
-{
-template< class T1, class T2 >
-void swap(ft::pair< T1, T2 >& x, ft::pair< T1, T2 >& y)
-{
-	x.swap(y);
-}
-} // namespace std
+#endif // UTILS_HPP

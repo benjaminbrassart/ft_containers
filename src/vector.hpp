@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 01:40:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:21:17 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 #include "iterator.hpp"
 #include "utils.hpp"
@@ -575,3 +576,5 @@ void swap(ft::vector< T, Alloc >& x, ft::vector< T, Alloc >& y)
 	x.swap(y);
 }
 } // namespace ft
+
+#endif // VECTOR_HPP

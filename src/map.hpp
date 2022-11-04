@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 09:43:10 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:20:49 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef MAP_HPP
+#define MAP_HPP
 
 #include "private/avl_tree.hpp"
 #include "private/tree_iterator.hpp"
@@ -190,10 +191,10 @@ public:
 		return this->_tree.insert(val);
 	}
 
-	// TODO make use of position for optimization
 	iterator insert(iterator position, value_type const& val)
 	{
-		(void)position;
+		(void)
+		position; // in our case position is useless because we would need to go up through the tree to make sure position is the right place to insert
 		return this->insert(val).first;
 	}
 
@@ -437,3 +438,5 @@ void swap(ft::map< Key, T, Compare, Alloc >& lhs, ft::map< Key, T, Compare, Allo
 	lhs.swap(rhs);
 }
 } // namespace ft
+
+#endif // MAP_HPP

@@ -6,11 +6,12 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 09:53:57 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:25:12 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef AVL_TREE_HPP
+#define AVL_TREE_HPP
 
 #include "private/tree_iterator.hpp"
 #include "private/tree_node.hpp"
@@ -446,3 +447,5 @@ private:
 
 } // namespace avl
 } // namespace ft
+
+#endif // AVL_TREE_HPP

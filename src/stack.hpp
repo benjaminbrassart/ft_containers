@@ -6,15 +6,15 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:46:23 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/03 08:13:15 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:23:58 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef STACK_HPP
+#define STACK_HPP
 
 #include "vector.hpp"
 
-// TODO fix and test with Mazoise
 namespace ft
 {
 template< class T, class Container = ft::vector< T > >
@@ -136,3 +136,5 @@ bool operator>=(stack< T, Container > const& lhs, stack< T, Container > const& r
 	return lhs.c >= rhs.c;
 }
 } // namespace ft
+
+#endif // STACK_HPP
