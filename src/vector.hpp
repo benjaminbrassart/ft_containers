@@ -49,6 +49,8 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 private:
+	static size_type const MIN_SIZE = 64;
+
 	allocator_type _alloc;
 	pointer _data;
 	size_type _size;
@@ -235,7 +237,9 @@ public:
 
 		new_capacity = n;
 
-		if (new_capacity / 2 < this->capacity())
+		if (new_capacity < MIN_SIZE)
+			new_capacity = MIN_SIZE;
+		else if (this->capacity() > (new_capacity / 2))
 			new_capacity = this->capacity() * 2;
 
 		new_data = this->_alloc.allocate(new_capacity);
@@ -339,8 +343,6 @@ public:
 		this->__insert_fill(position, n, val);
 	}
 
-	// NOTE: memory usage might be high for this function to avoid
-	// inserting elements one by one
 	template< class InputIterator >
 	void insert(iterator position, InputIterator first, InputIterator last)
 	{
@@ -388,12 +390,12 @@ private:
 			return position;
 
 		const size_type offset = (position - this->begin());
-		iterator p;
-		size_type i;
 
 		this->reserve(this->size() + n);
-		p = (this->begin() + offset);
-		i = (this->end() - p);
+
+		iterator p = (this->begin() + offset);
+		size_type i = (this->end() - p);
+
 		while (i > 0)
 		{
 			--i;
@@ -423,12 +425,7 @@ private:
 	{
 		iterator p;
 
-		if (position == this->begin() && this->empty())
-		{
-			this->assign(n, val);
-			return this->begin();
-		}
-		if (position == this->end())
+		if (this->empty() || position == this->end())
 		{
 			const size_type start_size = this->size();
 
@@ -448,29 +445,49 @@ private:
 	}
 
 	template< class InputIterator >
-	void __insert_range(iterator position, InputIterator first, InputIterator last)
+	void __insert_range(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag const)
 	{
-		if (this->empty() || position == this->end())
-		{
-			for (InputIterator it = first; it != last; ++it)
-				this->push_back(*it);
-			return;
-		}
-
-		ft::vector< T, Alloc > v;
+		iterator p = position;
 
 		for (InputIterator it = first; it != last; ++it)
-			v.push_back(*it);
+		{
+			p = this->__insert_fill(p, 1, *it);
+			++p;
+		}
+	}
 
-		const size_type size = v.size();
-		const size_type offset = position - this->begin();
+	template< class ForwardIterator >
+	void __insert_range(iterator position, ForwardIterator first, ForwardIterator last, std::forward_iterator_tag const)
+	{
+		typename ft::iterator_traits< ForwardIterator >::difference_type distance = 0;
 
-		this->__move_right(position, size);
+		for (ForwardIterator it = first; it != last; ++it)
+			++distance;
 
-		for (size_type i = 0; i < size; ++i)
-			this->get_allocator().construct(this->begin() + offset + i, v[i]);
+		this->__insert_range_distance(position, first, last, distance);
+	}
 
-		this->_size += size;
+	template< class RandomAccessIterator >
+	void __insert_range(iterator position, RandomAccessIterator first, RandomAccessIterator last, std::random_access_iterator_tag const)
+	{
+		typename ft::iterator_traits< RandomAccessIterator >::difference_type distance = (last - first);
+
+		this->__insert_range_distance(position, first, last, distance);
+	}
+
+	template< class ForwardIterator >
+	void __insert_range_distance(
+	iterator position,
+	ForwardIterator first,
+	ForwardIterator last,
+	typename ft::iterator_traits< ForwardIterator >::difference_type distance
+	)
+	{
+		iterator p = this->__move_right(position, distance);
+
+		for (ForwardIterator it = first; it != last; ++it)
+			this->get_allocator().construct(p++, *it);
+		this->_size += distance;
 	}
 
 	// if InputIterator is integral, insert via fill method (aka the same value for n elements)
@@ -484,7 +501,7 @@ private:
 	template< class InputIterator >
 	void __dispatch_insert(iterator position, InputIterator first, InputIterator last, ft::false_type)
 	{
-		this->__insert_range(position, first, last);
+		this->__insert_range(position, first, last, typename ft::iterator_traits< InputIterator >::iterator_category());
 	}
 
 	void __assign_fill(size_type n, value_type const& val)
