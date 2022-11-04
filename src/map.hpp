@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 21:27:22 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:37:36 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,6 @@ bool operator>=(map< Key, T, Compare, Alloc > const& lhs, map< Key, T, Compare, 
 {
 	return !(lhs < rhs);
 }
-} // namespace ft
 
 /* ------------------------------------------------------------------------- */
 
@@ -435,5 +434,7 @@ void swap(ft::map< Key, T, Compare, Alloc >& lhs, ft::map< Key, T, Compare, Allo
 {
 	lhs.swap(rhs);
 }
+
+} // namespace ft
 
 #endif // MAP_HPP
