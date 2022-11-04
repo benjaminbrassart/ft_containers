@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 02:45:49 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 22:37:36 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:49:37 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,14 +233,12 @@ public:
 		}
 
 		iterator it = first;
-		iterator fast;
+		iterator slow;
 
 		while (it != last)
 		{
-			fast = it;
-			++fast;
-			this->erase(it);
-			it = fast;
+			slow = it++;
+			this->erase(slow);
 		}
 	}
 
