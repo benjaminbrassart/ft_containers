@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/08 03:18:19 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/08 03:43:52 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,13 +448,9 @@ private:
 	template< class InputIterator >
 	void __insert_range(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag const)
 	{
-		iterator p = position;
+		ft::vector< T, Alloc > tmp(first, last);
 
-		for (InputIterator it = first; it != last; ++it)
-		{
-			p = this->__insert_fill(p, 1, *it);
-			++p;
-		}
+		this->__insert_range_distance(position, tmp.begin(), tmp.end(), tmp.size());
 	}
 
 	template< class ForwardIterator >
