@@ -25,10 +25,12 @@ for test in "${test_files[@]}"; do
   res_ft="$(${bin_ft})"
   res_std="$(${bin_std})"
 
+  echo -n "DIFF "
+
   if diff -q <(echo "${res_ft}") <(echo "${res_std}"); then
-    echo "${GREEN}OK"
+    echo -n "${GREEN}[OK]"
   else
-    echo "${RED}KO!!!"
+    echo -n "${RED}[KO]"
   fi
-  echo -n "${RESET}"
+  echo "${RESET}"
 done
