@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/08 01:55:54 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/08 02:12:27 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,8 +211,8 @@ public:
 
 			// move it to the current node
 			replacement_node->right = node->right;
-			if (!replacement_node->right->is_nil())
-				replacement_node->right->parent = replacement_node;
+			if (!node->right->is_nil())
+				node->right->parent = replacement_node;
 			if (replacement_node != node->left)
 			{
 				replacement_node->parent->right = replacement_node->left;
@@ -228,41 +228,20 @@ public:
 			this->__update_height(replacement_node->parent);
 		}
 
+		*node_ptr = replacement_node;
+
 		if (node == this->_max)
 			this->_max = (--iterator(node)).base();
 		if (node == this->_min)
 			this->_min = (++iterator(node)).base();
 		this->__update_nil();
 
-		*node_ptr = replacement_node;
-
-		node_type* rebalanced_node;
-
 		if (replacement_node->is_nil())
 			node_it = node->parent;
 		else
 			node_it = replacement_node;
 
-		while (!node_it->is_nil())
-		{
-			parent = node_it->parent;
-
-			if (parent->is_nil())
-				node_ptr = &this->_root;
-			else if (node_it == parent->left)
-				node_ptr = &parent->left;
-			else if (node_it == parent->right)
-				node_ptr = &parent->right;
-			else
-				throw 0;
-
-			this->__update_height(node_it);
-			rebalanced_node = this->__rebalance(node_it);
-			if (rebalanced_node != replacement_node)
-				*node_ptr = rebalanced_node;
-			node_it = parent;
-		}
-
+		this->__rewind_rebalance(node_it);
 		this->__delete_node(node);
 		--this->_size;
 	}
