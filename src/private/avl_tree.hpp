@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:58:26 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 22:41:24 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/08 01:55:54 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,23 +132,41 @@ public:
 public:
 	ft::pair< iterator, bool > insert(value_type const& val)
 	{
-		node_type* node;
-		node_type* inserted_node;
-		node_type* found_node;
+		node_type* prev_it;
+		node_type* node_it;
+		node_type* new_node;
+		node_type** node_ptr;
 
-		inserted_node = 0;
-		node = this->__insert(val, this->_nil, this->_root, inserted_node, found_node);
-		this->_root = node;
-		if (inserted_node != 0) // insertion happened
+		prev_it = this->_nil;
+		node_it = this->_root;
+		node_ptr = &this->_root;
+
+		while (!node_it->is_nil())
 		{
-			if (this->_min->is_nil() || this->_comp(val, this->_min->pair))
-				this->_min = inserted_node;
-			if (this->_max->is_nil() || this->_comp(this->_max->pair, val))
-				this->_max = inserted_node;
-			this->__update_nil();
-			return ft::make_pair(iterator(inserted_node), true);
+			prev_it = node_it;
+			if (this->_comp(val, node_it->pair))
+				node_ptr = &node_it->left;
+			else if (this->_comp(node_it->pair, val))
+				node_ptr = &node_it->right;
+			else
+				return ft::make_pair(iterator(node_it), false);
+			node_it = *node_ptr;
 		}
-		return ft::make_pair(iterator(found_node), false);
+
+		new_node = this->__make_node(val);
+		new_node->parent = prev_it;
+
+		*node_ptr = new_node;
+
+		if (this->_min->is_nil() || this->_comp(val, this->_min->pair))
+			this->_min = new_node;
+		if (this->_max->is_nil() || this->_comp(this->_max->pair, val))
+			this->_max = new_node;
+
+		this->__update_nil();
+		++this->_size;
+		this->__rewind_rebalance(new_node);
+		return ft::make_pair(iterator(new_node), true);
 	}
 
 	void remove(node_type* node)
@@ -163,8 +181,10 @@ public:
 			node_ptr = &this->_root;
 		else if (node == parent->left)
 			node_ptr = &parent->left;
-		else
+		else if (node == parent->right)
 			node_ptr = &parent->right;
+		else
+			throw 0;
 
 		// 0 or 1 child
 		if (node->left->is_nil())
@@ -231,8 +251,10 @@ public:
 				node_ptr = &this->_root;
 			else if (node_it == parent->left)
 				node_ptr = &parent->left;
-			else
+			else if (node_it == parent->right)
 				node_ptr = &parent->right;
+			else
+				throw 0;
 
 			this->__update_height(node_it);
 			rebalanced_node = this->__rebalance(node_it);
@@ -282,18 +304,20 @@ private:
 		node_type* new_node;
 
 		if (node->is_nil())
-			return this->nil();
+			return this->_nil;
 
 		new_node = this->__make_node(node->pair);
 
-		if (node == origin.min())
+		if (node == origin._min)
 			this->_min = new_node;
-		if (node == origin.max())
+		if (node == origin._max)
 			this->_max = new_node;
-		if (node == origin.root())
+		if (node == origin._root)
 			this->_root = new_node;
+
 		new_node->left = this->__deep_copy(origin, node->left, new_node);
 		new_node->right = this->__deep_copy(origin, node->right, new_node);
+
 		new_node->parent = parent;
 		new_node->height = node->height;
 		return new_node;
@@ -302,24 +326,24 @@ private:
 	node_type* __make_nil()
 	{
 		node_type* node = this->get_allocator().allocate(1);
-		node_type tmp;
 
-		tmp.left = this->_nil;
-		tmp.right = this->_nil;
+		this->get_allocator().construct(node, node_type());
 
-		this->get_allocator().construct(node, tmp);
+		node->left = this->_nil;
+		node->right = this->_nil;
+
 		return node;
 	}
 
 	node_type* __make_node(value_type const& value)
 	{
 		node_type* node = this->get_allocator().allocate(1);
-		node_type tmp(this->_nil, value);
 
-		tmp.left = this->_nil;
-		tmp.right = this->_nil;
+		this->get_allocator().construct(node, node_type(this->_nil, value));
 
-		this->get_allocator().construct(node, tmp);
+		node->left = this->_nil;
+		node->right = this->_nil;
+
 		return node;
 	}
 
@@ -327,29 +351,6 @@ private:
 	{
 		this->get_allocator().destroy(node);
 		this->get_allocator().deallocate(node, 1);
-	}
-
-	node_type* __insert(value_type const& value, node_type* parent, node_type* node, node_type*& inserted_node, node_type*& found_node)
-	{
-		if (node->is_nil())
-		{
-			++this->_size;
-			inserted_node = this->__make_node(value);
-			inserted_node->parent = parent;
-			return inserted_node;
-		}
-		if (this->_comp(value, node->pair))
-			node->left = this->__insert(value, node, node->left, inserted_node, found_node);
-		else if (this->_comp(node->pair, value))
-			node->right = this->__insert(value, node, node->right, inserted_node, found_node);
-		else
-		{
-			inserted_node = 0;
-			found_node = node;
-			return node;
-		}
-		this->__update_height(node);
-		return this->__rebalance(node);
 	}
 
 	void __update_height(node_type* node)
@@ -437,7 +438,9 @@ private:
 
 	bool __is_balanced(node_type* node)
 	{
-		return this->__abs(node->left->height - node->right->height) <= 1;
+		int balance = node->left->height - node->right->height;
+
+		return balance >= -1 && balance <= 1;
 	}
 
 	bool __check_balance(node_type* node)
@@ -451,9 +454,33 @@ private:
 		this->_nil->right = this->_min;
 	}
 
-	static int __abs(int a)
+	void __rewind_rebalance(node_type* node)
 	{
-		return (a < 0) ? -a : a;
+		node_type* node_it;
+		node_type* parent;
+		node_type* node_rebal;
+		node_type** node_ptr;
+
+		node_it = node;
+		while (!node_it->is_nil())
+		{
+			parent = node_it->parent;
+
+			if (parent->is_nil())
+				node_ptr = &this->_root;
+			else if (parent->left == node_it)
+				node_ptr = &parent->left;
+			else
+				node_ptr = &parent->right;
+
+			this->__update_height(node_it);
+			node_rebal = this->__rebalance(node_it);
+
+			if (node_rebal != node_it)
+				*node_ptr = node_rebal;
+
+			node_it = parent;
+		}
 	}
 };
 
