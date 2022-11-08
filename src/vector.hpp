@@ -6,7 +6,7 @@
 /*   By: bbrassar <bbrassar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 02:00:15 by bbrassar          #+#    #+#             */
-/*   Updated: 2022/11/04 22:43:18 by bbrassar         ###   ########.fr       */
+/*   Updated: 2022/11/08 03:18:19 by bbrassar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -515,8 +515,41 @@ private:
 	void __assign_range(InputIterator first, InputIterator last)
 	{
 		this->clear();
+		this->__assign_range(first, last, typename ft::iterator_traits< InputIterator >::iterator_category());
+	}
+
+	template< class InputIterator >
+	void __assign_range(InputIterator first, InputIterator last, std::input_iterator_tag const)
+	{
 		for (InputIterator it = first; it != last; ++it)
 			this->push_back(*it);
+	}
+
+	template< class ForwardIterator >
+	void __assign_range(ForwardIterator first, ForwardIterator last, std::forward_iterator_tag const)
+	{
+		typename ft::iterator_traits< ForwardIterator >::difference_type distance = 0;
+
+		for (ForwardIterator it = first; it != last; ++it)
+			++distance;
+		this->__assign_range_distance(first, last, distance);
+	}
+
+	template< class RandomAccessIterator >
+	void __assign_range(RandomAccessIterator first, RandomAccessIterator last, std::random_access_iterator_tag const)
+	{
+		typename ft::iterator_traits< RandomAccessIterator >::difference_type distance = (last - first);
+
+		this->__assign_range_distance(first, last, distance);
+	}
+
+	template< class ForwardIterator >
+	void
+	__assign_range_distance(ForwardIterator first, ForwardIterator last, typename ft::iterator_traits< ForwardIterator >::difference_type distance)
+	{
+		this->reserve(distance);
+		for (ForwardIterator it = first; it != last; ++it)
+			this->get_allocator().construct(this->_data + this->_size++, *it);
 	}
 
 	template< class InputIterator >
