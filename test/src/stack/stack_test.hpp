@@ -7,14 +7,16 @@
 using NAMESPACE::stack;
 
 template< class T, class Container >
-void print_map(stack< T, Container > const& s, std::ostream& stream = std::cout)
+void print_stack(stack< T, Container > const& s, std::ostream& stream = std::cout)
 {
-	stream << "size: " << s.size() << '\n' << "content:" << '\n';
+	stack< T, Container > c = s;
 
-	while (!s.empty())
+	stream << "size: " << c.size() << '\n' << "empty: " << c.empty() << '\n' << "content:" << '\n';
+
+	while (!c.empty())
 	{
-		std::cout << ' ' << s.top() << '\n';
-		s.pop();
+		std::cout << " - " << c.top() << '\n';
+		c.pop();
 	}
 
 	stream << '\n';
